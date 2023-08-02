@@ -2,6 +2,10 @@
     background-color: transparent;
 }
 
+.navbar__logo{
+    width: 150px;
+}
+
 .navbar__links__flex{
     display: flex;
     flex-direction: row !important;

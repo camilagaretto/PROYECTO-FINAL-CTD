@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
+import AppkademyLogo from "../../../public/appkademy-logo.png"
 import './Navbar.css'
 
 function NavScrollExample() {
@@ -10,7 +11,7 @@ function NavScrollExample() {
         <header>
             <Navbar expand="lg" className="navbar__bg fixed-top">
                 <Container fluid>
-                    <Navbar.Brand href="/">APPKADEMY</Navbar.Brand>
+                    <Navbar.Brand href="/"><img className='navbar__logo' src={AppkademyLogo} alt="Appkademy Logo" /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
