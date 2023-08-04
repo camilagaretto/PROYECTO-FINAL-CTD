@@ -1,9 +1,9 @@
 .card__container{
-    margin:50px 100px ;
     width: 250px;
     height: 320px;
     background-color: white;
     border-radius: 25px;
+    margin: 0 auto;
 }
 
 .card__container p{

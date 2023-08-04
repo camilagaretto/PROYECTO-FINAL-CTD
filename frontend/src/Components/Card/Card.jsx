@@ -1,9 +1,17 @@
 import React from 'react'
 import './Card.css'
 import { Link } from 'react-router-dom'
+import { motion } from "framer-motion"
 
-const Card = () => {
+const Card = ({movie}) => {
     return (
+        <motion.div 
+        layout
+        animate={{ opacity: 1 }}
+        initial={{ opacity: 0 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        >
         <div className='card__container'>
             <div className='card__img'>
                 <p><span>Juan</span></p>
@@ -11,12 +19,13 @@ const Card = () => {
             </div>
             <div className='card__information'>
                 <p className='favs'>💖 3000 Fav</p>
-                <p>Aficionado por los números y las matemáticas exactas...</p>
+                <p>{movie.title}</p>
             </div>
             <div className='card__link__container'>
                 <Link to="/" className='card__link'>Ver más</Link>
             </div>
         </div>
+        </motion.div>
     )
 }
 
