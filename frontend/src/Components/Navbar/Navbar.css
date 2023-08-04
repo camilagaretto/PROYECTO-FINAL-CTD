@@ -1,5 +1,11 @@
-.navbar__bg{
+.navbar-white{
+    background-color: white;
+    transition: 0.8s;
+}
+
+.navbar-transparent{
     background-color: transparent;
+    transition: 0.3s;
 }
 
 .navbar__links__flex{

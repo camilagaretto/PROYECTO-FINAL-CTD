@@ -6,7 +6,14 @@ import Filter from '../../Components/Filter/Filter';
 import CardProduct from '../../Components/Card/Card';
 import Search from '../../Components/Search/Search';
 import Banner from "../../assets/banner-home.svg";
+import Step1 from "../../assets/step-1.svg"
+import Step2 from "../../assets/step-2.svg"
+import Step3 from "../../assets/step-3.svg"
+import Num1 from "../../assets/01.svg"
+import Num2 from "../../assets/02.svg"
+import Num3 from "../../assets/03.svg"
 import './Home.css'
+import Steps from '../../Components/Steps/Steps';
 
 const Home = () => {
   const [popular, setPopular] = useState([]);
@@ -32,7 +39,12 @@ const Home = () => {
             <h1>Descubre tu nueva pasión</h1>
             <Search/>
           </div>
-          <img src={Banner}/>
+          <img src={Banner} alt='Appkademy home banner'/>
+        </section>
+        <section className='steps-container'>
+          <Steps num={Num1} img={Step1} title="Busca" description="Busca sin limites al profesor que se adapte a tus necesidades"/>
+          <Steps num={Num2} img={Step2} title="Contacta" description="Nuestros docentes se encargaran de responder a tu solicitud"/>
+          <Steps num={Num3} img={Step3} title="Estudia" description="Acuerda una fecha, hora y tarifa, con todo esto estamos listos"/>
         </section>
         <section>
           <h2>¿Qué quieres aprender hoy?</h2>
