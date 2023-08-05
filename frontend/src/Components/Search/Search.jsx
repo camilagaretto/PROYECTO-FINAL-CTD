@@ -1,6 +1,7 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
 import './Search.css'
 
 const Search = () => {
@@ -10,7 +11,7 @@ const Search = () => {
             aria-label="Large"
             aria-describedby="inputGroup-sizing-sm"
             />
-            <InputGroup.Text id="inputGroup-sizing-lg">Large</InputGroup.Text>
+            <Button variant='light'>🔍</Button>
         </InputGroup>
     )
 }
