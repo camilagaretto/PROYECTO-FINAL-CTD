@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "aee2588a-28a1-4712-a679-645b828e5173",
+		"name": "Appkademy Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22812622"
+	},
+	"item": [
+		{
+			"name": "Create Professor Juan Martinez",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Setting response data as Postman collection variable\",\r",
+							"    function() {\r",
+							"        let response = pm.response.json();\r",
+							"        pm.collectionVariables.set(\"juanMartinezId\", response.id)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"providerCategoryId\": 1,\r\n    \"identityVerified\": true,\r\n    \"firstName\": \"Juan\",\r\n    \"lastName\": \"Martinez\",\r\n    \"shortDescription\": \"shortDescription example\",\r\n    \"fullDescription\": \"fullDescription example\",\r\n    \"address\": {\r\n        \"country\": \"ARGENTINA\",\r\n        \"province\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"city\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"streetName\": \"Av Cabildo\",\r\n        \"streetNumber\": \"1234\",\r\n        \"floorApt\": \"4a\"\r\n    },\r\n    \"hourlyRates\": {\r\n        \"ARS\": 140.30,\r\n        \"USD\": 10.00\r\n    },\r\n    \"modalities\": {\r\n        \"FACE_TO_FACE\": true,\r\n        \"REMOTE\": true\r\n    },\r\n    \"proficiencies\": [\r\n        {\r\n            \"masteryLevel\": \"COLLEGE\",\r\n            \"subject\": \"MATH\"\r\n        }\r\n    ],\r\n    \"weeklyWorkingSchedule\": {\r\n        \"checkIn\": \"17:55:49.594\",\r\n        \"checkOut\": \"17:55:49.594\",\r\n        \"sunday\": false,\r\n        \"monday\": true,\r\n        \"tuesday\": false,\r\n        \"wednesday\": true,\r\n        \"thursday\": false,\r\n        \"friday\": false,\r\n        \"saturday\": false\r\n    },\r\n    \"scheduledAppointments\": [],\r\n    \"profilePictureUrl\": \"asd.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/categories/1/providers/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"categories",
+						"1",
+						"providers",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get professor by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/categories/1/providers/{{juanMartinezId}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"categories",
+						"1",
+						"providers",
+						"{{juanMartinezId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "juanMartinezId",
+			"value": ""
+		}
+	]
+}

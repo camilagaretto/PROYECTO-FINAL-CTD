@@ -3,14 +3,14 @@ package com.equipo2.Appkademy.rest.controller;
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.service.TeacherService;
+import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherResponseDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -28,6 +28,13 @@ public class TeacherProviderController {
         Teacher teacher = teacherService.getById(id);
         TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(teacher);
         return ResponseEntity.ok(responseDto);
+    }
+
+    @PostMapping
+    public ResponseEntity<TeacherResponseDto> create(@Valid @RequestBody TeacherCreateRequestDto TeacherCreateRequestDto){
+        Teacher teacher = teacherService.save(TeacherCreateRequestDto);
+        TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(teacher);
+        return new ResponseEntity<TeacherResponseDto>(responseDto, HttpStatus.CREATED);
     }
 
 }
