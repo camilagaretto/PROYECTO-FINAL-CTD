@@ -1,14 +1,16 @@
 package com.equipo2.Appkademy.core.model.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.Map;
+
 
 @Getter
 @Setter
@@ -17,10 +19,6 @@ import java.util.Map;
 @Entity
 @Table(name = "weekly_working_schedule")
 public class WeeklyWorkingSchedule extends BaseSqlEntity<Long> {
-
-    //private List<DayOfWeek> workingDays;
-    //@ElementCollection
-    //private Map<DayOfWeek, Boolean> workingDays;
 
     @Column(name = "check_in", nullable = false)
     private LocalTime checkIn;
