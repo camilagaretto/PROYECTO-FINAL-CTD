@@ -12,7 +12,7 @@ import Step3 from "../../assets/step-3.svg"
 import Num1 from "../../assets/01.svg"
 import Num2 from "../../assets/02.svg"
 import Num3 from "../../assets/03.svg"
-import './Home.css'
+import './Home.scss'
 import Steps from '../../Components/Steps/Steps';
 
 const Home = () => {

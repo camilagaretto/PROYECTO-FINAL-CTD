@@ -1,0 +1,17 @@
+
+:root {
+   --color-start: rgba(67, 90, 131, 0.19);
+   --color-end: rgba(67, 90, 131, 0);
+}
+
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+body {
+   background: linear-gradient(to bottom, var(--color-start), var(--color-end));
+   width: 100%;
+   min-height: 100vh;
+}

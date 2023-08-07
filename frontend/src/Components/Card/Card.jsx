@@ -1,5 +1,5 @@
 import React from 'react'
-import './Card.css'
+import './Card.scss'
 import { Link } from 'react-router-dom'
 import { motion } from "framer-motion"
 
@@ -22,7 +22,7 @@ const Card = ({movie}) => {
                 <p>{movie.title}</p>
             </div>
             <div className='card__link__container'>
-                <Link to="/" className='card__link'>Ver más</Link>
+                <Link to="/" className='btn btn-primary'>Ver más</Link>
             </div>
         </div>
         </motion.div>

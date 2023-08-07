@@ -2,16 +2,13 @@ import React from 'react'
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
-import './Search.css'
+import './Search.scss'
 
 const Search = () => {
     return (
-        <InputGroup size="lg">
-            <Form.Control
-            aria-label="Large"
-            aria-describedby="inputGroup-sizing-sm"
-            />
-            <Button variant='light'>🔍</Button>
+        <InputGroup size="lg" className='search__input'>
+            <Form.Control placeholder='¿Qué deseas Aprender?'/>
+            <Button variant='primary'>🔍</Button>
         </InputGroup>
     )
 }
