@@ -33,6 +33,18 @@ const Filter = ({ activeGenre, setActiveGenre, setFiltered, popular }) => {
       >
         Action
       </button>
+      <button 
+        className={activeGenre === 28 ? "active" : ""}
+        onClick={() => setActiveGenre(28)}
+      >
+        Historia
+      </button>
+      <button 
+        className={activeGenre === 28 ? "active" : ""}
+        onClick={() => setActiveGenre(28)}
+      >
+        Literatura
+      </button>
     </div>
   )
 }

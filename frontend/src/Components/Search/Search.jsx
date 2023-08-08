@@ -6,9 +6,9 @@ import './Search.scss'
 
 const Search = () => {
     return (
-        <InputGroup size="lg" className='search__input'>
-            <Form.Control placeholder='¿Qué deseas Aprender?'/>
-            <Button variant='primary'>🔍</Button>
+        <InputGroup size="md" className='search__input'>
+            <Form.Control placeholder='¿Qué te gustaria aprender?'/>
+            <Button variant='primary'>Buscar</Button>
         </InputGroup>
     )
 }

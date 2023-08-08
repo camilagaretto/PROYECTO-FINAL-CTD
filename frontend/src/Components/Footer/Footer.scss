@@ -1,0 +1,15 @@
+#footer{
+    margin-top: 4rem;
+    height: 300px;
+    background-color: var(--bs-black);
+    color: var(--bs-white);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+
+    p{
+        word-spacing: 5px;
+    }
+}
