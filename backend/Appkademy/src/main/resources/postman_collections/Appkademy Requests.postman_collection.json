@@ -561,7 +561,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 100,\r\n    \"teachingProficiency\" : {\r\n        \"subject\" : \"MATH\",\r\n        \"masteryLevel\" : \"COLLEGE\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 10,\r\n    \"teachingProficiency\" : {\r\n        \"subject\" : \"MATH\",\r\n        \"masteryLevel\" : \"COLLEGE\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -608,7 +608,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 100,\r\n    \"teachingProficiency\" : {\r\n        \"subject\" : \"MATH\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 10,\r\n    \"teachingProficiency\" : {\r\n        \"subject\" : \"MATH\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -655,7 +655,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 100,\r\n        \"teachingProficiency\" : {\r\n        \"subject\" : \"MATH\",\r\n        \"masteryLevel\" : \"COLLEGE\"\r\n    },\r\n    \"city\" : \"ROSARIO\"\r\n}",
+					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 10,\r\n        \"teachingProficiency\" : {\r\n        \"subject\" : \"MATH\",\r\n        \"masteryLevel\" : \"COLLEGE\"\r\n    },\r\n    \"city\" : \"ROSARIO\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -702,7 +702,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 100,\r\n    \"country\" : \"ARGENTINA\"\r\n}",
+					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 10,\r\n    \"country\" : \"ARGENTINA\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -749,7 +749,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 100,\r\n    \"province\" : \"SANTA_FE\"\r\n}",
+					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 10,\r\n    \"province\" : \"SANTA_FE\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -796,7 +796,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 100,\r\n    \"city\" : \"ROSARIO\"\r\n}",
+					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 10,\r\n    \"city\" : \"ROSARIO\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
