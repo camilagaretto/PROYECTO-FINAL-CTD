@@ -1,5 +1,5 @@
 import React from 'react'
-import './Step.css'
+import './Step.scss'
 
 const Steps = ({num, img, title, description}) => {
   return (

@@ -2,18 +2,18 @@ import React from 'react'
 import Container from 'react-bootstrap/Container';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import Filter from '../../Components/Filter/Filter';
-import CardProduct from '../../Components/Card/Card';
-import Search from '../../Components/Search/Search';
-import Banner from "../../assets/banner-home.svg";
-import Step1 from "../../assets/step-1.svg"
-import Step2 from "../../assets/step-2.svg"
-import Step3 from "../../assets/step-3.svg"
-import Num1 from "../../assets/01.svg"
-import Num2 from "../../assets/02.svg"
-import Num3 from "../../assets/03.svg"
+import Filter from '../../../Components/Filter/Filter';
+import CardProduct from '../../../Components/Card/Card';
+import Search from '../../../Components/Search/Search';
+import Banner from "../../../assets/banner-home.svg";
+import Step1 from "../../../assets/step-1.svg"
+import Step2 from "../../../assets/step-2.svg"
+import Step3 from "../../../assets/step-3.svg"
+import Num1 from "../../../assets/01.svg"
+import Num2 from "../../../assets/02.svg"
+import Num3 from "../../../assets/03.svg"
 import './Home.css'
-import Steps from '../../Components/Steps/Steps';
+import Steps from '../../../Components/Steps/Steps';
 
 const Home = () => {
   const [popular, setPopular] = useState([]);

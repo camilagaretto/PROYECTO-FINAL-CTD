@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import './Filter.css'
+import './Filter.scss'
 
 const Filter = ({ activeGenre, setActiveGenre, setFiltered, popular }) => {
 
