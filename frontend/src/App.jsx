@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Navbar from "./Components/Navbar/Navbar"
 import FrontRoutes from './Routes/Front/FrontRoutes'; 
 import AdminRoutes from './Routes/Admin/AdminRoutes';
+import Footer from "./Components/Footer/Footer";
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<FrontRoutes/>}/>
           <Route path="/administracion/*" element={<AdminRoutes/>}/>
         </Routes>
+        <Footer/>
      </BrowserRouter>
     </>
   )

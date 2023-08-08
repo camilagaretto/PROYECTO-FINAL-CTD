@@ -5,22 +5,17 @@ import { useEffect, useState } from 'react';
 import Filter from '../../../Components/Filter/Filter';
 import CardProduct from '../../../Components/Card/Card';
 import Search from '../../../Components/Search/Search';
-import Banner from "../../../assets/banner-home.svg";
-import Step1 from "../../../assets/step-1.svg"
-import Step2 from "../../../assets/step-2.svg"
-import Step3 from "../../../assets/step-3.svg"
-import Num1 from "../../../assets/01.svg"
-import Num2 from "../../../assets/02.svg"
-import Num3 from "../../../assets/03.svg"
+import PaperPlane from '../../../assets/Paper-Plane.png'
+import BannerProfes from '../../../assets/banner-profes.svg'
 import './Home.css'
-import Steps from '../../../Components/Steps/Steps';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const [popular, setPopular] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [activeGenre, setActiveGenre] = useState(0);
 
-  const fetchPopular = async () => {   
+  const fetchPopular = async () => {
     const response = await fetch("https://api.themoviedb.org/3/movie/popular?api_key=1af8f5a0dac921ed793eaf9b1a89b23e&language=en-US&page=1");
     const movies = await response.json();
     setPopular(movies.results);
@@ -34,40 +29,59 @@ const Home = () => {
   return (
     <main id='home'>
       <Container>
+
         <section className='container-main-banner'>
           <div className='banner-description'>
-            <h1>Descubre tu nueva pasión</h1>
-            <Search/>
+            <h1>Encuentra tu nueva pasión</h1>
+            <Search />
           </div>
-          <img src={Banner} alt='Appkademy home banner'/>
         </section>
-        <section className='steps-container'>
-          <Steps num={Num1} img={Step1} title="Busca" description="Busca sin limites al profesor que se adapte a tus necesidades"/>
-          <Steps num={Num2} img={Step2} title="Contacta" description="Nuestros docentes se encargaran de responder a tu solicitud"/>
-          <Steps num={Num3} img={Step3} title="Estudia" description="Acuerda una fecha, hora y tarifa, con todo esto estamos listos"/>
-        </section>
+
         <section>
-          <h2>¿Qué quieres aprender hoy?</h2>
-          <Filter 
+          <div className='container-aprender'>
+            <div>
+              <h2>¿Qué te gustaría aprender hoy?</h2>
+              <p>Te dejamos los tags para que lo encuentres mucho mas rapido</p>
+            </div>
+            <Link to="/" className='container-aprender-ver'>Ver Listado Completo</Link>
+          </div>
+          
+          <Filter
             popular={popular}
             setFiltered={setFiltered}
             activeGenre={activeGenre}
             setActiveGenre={setActiveGenre}
           />
           <motion.div
-            layout 
+            layout
             className="grid-container"
           >
             <AnimatePresence>
               {filtered.map(movie => (
-                <CardProduct 
-                  key={movie.id} 
-                  movie = {movie}
+                <CardProduct
+                  key={movie.id}
+                  movie={movie}
                 />
               ))}
             </AnimatePresence>
           </motion.div>
+          <div className='mostrar-container'>
+            <p>No encontraste a tu profe?</p>
+            <Link className='btn btn-primary'>
+              <img className='paper-plane' src={PaperPlane} alt="Avion de papel" />
+              Mostrar Todos
+            </Link>
+          </div>
         </section>
+
+        <section className='container-profes'>
+          <img src={BannerProfes} alt="Appkademy banner profesores" />
+          <div>
+            <h3>Quieres unirte al equipo de profes?</h3>
+            <Link to='/' className='btn btn-profesores'>Llenar Formulario</Link>
+          </div>
+        </section>
+
       </Container>
     </main>
   )

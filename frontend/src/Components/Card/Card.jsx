@@ -13,17 +13,8 @@ const Card = ({movie}) => {
         transition={{ duration: 0.5 }}
         >
         <div className='card__container'>
-            <div className='card__img'>
-                <p><span>Juan</span></p>
-                <p>Matemático</p>
-            </div>
-            <div className='card__information'>
-                <p className='favs'>💖 3000 Fav</p>
-                <p>{movie.title}</p>
-            </div>
-            <div className='card__link__container'>
-                <Link to="/" className='btn btn-primary'>Ver más</Link>
-            </div>
+            <p><span>Juan</span></p>
+            <p>{movie.title}</p>
         </div>
         </motion.div>
     )

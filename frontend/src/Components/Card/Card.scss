@@ -1,55 +1,28 @@
 .card__container {
-    width: 250px;
-    height: 320px;
-    background-color: white;
-    border-radius: 25px;
-    margin: 0 auto;
-    -webkit-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.75);
-}
-
-.card__container p {
-    margin: 0;
-}
-
-.card__img {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    height: 180px;
-    background-image: url('https://res.cloudinary.com/tuko/image/upload/v1691073053/card-img_fce1gg.png');
+    background-image: url('https://res.cloudinary.com/tuko/image/upload/v1691450282/22_ktgadu.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+
+    max-width: 500px;
+    height: 250px;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     color: white;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
+    padding-bottom: 10px;
 }
 
-.card__img span {
-    font-weight: 800;
-    font-size: 17px;
+.card__container span {
+    font-weight: 700;
+    font-size: 20px;
     margin: 0;
 }
 
-.card__img p {
-    font-size: 18px;
-    padding: 0 0 5px 10px;
-    line-height: 15px;
-    text-shadow: 1px 5px 5px rgba(0,0,0,0.6);
+.card__container p {
+    font-size: 18px !important;
+    margin: 0;
+    padding-left: 15px;
 }
 
-.card__information {
-    padding: 10px 0 0 10px;
-}
-
-.favs {
-    font-weight: 600;
-}
-
-.card__link__container {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-}
