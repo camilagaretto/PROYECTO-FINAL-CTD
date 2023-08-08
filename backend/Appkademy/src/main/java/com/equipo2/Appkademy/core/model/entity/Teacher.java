@@ -19,7 +19,7 @@ import java.util.Map;
 public class Teacher extends NaturalPersonProvider {
 
     @ElementCollection
-    @MapKeyColumn(name = "currency")
+    @MapKeyColumn(name = "currency", nullable = false)
     @CollectionTable(name = "teacher_hourly_rate", joinColumns = @JoinColumn(name = "teacher_id"))
     private Map<Currency, BigDecimal> hourlyRates;
 
