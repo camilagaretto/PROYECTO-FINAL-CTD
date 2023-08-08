@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Navbar from "./Components/Navbar/Navbar"
-import Home from "./Routes/Home/Home"
+import FrontRoutes from './Routes/Front/FrontRoutes'; 
+import AdminRoutes from './Routes/Admin/AdminRoutes';
 
 function App() {
 
@@ -9,7 +10,8 @@ function App() {
      <BrowserRouter>
         <Navbar/>
         <Routes>
-          <Route path="/" element={<Home/>}/>
+          <Route path="/" element={<FrontRoutes/>}/>
+          <Route path="/administracion/*" element={<AdminRoutes/>}/>
         </Routes>
      </BrowserRouter>
     </>
