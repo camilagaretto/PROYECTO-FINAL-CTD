@@ -2,7 +2,7 @@ import React from 'react'
 import Container from 'react-bootstrap/Container';
 import TeacherForm from '../../../Components/TeacherForm/TeacherForm'
 import './AddTeacherPage.scss'
-import Banner from "../../..//teacher-form.svg";
+import Banner from "../../../assets/teacher-form.svg";
 
 const AddTeacherPage = () => {
 
