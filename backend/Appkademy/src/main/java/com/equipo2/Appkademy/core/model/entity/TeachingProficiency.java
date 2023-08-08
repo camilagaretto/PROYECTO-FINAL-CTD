@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "teaching_proficiency")
-public class TeachingProficiency extends BaseSqlEntity<Long> {
+public class TeachingProficiency extends BaseSqlEntity<Long>{
 
     @Enumerated(EnumType.STRING)
     @Column(name = "mastery_level", nullable = false)

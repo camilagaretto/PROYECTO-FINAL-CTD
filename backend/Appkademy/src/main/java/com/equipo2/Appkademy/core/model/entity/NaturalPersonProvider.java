@@ -24,6 +24,9 @@ public abstract class NaturalPersonProvider extends Provider {
     @Column(name = "full_description", nullable = true, columnDefinition = "TEXT")
     private String fullDescription;
 
+    @Column(name = "email", nullable = false)
+    private String email;
+
     @Embedded
     private Address address = new Address();
 

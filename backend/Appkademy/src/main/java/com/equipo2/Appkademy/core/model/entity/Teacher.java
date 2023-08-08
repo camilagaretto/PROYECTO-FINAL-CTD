@@ -30,7 +30,7 @@ public class Teacher extends NaturalPersonProvider {
     @Column(name = "value")
     private Map<Modality, Boolean> modalities;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "teacher_id", nullable = false)
     private List<TeachingProficiency> proficiencies;
 
@@ -60,7 +60,8 @@ public class Teacher extends NaturalPersonProvider {
         setShortDescription(builder.shortDescription);
         setFullDescription(builder.fullDescription);
         setAddress(builder.address);
-        setTotalLikes(0L);
+        setTotalLikes(builder.totalLikes);
+        setEmail(builder.email);
     }
 
     public static Builder builder(){
@@ -85,6 +86,8 @@ public class Teacher extends NaturalPersonProvider {
         private String shortDescription;
         private String fullDescription;
         private Address address;
+
+        private String email;
 
         public Builder hourlyRates(Map<Currency, BigDecimal> _hourlyRates){
             hourlyRates = _hourlyRates;
@@ -168,6 +171,11 @@ public class Teacher extends NaturalPersonProvider {
 
         public Builder address(Address _address){
             address = _address;
+            return this;
+        }
+
+        public Builder email(String _email){
+            email = _email;
             return this;
         }
 
