@@ -506,11 +506,8 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -522,7 +519,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/v1/categories/1/providers/",
+					"raw": "localhost:8080/v1/categories/1/providers/search",
 					"host": [
 						"localhost"
 					],
@@ -532,7 +529,7 @@
 						"categories",
 						"1",
 						"providers",
-						""
+						"search"
 					]
 				}
 			},
@@ -553,11 +550,8 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -569,7 +563,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/v1/categories/1/providers/",
+					"raw": "localhost:8080/v1/categories/1/providers/search",
 					"host": [
 						"localhost"
 					],
@@ -579,7 +573,7 @@
 						"categories",
 						"1",
 						"providers",
-						""
+						"search"
 					]
 				}
 			},
@@ -600,11 +594,8 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -616,7 +607,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/v1/categories/1/providers/",
+					"raw": "localhost:8080/v1/categories/1/providers/search",
 					"host": [
 						"localhost"
 					],
@@ -626,7 +617,7 @@
 						"categories",
 						"1",
 						"providers",
-						""
+						"search"
 					]
 				}
 			},
@@ -647,11 +638,8 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -663,7 +651,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/v1/categories/1/providers/",
+					"raw": "localhost:8080/v1/categories/1/providers/search",
 					"host": [
 						"localhost"
 					],
@@ -673,7 +661,7 @@
 						"categories",
 						"1",
 						"providers",
-						""
+						"search"
 					]
 				}
 			},
@@ -694,11 +682,8 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -710,7 +695,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/v1/categories/1/providers/",
+					"raw": "localhost:8080/v1/categories/1/providers/search",
 					"host": [
 						"localhost"
 					],
@@ -720,7 +705,7 @@
 						"categories",
 						"1",
 						"providers",
-						""
+						"search"
 					]
 				}
 			},
@@ -741,11 +726,8 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -757,7 +739,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/v1/categories/1/providers/",
+					"raw": "localhost:8080/v1/categories/1/providers/search",
 					"host": [
 						"localhost"
 					],
@@ -767,7 +749,7 @@
 						"categories",
 						"1",
 						"providers",
-						""
+						"search"
 					]
 				}
 			},
@@ -788,11 +770,8 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -804,7 +783,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/v1/categories/1/providers/",
+					"raw": "localhost:8080/v1/categories/1/providers/search",
 					"host": [
 						"localhost"
 					],
@@ -814,7 +793,7 @@
 						"categories",
 						"1",
 						"providers",
-						""
+						"search"
 					]
 				}
 			},
