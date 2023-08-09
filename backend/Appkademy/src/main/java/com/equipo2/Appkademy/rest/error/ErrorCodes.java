@@ -40,4 +40,6 @@ public class ErrorCodes {
     public static final String CUSTOMER_ID_CANNOT_BE_NULL = "CUSTOMER_ID_CANNOT_BE_NULL";
     public static final String TEACHER_WITH_SAME_EMAIL_ALREADY_EXISTS = "TEACHER_WITH_SAME_EMAIL_ALREADY_EXISTS";
 
+    public static final String EMAIL_IS_NOT_VALID = "EMAIL_IS_NOT_VALID";
+
 }

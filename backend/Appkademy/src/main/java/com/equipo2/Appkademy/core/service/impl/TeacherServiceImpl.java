@@ -9,6 +9,7 @@ import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherPatchRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherCompactResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
+import com.equipo2.Appkademy.rest.error.BadRequestException;
 import com.equipo2.Appkademy.rest.error.BusinessException;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
@@ -19,6 +20,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +50,7 @@ public class TeacherServiceImpl implements TeacherService {
     public Teacher save(TeacherCreateRequestDto createRequestDto) {
         //TODO: other validations?
         assertTeacherDoesNotAlreadyExist(createRequestDto);
+        assertEmailIsValid(createRequestDto.getEmail());
 
         Teacher entity = Teacher.builder()
                 .firstName(createRequestDto.getFirstName())
@@ -70,8 +73,6 @@ public class TeacherServiceImpl implements TeacherService {
 
         return teacherRepository.save(entity);
     }
-
-
 
     @Override
     public TeacherSearchResponseDto search(TeacherFilterDto filter) {
@@ -201,6 +202,10 @@ public class TeacherServiceImpl implements TeacherService {
         }
     }
 
-
+    private void assertEmailIsValid(String email) {
+        if(!EmailValidator.getInstance().isValid(email)){
+            throw new BadRequestException("email", email);
+        };
+    }
 
 }

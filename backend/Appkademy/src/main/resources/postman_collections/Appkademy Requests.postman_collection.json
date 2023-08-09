@@ -522,7 +522,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/v1/categories/1/providers/{{juanMartinezId}}",
+					"raw": "localhost:8080/v1/categories/1/providers/",
 					"host": [
 						"localhost"
 					],
@@ -532,7 +532,7 @@
 						"categories",
 						"1",
 						"providers",
-						"{{juanMartinezId}}"
+						""
 					]
 				}
 			},
