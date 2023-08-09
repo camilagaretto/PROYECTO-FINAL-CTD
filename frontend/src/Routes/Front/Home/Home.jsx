@@ -41,7 +41,7 @@ const Home = () => {
           <div className='container-aprender'>
             <div>
               <h2>¿Qué te gustaría aprender hoy?</h2>
-              <p>Te dejamos los tags para que lo encuentres mucho mas rapido</p>
+              <p>Te dejamos los tags para que encuentres los profesores recomendados!</p>
             </div>
             <Link to="/" className='container-aprender-ver'>Ver Listado Completo</Link>
           </div>

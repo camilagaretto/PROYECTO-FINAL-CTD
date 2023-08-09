@@ -6,9 +6,11 @@ import socials from '../../assets/socials.svg'
 const Footer = () => {
   return (
     <footer id='footer'>
+      <div className='footer-right'>
         <img src={DarkLogo} alt="Appkademy Dark Logo" />
         <p>© 2023 AppKademy Todos los derechos reservados.</p>
-        <img src={socials} alt="Appkademy social media" />
+      </div>
+      <img className='social' src={socials} alt="Appkademy social media" />
     </footer>
   )
 }
