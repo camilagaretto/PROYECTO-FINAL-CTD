@@ -1,33 +1,30 @@
 package com.equipo2.Appkademy.core.model.entity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.MappedSuperclass;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
-public abstract class NaturalPersonProvider extends Provider {
+public abstract class NaturalPersonProvider extends NaturalPerson {
 
-    @Column(name = "first_name", nullable = false, length = 50)
-    private String firstName;
+    @Column(name = "provider_category_id", nullable = false)
+    private Long providerCategoryId;
 
-    @Column(name = "last_name", nullable = false, length = 50)
-    private String lastName;
+    @Column(name = "total_likes", nullable = false, columnDefinition = "BIGINT default false")
+    private Long totalLikes;
 
-    @Column(name = "short_description", nullable = true, length = 100)
-    private String shortDescription;
+    @Column(name = "profile_picture_url", nullable = true, length = 350)
+    private String profilePictureUrl;
 
-    @Column(name = "full_description", nullable = true, columnDefinition = "TEXT")
-    private String fullDescription;
+    @Column(name = "identity_verified", nullable = false, columnDefinition = "boolean default false")
+    private boolean identityVerified;
 
-    @Column(name = "email", nullable = false)
-    private String email;
-
-    @Embedded
-    private Address address = new Address();
 
 }

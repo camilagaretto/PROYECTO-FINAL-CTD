@@ -18,6 +18,12 @@ import java.util.Map;
 @Table(name = "teacher", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Teacher extends NaturalPersonProvider {
 
+    @Column(name = "short_description", nullable = true, length = 100)
+    private String shortDescription;
+
+    @Column(name = "full_description", nullable = true, columnDefinition = "TEXT")
+    private String fullDescription;
+
     @ElementCollection
     @MapKeyColumn(name = "currency", nullable = false)
     @CollectionTable(name = "teacher_hourly_rate", joinColumns = @JoinColumn(name = "teacher_id"))
@@ -53,8 +59,6 @@ public class Teacher extends NaturalPersonProvider {
         setProfilePictureUrl(builder.profilePictureUrl);
         setIdentityVerified(builder.identityVerified);
         setEnabled(builder.enabled);
-        setCreatedOn(builder.createdOn);
-        setLastModifiedOn(builder.lastModifiedOn);
         setFirstName(builder.firstName);
         setLastName(builder.lastName);
         setShortDescription(builder.shortDescription);
