@@ -10,3 +10,6 @@
 3) Connect to the database via terminal or using any db tool (such as MySQLWorkbench for example) and create an empty schema called "appkademy"
 
 4) Run AppkademyApplication class as a java application.
+
+# Swagger documentation:
+Swagger documentation can be found be accessing: localhost:8080/documentation
