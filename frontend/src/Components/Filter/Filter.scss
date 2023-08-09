@@ -4,6 +4,10 @@
     gap: 10px;
     margin-bottom: 2rem;
 
+    @include  media-breakpoint-down(md){
+        flex-wrap: wrap;
+    }
+
     button {
         padding: 0 10px;
         color: var(--bs-primary);
