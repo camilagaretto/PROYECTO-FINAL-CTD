@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "/v1/categories/1/providers/")
-public class TeacherProviderController {
+public class TeacherProviderController implements ITeacherProviderController {
 
     @Autowired
     private TeacherService teacherService;
@@ -26,6 +26,7 @@ public class TeacherProviderController {
     @Autowired
     private AppkademyMapper mapper;
 
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<TeacherResponseDto> get(@PathVariable Long id){
         Teacher teacher = teacherService.getById(id);
@@ -33,6 +34,7 @@ public class TeacherProviderController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @Override
     @PostMapping
     public ResponseEntity<TeacherResponseDto> create(@Valid @RequestBody TeacherCreateRequestDto TeacherCreateRequestDto){
         Teacher teacher = teacherService.save(TeacherCreateRequestDto);
@@ -40,6 +42,7 @@ public class TeacherProviderController {
         return new ResponseEntity<TeacherResponseDto>(responseDto, HttpStatus.CREATED);
     }
 
+    @Override
     @GetMapping
     public ResponseEntity<TeacherSearchResponseDto> search(@RequestBody TeacherFilterDto filter){
         TeacherSearchResponseDto searchResponse = teacherService.search(filter);
@@ -54,6 +57,7 @@ public class TeacherProviderController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         teacherService.delete(id);
