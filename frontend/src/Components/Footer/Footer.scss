@@ -1,15 +1,45 @@
 #footer{
     margin-top: 4rem;
+    padding: 0 2rem;
     height: 300px;
     background-color: var(--bs-black);
     color: var(--bs-white);
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    gap: 20px;
+
+    .footer-right{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-right img{
+        width: 200px;
+    }
 
     p{
         word-spacing: 5px;
     }
+
+    @include media-breakpoint-down(md){
+
+        #footer{
+            padding: 0 1rem;
+        }
+
+        .social{
+            width: 100px;
+        }
+
+        .footer-right p{
+            font-size: 13px;
+        }
+
+        .footer-right img{
+            width: 150px;
+        }
+    }
+
 }
