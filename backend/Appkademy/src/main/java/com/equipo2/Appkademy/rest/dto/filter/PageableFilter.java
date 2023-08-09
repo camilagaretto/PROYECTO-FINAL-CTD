@@ -1,7 +1,5 @@
 package com.equipo2.Appkademy.rest.dto.filter;
 
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,21 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PageableFilter {
 
-    @Parameter(in = ParameterIn.QUERY
-                , description = "Page number"
-                , name = "PageNumber"
-                , required = false
-                , schema = @Schema(type = "integer", defaultValue = "1")
-    )
+    @Schema(title = "Page number", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer pageNumber;
 
-    @Parameter(in = ParameterIn.QUERY
-            , description = "Page Size"
-            , name = "PageSize"
-            , required = false
-            , schema = @Schema(type = "integer", defaultValue = "10")
-    )
-    @Schema(title = "Page size", example = "10")
+    @Schema(title = "Page size", example = "10", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer pageSize;
 
 }

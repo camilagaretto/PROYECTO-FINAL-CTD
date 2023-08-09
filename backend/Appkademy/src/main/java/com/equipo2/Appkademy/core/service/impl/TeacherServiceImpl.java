@@ -76,6 +76,13 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public TeacherSearchResponseDto search(TeacherFilterDto filter) {
+        if(Objects.isNull(filter.getPageNumber())){
+            filter.setPageNumber(1);
+        }
+        if(Objects.isNull(filter.getPageSize())){
+            filter.setPageSize(10);
+        }
+
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
         CriteriaQuery<Teacher> criteriaQuery = criteriaBuilder.createQuery(Teacher.class);
