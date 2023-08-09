@@ -6,6 +6,7 @@ import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.service.TeacherService;
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.TeacherPatchRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherCompactResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
 import com.equipo2.Appkademy.rest.error.BusinessException;
@@ -177,6 +178,21 @@ public class TeacherServiceImpl implements TeacherService {
             searchResponseDto.setSearchResults(compactTeacherList);
         }
         return searchResponseDto;
+    }
+
+    @Override
+    public Teacher patch(Long id, TeacherPatchRequestDto patchRequestDto) {
+        Teacher entity = teacherRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("No Teacher found for id: " + id));
+
+        //For future implementation of filler pattern;
+        return entity;
+    }
+
+    @Override
+    public void delete(Long id) {
+        teacherRepository.findById(id).orElseThrow(() -> new BusinessException("No Teacher found for id: " + id));
+        teacherRepository.deleteById(id);
     }
 
     private void assertTeacherDoesNotAlreadyExist(TeacherCreateRequestDto createRequestDto) {

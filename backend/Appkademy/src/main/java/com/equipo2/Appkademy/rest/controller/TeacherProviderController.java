@@ -5,6 +5,7 @@ import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.service.TeacherService;
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.TeacherPatchRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
 import jakarta.validation.Valid;
@@ -43,6 +44,20 @@ public class TeacherProviderController {
     public ResponseEntity<TeacherSearchResponseDto> search(@RequestBody TeacherFilterDto filter){
         TeacherSearchResponseDto searchResponse = teacherService.search(filter);
         return ResponseEntity.ok(searchResponse);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<TeacherResponseDto> patch(@PathVariable Long id,
+                                                          @RequestBody TeacherPatchRequestDto patchRequestDto){
+        Teacher teacher = teacherService.patch(id, patchRequestDto);
+        TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(teacher);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        teacherService.delete(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
 }

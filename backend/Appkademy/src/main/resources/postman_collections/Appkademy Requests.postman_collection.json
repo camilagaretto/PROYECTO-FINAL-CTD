@@ -819,6 +819,41 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Delete professor Juan Martinez",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(202);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/categories/1/providers/{{juanMartinezId}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"categories",
+						"1",
+						"providers",
+						"{{juanMartinezId}}"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [
