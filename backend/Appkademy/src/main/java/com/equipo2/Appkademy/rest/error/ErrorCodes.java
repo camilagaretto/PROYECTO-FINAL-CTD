@@ -2,6 +2,7 @@ package com.equipo2.Appkademy.rest.error;
 
 public class ErrorCodes {
 
+    //TEACHER
     public static final String HOURLY_RATES_CANNOT_BE_NULL_OR_EMPTY = "HOURLY_RATES_CANNOT_BE_NULL_OR_EMPTY";
     public static final String FIRST_NAME_CANNOT_BE_NULL_OR_EMPTY = "FIRST_NAME_CANNOT_BE_NULL_OR_EMPTY";
     public static final String LAST_NAME_CANNOT_BE_NULL_OR_EMPTY = "LAST_NAME_CANNOT_BE_NULL_OR_EMPTY";
@@ -37,5 +38,6 @@ public class ErrorCodes {
     public static final String PROVIDER_ID_CANNOT_BE_NULL = "PROVIDER_ID_CANNOT_BE_NULL";
 
     public static final String CUSTOMER_ID_CANNOT_BE_NULL = "CUSTOMER_ID_CANNOT_BE_NULL";
+    public static final String TEACHER_WITH_SAME_EMAIL_ALREADY_EXISTS = "TEACHER_WITH_SAME_EMAIL_ALREADY_EXISTS";
 
 }

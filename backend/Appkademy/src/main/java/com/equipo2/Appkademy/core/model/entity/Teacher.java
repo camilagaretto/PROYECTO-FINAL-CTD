@@ -15,7 +15,7 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "teacher")
+@Table(name = "teacher", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Teacher extends NaturalPersonProvider {
 
     @ElementCollection
