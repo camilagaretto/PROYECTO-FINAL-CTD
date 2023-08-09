@@ -13,18 +13,62 @@ import { Link } from 'react-router-dom';
 const Home = () => {
   const [popular, setPopular] = useState([]);
   const [filtered, setFiltered] = useState([]);
-  const [activeGenre, setActiveGenre] = useState(0);
+  const [activeFilter, setActiveFilter] = useState('');
+  const [activeCity, setActiveCity] = useState('');
+  const [teachingProficiency, setTeachingProficiency] = useState({
+      subject: '',
+      masteryLevel: ''
+  });
+  const [searchData, setSearchData] = useState({
+    pageNumber: 1,
+    pageSize: 10,
+  });
 
   const fetchPopular = async () => {
-    const response = await fetch("https://api.themoviedb.org/3/movie/popular?api_key=1af8f5a0dac921ed793eaf9b1a89b23e&language=en-US&page=1");
-    const movies = await response.json();
-    setPopular(movies.results);
-    setFiltered(movies.results);
+
+    const postData = {
+      pageNumber: searchData.pageNumber,
+      pageSize: searchData.pageSize,
+    };
+  
+    if (teachingProficiency.subject !== '') {
+      postData.teachingProficiency = {
+        subject: teachingProficiency.subject,
+      };
+    }
+
+    if (teachingProficiency.masteryLevel !== '') {
+      postData.teachingProficiency = {
+        masteryLevel: teachingProficiency.masteryLevel,
+      };
+    }
+  
+    if (activeCity !== '') {
+      postData.city = activeCity;
+    }
+    try {
+      const response = await fetch('http://localhost:8080/v1/categories/1/providers/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      });
+      if (response.ok) {
+        const teachers = await response.json();
+        setPopular(teachers.searchResults);
+        setFiltered(teachers.searchResults);
+      } else {
+        console.log(response)
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+    }
   }
 
   useEffect(() => {
     fetchPopular();
-  }, []);
+  }, [activeFilter]);
 
   return (
     <main id='home'>
@@ -45,22 +89,23 @@ const Home = () => {
             </div>
             <Link to="/" className='container-aprender-ver'>Ver Listado Completo</Link>
           </div>
-          
+
           <Filter
             popular={popular}
             setFiltered={setFiltered}
-            activeGenre={activeGenre}
-            setActiveGenre={setActiveGenre}
+            activeFilter={activeFilter}
+            setActiveFilter={setActiveFilter}
+            setTeachingProficiency={setTeachingProficiency}
           />
           <motion.div
             layout
             className="grid-container"
           >
             <AnimatePresence>
-              {filtered.map(movie => (
+              {filtered.map(teacher => (
                 <CardProduct
-                  key={movie.id}
-                  movie={movie}
+                  key={teacher.id}
+                  teacher={teacher}
                 />
               ))}
             </AnimatePresence>

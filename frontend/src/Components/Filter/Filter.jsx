@@ -1,47 +1,58 @@
 import { useEffect } from "react"
 import './Filter.scss'
 
-const Filter = ({ activeGenre, setActiveGenre, setFiltered, popular }) => {
-
+const Filter = ({ activeFilter, setActiveFilter, setTeachingProficiency, setFiltered, popular }) => {
   useEffect(() => {
-    if (activeGenre === 0) {
+    if (activeFilter === '') {
       setFiltered(popular)
       return
     }
-    const filtered = popular.filter(movie => movie.genre_ids.includes(activeGenre));
-    setFiltered(filtered);
-  }, [activeGenre])
-  
+  }, [activeFilter])
+
+  const handleFilterChange = (newFilter) => {
+     setTeachingProficiency((prevTeachingProficiency) => ({
+      ...prevTeachingProficiency,
+      subject: newFilter,
+    }));
+    setActiveFilter(newFilter);
+   
+  };
 
   return (
     <div className="filter-container">
       <button 
-        className={activeGenre === 0 ? "active" : ""}
-        onClick={() => setActiveGenre(0)}
+        className={activeFilter === '' ? "active" : ""}
+        onClick={() => handleFilterChange('')}
       >
-       All
+        Recomendados
       </button>
       <button 
-        className={activeGenre === 35 ? "active" : ""}
-        onClick={() => setActiveGenre(35)}
+        className={activeFilter === 'MATH' ? "active" : ""}
+        onClick={() => handleFilterChange('MATH')}
       >
-       Comedy
+       Matemática
       </button>
       <button 
-        className={activeGenre === 28 ? "active" : ""}
-        onClick={() => setActiveGenre(28)}
+        className={activeFilter === 'ENGLISH' ? "active" : ""}
+        onClick={() => handleFilterChange('ENGLISH')}
       >
-        Action
+        Ingles
       </button>
       <button 
-        className={activeGenre === 28 ? "active" : ""}
-        onClick={() => setActiveGenre(28)}
+        className={activeFilter === 'BIOLOGY' ? "active" : ""}
+        onClick={() => handleFilterChange('BIOLOGY')}
+      >
+        Biologia
+      </button>
+      <button 
+        className={activeFilter === 'HISTORY' ? "active" : ""}
+        onClick={() => handleFilterChange('HISTORY')}
       >
         Historia
       </button>
       <button 
-        className={activeGenre === 28 ? "active" : ""}
-        onClick={() => setActiveGenre(28)}
+        className={activeFilter === 'LITERATURE' ? "active" : ""}
+        onClick={() => handleFilterChange('LITERATURE')}
       >
         Literatura
       </button>

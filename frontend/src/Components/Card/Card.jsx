@@ -1,9 +1,8 @@
 import React from 'react'
 import './Card.scss'
-import { Link } from 'react-router-dom'
 import { motion } from "framer-motion"
 
-const Card = ({movie}) => {
+const Card = ({teacher}) => {
     return (
         <motion.div 
         layout
@@ -13,8 +12,8 @@ const Card = ({movie}) => {
         transition={{ duration: 0.5 }}
         >
         <div className='card__container'>
-            <p><span>Juan</span></p>
-            <p>{movie.title}</p>
+            <p><span>{teacher.shortDescription}</span></p>
+            <p>{teacher.firstName} {teacher.lastName}</p>
         </div>
         </motion.div>
     )
