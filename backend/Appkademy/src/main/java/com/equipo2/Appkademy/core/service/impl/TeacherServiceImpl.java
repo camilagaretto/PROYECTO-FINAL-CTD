@@ -199,7 +199,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void delete(Long id) {
-        teacherRepository.findById(id).orElseThrow(() -> new BusinessException("No Teacher found for id: " + id));
+        teacherRepository.findById(id).orElseThrow(() -> new NotFoundException("No Teacher found for id: " + id));
         teacherRepository.deleteById(id);
     }
 
