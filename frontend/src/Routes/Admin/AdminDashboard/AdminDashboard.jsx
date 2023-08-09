@@ -1,12 +1,13 @@
 import React from 'react'
+import Graphics from '../../../assets/graficas-admin.svg'
+
 
 const AdminDashboard = () => {
 
   return (
     <main>
         <section className='dashboard__container'>
-          <button>Agregar profesor</button>
-          <button>Listar profesores</button>
+          <img src={Graphics} alt="Panel de administracion" />
         </section>
     </main>
   )

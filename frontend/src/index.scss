@@ -11,7 +11,10 @@
 }
 
 body {
-   // background: linear-gradient(to bottom, var(--color-start), var(--color-end));
    width: 100%;
    min-height: 100vh;
+}
+
+main {
+   padding-top: 10rem;
 }
