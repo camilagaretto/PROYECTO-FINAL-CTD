@@ -43,7 +43,7 @@ public class TeacherProviderController implements ITeacherProviderController {
     }
 
     @Override
-    @GetMapping
+    @PostMapping("/search")
     public ResponseEntity<TeacherSearchResponseDto> search(@RequestBody TeacherFilterDto filter){
         TeacherSearchResponseDto searchResponse = teacherService.search(filter);
         return ResponseEntity.ok(searchResponse);
