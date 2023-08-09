@@ -10,7 +10,6 @@ const AddTeacherPage = () => {
     <main>
       <Container>
         <section className='dashboard__container'>
-          <img src={Banner} alt='Appkademy teacher banner'/>
           <TeacherForm />
         </section>
       </Container>
