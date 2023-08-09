@@ -31,7 +31,7 @@ function NavScrollExample() {
         <header>
             <Navbar expand="lg" className={`fixed-top navbar-white`}>
                 <Container fluid>
-                    <Navbar.Brand href="/"><img className='navbar__logo' src={AppkademyLogo} alt="Appkademy Logo" /></Navbar.Brand>
+                    <Navbar.Brand href="/administracion"><img className='navbar__logo' src={AppkademyLogo} alt="Appkademy Logo" /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
