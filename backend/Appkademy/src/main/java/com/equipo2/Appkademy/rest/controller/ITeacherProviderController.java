@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,7 +43,7 @@ public interface ITeacherProviderController {
             @ApiResponse(responseCode = "200", description = "Successfully searched teachers",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = TeacherSearchResponseDto.class)) })})
-    ResponseEntity<TeacherSearchResponseDto> search(@ParameterObject TeacherFilterDto filter);
+    ResponseEntity<TeacherSearchResponseDto> search(@RequestBody TeacherFilterDto filter);
 
     @Operation(summary = "Delete a Teacher by its id")
     @ApiResponses(value = {
