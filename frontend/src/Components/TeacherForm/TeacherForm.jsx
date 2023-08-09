@@ -148,7 +148,6 @@ function TeacherForm() {
     };
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(JSON.stringify(userData))
 
         try {
             const response = await fetch('http://localhost:8080/v1/categories/1/providers/', {
