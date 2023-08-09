@@ -1,0 +1,25 @@
+import React from 'react'
+import './CardDetail.scss'
+
+const CardDetail = () => {
+    return (
+        <div className='card__detail__container'>
+            <div>
+                <img src="https://res.cloudinary.com/tuko/image/upload/v1691591701/14_nrivov.svg" alt="Appkademy teacher image" />
+            </div>
+            <div className='card__detail__text'>
+                <div>
+                    <h4>Ecuacio Herrera</h4>
+                    <p>+50 Estudiantes</p>
+                    <p>+200 Calses dictadas</p>
+                </div>
+                <div>
+                    <h2>$25</h2>
+                    <h3>Hora</h3>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default CardDetail

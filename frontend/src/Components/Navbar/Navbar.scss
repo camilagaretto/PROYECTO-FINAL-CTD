@@ -14,7 +14,7 @@
 .navbar__link-secondary{
     text-align: center;
     padding: 10px 15px;
-    color: #27374D;
+    color: var(--azul-oscuro);
     text-decoration: none;
     font-weight: 700;  
 }
@@ -23,8 +23,12 @@
     text-align: center;
     padding: 10px 15px;
     border-radius: 10px;
-    background-color: #27374D;
+    background-color: var(--azul-oscuro);
     color: var(--bs-white);
     text-decoration: none;
     font-weight: 700;
+}
+
+.navbar__logo{
+    width: 190px;
 }
