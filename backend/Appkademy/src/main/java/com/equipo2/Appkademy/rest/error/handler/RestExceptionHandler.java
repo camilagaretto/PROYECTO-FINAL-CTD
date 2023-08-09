@@ -41,4 +41,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new RestError("400", "BAD_REQUEST", errorMessage),
                                     HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = BusinessException.class)
+    @ResponseBody
+    protected ResponseEntity<Object> handleBusinessException(BusinessException exception){
+        return new ResponseEntity<>(new RestErrorWithValidation("409", "CONFLICT", exception.getMessage()),
+                HttpStatus.CONFLICT);
+    }
 }

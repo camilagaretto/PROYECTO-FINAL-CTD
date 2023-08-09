@@ -8,6 +8,8 @@ import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherCompactResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
+import com.equipo2.Appkademy.rest.error.BusinessException;
+import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -43,8 +45,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher save(TeacherCreateRequestDto createRequestDto) {
-        //TODO: validation -> assertTeacherNotExists()
         //TODO: other validations?
+        assertTeacherDoesNotAlreadyExist(createRequestDto);
 
         Teacher entity = Teacher.builder()
                 .firstName(createRequestDto.getFirstName())
@@ -67,6 +69,8 @@ public class TeacherServiceImpl implements TeacherService {
 
         return teacherRepository.save(entity);
     }
+
+
 
     @Override
     public TeacherSearchResponseDto search(TeacherFilterDto filter) {
@@ -174,5 +178,13 @@ public class TeacherServiceImpl implements TeacherService {
         }
         return searchResponseDto;
     }
+
+    private void assertTeacherDoesNotAlreadyExist(TeacherCreateRequestDto createRequestDto) {
+        if(teacherRepository.findByEmail(createRequestDto.getEmail()).isPresent()){
+            throw new BusinessException(ErrorCodes.TEACHER_WITH_SAME_EMAIL_ALREADY_EXISTS);
+        }
+    }
+
+
 
 }
