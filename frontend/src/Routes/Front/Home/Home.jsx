@@ -14,16 +14,21 @@ const Home = () => {
   const [popular, setPopular] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [activeFilter, setActiveFilter] = useState('');
-  const [activeCity, setActiveCity] = useState('');
   const [teachingProficiency, setTeachingProficiency] = useState({
-      subject: '',
-      masteryLevel: ''
+    subject: '',
+    masteryLevel: ''
   });
   const [searchData, setSearchData] = useState({
     pageNumber: 1,
-    pageSize: 10,
+    pageSize: 30,
   });
 
+  const shuffleArray = (array) => {
+    function compareRandom(a, b) {
+      return Math.random() - 0.5;
+    }
+    return array.sort(compareRandom);
+  }
   const fetchPopular = async () => {
 
     const postData = {
@@ -42,10 +47,7 @@ const Home = () => {
         masteryLevel: teachingProficiency.masteryLevel,
       };
     }
-  
-    if (activeCity !== '') {
-      postData.city = activeCity;
-    }
+
     try {
       const response = await fetch('http://localhost:8080/v1/categories/1/providers/search', {
         method: 'POST',
@@ -56,8 +58,9 @@ const Home = () => {
       });
       if (response.ok) {
         const teachers = await response.json();
-        setPopular(teachers.searchResults);
-        setFiltered(teachers.searchResults);
+        const shuffledItems = shuffleArray(teachers.searchResults).slice(0,9);
+        setPopular(shuffledItems);
+        setFiltered(shuffledItems);
       } else {
         console.log(response)
       }
@@ -93,6 +96,7 @@ const Home = () => {
           <Filter
             popular={popular}
             setFiltered={setFiltered}
+            setSearchData={setSearchData}
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}
             setTeachingProficiency={setTeachingProficiency}

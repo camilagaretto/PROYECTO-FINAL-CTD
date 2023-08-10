@@ -1,21 +1,18 @@
 import { useEffect } from "react"
 import './Filter.scss'
 
-const Filter = ({ activeFilter, setActiveFilter, setTeachingProficiency, setFiltered, popular }) => {
-  useEffect(() => {
-    if (activeFilter === '') {
-      setFiltered(popular)
-      return
-    }
-  }, [activeFilter])
+const Filter = ({ activeFilter, setActiveFilter, setSearchData, setTeachingProficiency, setFiltered, popular }) => {
 
   const handleFilterChange = (newFilter) => {
-     setTeachingProficiency((prevTeachingProficiency) => ({
+    setTeachingProficiency((prevTeachingProficiency) => ({
       ...prevTeachingProficiency,
       subject: newFilter,
     }));
+    setSearchData((prevSearchData) => ({
+      ...prevSearchData,
+      pageSize: 100,
+    }));
     setActiveFilter(newFilter);
-   
   };
 
   return (
