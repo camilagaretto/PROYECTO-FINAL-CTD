@@ -7,10 +7,10 @@
     }
 }
 
-.detail-left {
-    position: fixed;
+.sticky {
+    position: sticky;
+    top: 150px;
     width: 450px;
-    // overflow-y:auto ;
     margin-left: 2rem;
     display: flex;
     flex-direction: column;
@@ -53,7 +53,7 @@
     align-items: flex-end;
     text-align: right;
     width: 700px;
-    margin-left: 600px;
+    // margin-left: 600px;
 
 
 
@@ -65,7 +65,7 @@
         color: var(--azul-oscuro);
     }
 
-    img {
+    .reserva-img {
         width: 20px;
         margin-right: 1rem;
     }
@@ -73,10 +73,11 @@
     div {
         display: flex;
         justify-content: space-between;
+        gap: 10px;
 
         hr {
             color: var(--azul-oscuro);
-            width: 500px;
+            width: 450px;
             opacity: 1;
         }
     }
