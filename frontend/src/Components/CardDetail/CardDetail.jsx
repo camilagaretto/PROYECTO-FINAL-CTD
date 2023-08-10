@@ -1,7 +1,7 @@
 import React from 'react'
 import './CardDetail.scss'
 
-const CardDetail = () => {
+const CardDetail = ({fullName, hourlyRates}) => {
     return (
         <div className='card__detail__container'>
             <div>
@@ -9,7 +9,7 @@ const CardDetail = () => {
             </div>
             <div className='card__detail__text'>
                 <div>
-                    <h4>Ecuacio Herrera</h4>
+                    <h4>{fullName}</h4>
                     <p>+50 Estudiantes</p>
                     <p>+200 Calses dictadas</p>
                 </div>

@@ -10,7 +10,7 @@ function FrontRoutes() {
     <Navbar/>
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/teacher" element={<TeacherDetail />} />
+      <Route path="/teacher/:id" element={<TeacherDetail />} />
     </Routes>
     </>
   );

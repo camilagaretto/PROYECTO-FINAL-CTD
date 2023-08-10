@@ -107,10 +107,12 @@ const Home = () => {
           >
             <AnimatePresence>
               {filtered.map(teacher => (
-                <CardProduct
-                  key={teacher.id}
-                  teacher={teacher}
-                />
+                <Link key={teacher.id} to={`/teacher/${teacher.id}`} >
+                  <CardProduct
+                    key={teacher.id}
+                    teacher={teacher}
+                  />
+                </Link>
               ))}
             </AnimatePresence>
           </motion.div>
