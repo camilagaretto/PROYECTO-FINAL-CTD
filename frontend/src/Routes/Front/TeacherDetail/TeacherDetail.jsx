@@ -13,10 +13,12 @@ const TeacherDetail = () => {
         <main>
             <Container className='detail-container'>
                 <section className='detail-left'>
-                    <CardDetail />
-                    <div className='descripcion'>
-                        <h2>Descripción</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, repellendus. Numquam expedita officiis quo harum deleniti magnam ipsa incidunt praesentium velit. Harum necessitatibus fugiat facere nostrum debitis laudantium, fugit voluptate.</p>
+                    <div className='sticky'>
+                        <CardDetail />
+                        <div className='descripcion'>
+                            <h2>Descripción</h2>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, repellendus. Numquam expedita officiis quo harum deleniti magnam ipsa incidunt praesentium velit. Harum necessitatibus fugiat facere nostrum debitis laudantium, fugit voluptate.</p>
+                        </div>
                     </div>
                 </section>
                 <section className='detail-right'>
@@ -25,7 +27,7 @@ const TeacherDetail = () => {
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium quod, illum quam unde delectus officiis qui nesciunt quia animi, excepturi fuga deserunt, provident.</p>
                     <div>
                         <hr />
-                        <Link className='btn btn-dark'><img src={Reserva} alt="Appkademy reservation vector" />Reserva</Link>
+                        <Link className='btn btn-dark'><img className='reserva-img' src={Reserva} alt="Appkademy reservation vector" />Reserva</Link>
                     </div>
 
                     {/* **** GALERIA **** */}
