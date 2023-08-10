@@ -11,7 +11,7 @@ const CardDetail = ({fullName, hourlyRates}) => {
                 <div>
                     <h4>{fullName}</h4>
                     <p>+50 Estudiantes</p>
-                    <p>+200 Calses dictadas</p>
+                    <p>+200 Clases dictadas</p>
                 </div>
                 <div>
                     <h2>$25</h2>
