@@ -107,7 +107,7 @@ const Home = () => {
           >
             <AnimatePresence>
               {filtered.map(teacher => (
-                <Link key={teacher.id} to={`/teacher/${teacher.id}`} >
+                <Link className='card-link' key={teacher.id} to={`/teacher/${teacher.id}`} >
                   <CardProduct
                     key={teacher.id}
                     teacher={teacher}

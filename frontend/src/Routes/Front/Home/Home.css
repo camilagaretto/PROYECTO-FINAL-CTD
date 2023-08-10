@@ -79,6 +79,10 @@
     display: none;
 }
 
+.card-link{
+    text-decoration: none;
+}
+
 
 @media only screen and (min-width: 577px) and (max-width: 768px) {
     /* #home {
