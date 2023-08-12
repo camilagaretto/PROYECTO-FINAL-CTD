@@ -29,16 +29,16 @@ public class TeacherProviderController implements ITeacherProviderController {
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<TeacherResponseDto> get(@PathVariable Long id){
-        Teacher teacher = teacherService.getById(id);
-        TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(teacher);
+        Teacher entity = teacherService.getById(id);
+        TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(entity);
         return ResponseEntity.ok(responseDto);
     }
 
     @Override
     @PostMapping
     public ResponseEntity<TeacherResponseDto> create(@Valid @RequestBody TeacherCreateRequestDto TeacherCreateRequestDto){
-        Teacher teacher = teacherService.save(TeacherCreateRequestDto);
-        TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(teacher);
+        Teacher entity = teacherService.save(TeacherCreateRequestDto);
+        TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(entity);
         return new ResponseEntity<TeacherResponseDto>(responseDto, HttpStatus.CREATED);
     }
 
@@ -52,8 +52,8 @@ public class TeacherProviderController implements ITeacherProviderController {
     @PatchMapping("/{id}")
     public ResponseEntity<TeacherResponseDto> patch(@PathVariable Long id,
                                                           @RequestBody TeacherPatchRequestDto patchRequestDto){
-        Teacher teacher = teacherService.patch(id, patchRequestDto);
-        TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(teacher);
+        Teacher entity = teacherService.patch(id, patchRequestDto);
+        TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(entity);
         return ResponseEntity.ok(responseDto);
     }
 

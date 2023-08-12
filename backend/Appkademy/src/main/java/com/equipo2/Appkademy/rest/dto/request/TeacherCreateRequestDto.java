@@ -78,7 +78,7 @@ public class TeacherCreateRequestDto implements Serializable {
     @NotNull(message = ErrorCodes.WEEKLY_WORKING_SCHEDULE_CANNOT_BE_NULL)
     private WeeklyWorkingScheduleCreateRequestDto weeklyWorkingSchedule;
 
-    @Schema(title = "Teacher scheduled appointments", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(title = "Teacher scheduled appointments", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @Valid
     private List<ScheduledAppointmentCreateRequestDto> scheduledAppointments;
 

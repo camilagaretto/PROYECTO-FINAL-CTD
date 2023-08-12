@@ -42,4 +42,7 @@ public class ErrorCodes {
 
     public static final String EMAIL_IS_NOT_VALID = "EMAIL_IS_NOT_VALID";
 
+    //STUDENT
+    public static final String STUDENT_WITH_SAME_EMAIL_ALREADY_EXISTS = "STUDENT_WITH_SAME_EMAIL_ALREADY_EXISTS";
+
 }

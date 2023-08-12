@@ -23,8 +23,4 @@ public abstract class NaturalPersonProvider extends NaturalPerson {
     @Column(name = "profile_picture_url", nullable = true, length = 350)
     private String profilePictureUrl;
 
-    @Column(name = "identity_verified", nullable = false, columnDefinition = "boolean default false")
-    private boolean identityVerified;
-
-
 }

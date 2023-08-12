@@ -66,6 +66,8 @@ public class Teacher extends NaturalPersonProvider {
         setAddress(builder.address);
         setTotalLikes(builder.totalLikes);
         setEmail(builder.email);
+        setCreatedOn(builder.createdOn);
+        setLastModifiedOn(builder.lastModifiedOn);
     }
 
     public static Builder builder(){

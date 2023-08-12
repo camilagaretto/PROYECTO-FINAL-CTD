@@ -38,4 +38,7 @@ public class TeacherFilterDto extends PageableFilter implements Serializable {
     @Schema(title = "City", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private City city;
 
+    @Schema(title = "Results should be randomized", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private boolean randomOrder;
+
 }
