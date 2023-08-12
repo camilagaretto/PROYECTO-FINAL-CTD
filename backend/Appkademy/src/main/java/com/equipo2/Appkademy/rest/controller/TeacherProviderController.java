@@ -5,7 +5,6 @@ import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.service.TeacherService;
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
-import com.equipo2.Appkademy.rest.dto.request.TeacherPatchRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
 import jakarta.validation.Valid;
@@ -49,6 +48,7 @@ public class TeacherProviderController implements ITeacherProviderController {
         return ResponseEntity.ok(searchResponse);
     }
 
+    /* TODO TO BE IMPLEMENTED
     @PatchMapping("/{id}")
     public ResponseEntity<TeacherResponseDto> patch(@PathVariable Long id,
                                                           @RequestBody TeacherPatchRequestDto patchRequestDto){
@@ -56,6 +56,7 @@ public class TeacherProviderController implements ITeacherProviderController {
         TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(entity);
         return ResponseEntity.ok(responseDto);
     }
+     */
 
     @Override
     @DeleteMapping("/{id}")

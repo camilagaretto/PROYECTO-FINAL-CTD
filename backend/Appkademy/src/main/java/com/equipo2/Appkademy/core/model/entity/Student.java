@@ -1,7 +1,6 @@
 package com.equipo2.Appkademy.core.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,13 +11,12 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "student", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Student extends NaturalPersonCustomer {
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "student_id", nullable = false, insertable = false, updatable = false)
     private List<ScheduledAppointment> scheduledAppointments;
 
     protected Student(Builder builder){
@@ -51,10 +49,13 @@ public class Student extends NaturalPersonCustomer {
         private LocalDateTime createdOn;
         private LocalDateTime lastModifiedOn;
 
+
         public Student.Builder scheduledAppointments(List<ScheduledAppointment> _scheduledAppointments){
             scheduledAppointments = _scheduledAppointments;
             return this;
         }
+
+
 
         public Student.Builder identityVerified(boolean _identityVerified){
             identityVerified = _identityVerified;

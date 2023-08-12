@@ -21,7 +21,7 @@ public class ScheduledAppointmentResponseDto implements Serializable {
     private Long id;
     private LocalDateTime startsOn;
     private LocalDateTime endsOn;
-    private Long providerId;
-    private Long customerId;
+    private Long teacherId;
+    private Long studentId;
 
 }

@@ -6,7 +6,6 @@ import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.service.TeacherService;
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
-import com.equipo2.Appkademy.rest.dto.request.TeacherPatchRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherCompactResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
 import com.equipo2.Appkademy.rest.error.BadRequestException;
@@ -38,11 +37,17 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     private AppkademyMapper mapper;
 
+    /* TODO TO BE IMPLEMENTED
+    @Autowired
+    private List<TeacherFillerService> teacherFillerServices;
+     */
+
     @Autowired
     EntityManager entityManager;
 
     @Override
     public Teacher getById(Long id) {
+        Teacher teacher = teacherRepository.findById(id).get();
         return teacherRepository.findById(id).orElseThrow(() -> new NotFoundException("No Teacher found for id: " + id));
     }
 
@@ -188,14 +193,17 @@ public class TeacherServiceImpl implements TeacherService {
         return searchResponseDto;
     }
 
+    /* TODO TO BE IMPLEMENTED
     @Override
     public Teacher patch(Long id, TeacherPatchRequestDto patchRequestDto) {
         Teacher entity = teacherRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("No Teacher found for id: " + id));
 
-        //For future implementation of filler pattern;
-        return entity;
+        teacherFillerServices.forEach(filler -> filler.fill(entity, patchRequestDto));
+        return teacherRepository.save(entity);
     }
+
+     */
 
     @Override
     public void delete(Long id) {

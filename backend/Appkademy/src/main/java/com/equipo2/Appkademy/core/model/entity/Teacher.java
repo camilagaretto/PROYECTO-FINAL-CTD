@@ -3,12 +3,17 @@ package com.equipo2.Appkademy.core.model.entity;
 import com.equipo2.Appkademy.core.model.enums.Currency;
 import com.equipo2.Appkademy.core.model.enums.Modality;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -45,7 +50,7 @@ public class Teacher extends NaturalPersonProvider {
     private WeeklyWorkingSchedule weeklyWorkingSchedule;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "teacher_id", nullable = false)
+    @JoinColumn(name = "teacher_id", nullable = false, insertable = false, updatable = false)
     private List<ScheduledAppointment> scheduledAppointments;
 
     protected Teacher(Builder builder){
@@ -69,6 +74,16 @@ public class Teacher extends NaturalPersonProvider {
         setCreatedOn(builder.createdOn);
         setLastModifiedOn(builder.lastModifiedOn);
     }
+
+
+    public void addScheduledAppointment(ScheduledAppointment scheduledAppointment){
+        if(Objects.isNull(scheduledAppointments)){
+            scheduledAppointments = new ArrayList<>();
+        }
+        scheduledAppointments.add(scheduledAppointment);
+    }
+
+
 
     public static Builder builder(){
         return new Builder();

@@ -5,10 +5,7 @@ import com.equipo2.Appkademy.rest.dto.request.AddressCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.ScheduledAppointmentCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.TeachingProficiencyDto;
 import com.equipo2.Appkademy.rest.dto.request.WeeklyWorkingScheduleCreateRequestDto;
-import com.equipo2.Appkademy.rest.dto.response.AddressResponseDto;
-import com.equipo2.Appkademy.rest.dto.response.StudentResponseDto;
-import com.equipo2.Appkademy.rest.dto.response.TeacherResponseDto;
-import com.equipo2.Appkademy.rest.dto.response.TeachingProficiencyResponseDto;
+import com.equipo2.Appkademy.rest.dto.response.*;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -28,8 +25,12 @@ public interface AppkademyMapper {
 
     List<TeachingProficiencyResponseDto> teachingProficiencyListToTeachingProficiencyResponseDtoList(List<TeachingProficiency> proficiencies);
 
-    List<ScheduledAppointment> scheduledAppointmentCreateRequestDtoToScheduledAppointment(List<ScheduledAppointmentCreateRequestDto> scheduledAppointmentCreateRequestDtoList);
+    List<ScheduledAppointment> scheduledAppointmentCreateRequestDtoListToScheduledAppointmentList(List<ScheduledAppointmentCreateRequestDto> scheduledAppointmentCreateRequestDtoList);
+
+    ScheduledAppointment scheduledAppointmentCreateRequestDtoToScheduledAppointment(ScheduledAppointmentCreateRequestDto scheduledAppointmentCreateRequestDto);
 
     StudentResponseDto studentToStudentResponseDto(Student student);
+
+    ScheduledAppointmentResponseDto scheduledAppointmenttoToScheduledAppointmentResponseDto(ScheduledAppointment scheduledAppointment);
 
 }
