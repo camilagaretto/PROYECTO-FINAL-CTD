@@ -67,6 +67,14 @@ public class ScheduledAppointmentServiceImpl implements ScheduledAppointmentServ
         if(!teacherWorkingDays.contains(appointmentDay)){
             throw new BusinessException(ErrorCodes.TEACHER_DOES_NOT_WORK_ON_APPOINTMENT_DAY);
         }
+
+        if(teacherWeeklySchedule.getCheckIn().isAfter(createRequestDto.getStartsOn().toLocalTime())){
+            throw new BusinessException(ErrorCodes.APPOINTMENT_CANNOT_START_BEFORE_TEACHER_CHECK_IN_HOUR);
+        }
+
+        if(teacherWeeklySchedule.getCheckOut().isBefore(createRequestDto.getEndsOn().toLocalTime())){
+            throw new BusinessException(ErrorCodes.APPOINTMENT_CANNOT_END_AFTER_TEACHER_CHECK_OUT_HOUR);
+        }
     }
 
     private List<DayOfWeek> getTeacherWorkingDays(Teacher teacher) {
