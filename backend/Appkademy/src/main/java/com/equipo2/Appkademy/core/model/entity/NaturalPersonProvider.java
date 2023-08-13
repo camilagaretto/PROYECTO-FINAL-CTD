@@ -23,4 +23,7 @@ public abstract class NaturalPersonProvider extends NaturalPerson {
     @Column(name = "profile_picture_url", nullable = true, length = 350)
     private String profilePictureUrl;
 
+    @Column(name = "signup_approved_by_admin")
+    private boolean signupApprovedByAdmin;
+
 }

@@ -1,10 +1,7 @@
 package com.equipo2.Appkademy.core.mapper;
 
 import com.equipo2.Appkademy.core.model.entity.*;
-import com.equipo2.Appkademy.rest.dto.request.AddressCreateRequestDto;
-import com.equipo2.Appkademy.rest.dto.request.ScheduledAppointmentCreateRequestDto;
-import com.equipo2.Appkademy.rest.dto.request.TeachingProficiencyDto;
-import com.equipo2.Appkademy.rest.dto.request.WeeklyWorkingScheduleCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.*;
 import com.equipo2.Appkademy.rest.dto.response.*;
 import org.mapstruct.Mapper;
 
@@ -32,5 +29,8 @@ public interface AppkademyMapper {
     StudentResponseDto studentToStudentResponseDto(Student student);
 
     ScheduledAppointmentResponseDto scheduledAppointmenttoToScheduledAppointmentResponseDto(ScheduledAppointment scheduledAppointment);
+
+    //REQUEST
+    TeacherSignupRequestResponseDto teacherSignupRequestToTeacherSignupRequestResponseDto(TeacherSignupRequest signupRequest);
 
 }

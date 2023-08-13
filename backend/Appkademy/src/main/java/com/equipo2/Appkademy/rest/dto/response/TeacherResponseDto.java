@@ -56,4 +56,6 @@ public class TeacherResponseDto implements Serializable {
 
     private boolean enabled;
 
+    private boolean signupApprovedByAdmin;
+
 }

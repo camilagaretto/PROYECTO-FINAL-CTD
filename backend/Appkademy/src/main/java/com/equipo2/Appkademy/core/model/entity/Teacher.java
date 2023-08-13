@@ -34,7 +34,6 @@ public class Teacher extends NaturalPersonProvider {
     @CollectionTable(name = "teacher_hourly_rate", joinColumns = @JoinColumn(name = "teacher_id"))
     private Map<Currency, BigDecimal> hourlyRates;
 
-    //TODO: persist modality enum as string? currently is persisted as ordinal
     @ElementCollection
     @MapKeyColumn(name = "modality")
     @CollectionTable(name = "teacher_modality", joinColumns = @JoinColumn(name = "teacher_id"))
@@ -109,6 +108,8 @@ public class Teacher extends NaturalPersonProvider {
         private Address address;
 
         private String email;
+
+        private boolean signupApprovedByAdmin;
 
         public Builder hourlyRates(Map<Currency, BigDecimal> _hourlyRates){
             hourlyRates = _hourlyRates;
@@ -197,6 +198,11 @@ public class Teacher extends NaturalPersonProvider {
 
         public Builder email(String _email){
             email = _email;
+            return this;
+        }
+
+        public Builder signupApprovedByAdmin(boolean _signupApprovedByAdmin){
+            signupApprovedByAdmin = _signupApprovedByAdmin;
             return this;
         }
 

@@ -2,16 +2,13 @@ package com.equipo2.Appkademy.core.service.impl;
 
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.Teacher;
-import com.equipo2.Appkademy.core.model.enums.Currency;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.service.TeacherService;
+import com.equipo2.Appkademy.core.validation.TeacherValidation;
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherCompactResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
-import com.equipo2.Appkademy.rest.error.BadRequestException;
-import com.equipo2.Appkademy.rest.error.BusinessException;
-import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -20,15 +17,12 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -39,6 +33,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     private AppkademyMapper mapper;
+
+    @Autowired
+    private TeacherValidation teacherValidation;
 
     /* TODO TO BE IMPLEMENTED
     @Autowired
@@ -56,9 +53,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher save(TeacherCreateRequestDto createRequestDto) {
-        assertTeacherDoesNotAlreadyExist(createRequestDto);
-        assertEmailIsValid(createRequestDto.getEmail());
-        assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
+        teacherValidation.assertTeacherDoesNotAlreadyExist(createRequestDto.getEmail());
+        TeacherValidation.assertEmailIsValid(createRequestDto.getEmail());
+        TeacherValidation.assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
         
         Teacher entity = Teacher.builder()
                 .firstName(createRequestDto.getFirstName())
@@ -77,18 +74,10 @@ public class TeacherServiceImpl implements TeacherService {
                 .createdOn(LocalDateTime.now())
                 .lastModifiedOn(LocalDateTime.now())
                 .totalLikes(0L)
+                .signupApprovedByAdmin(true)
                 .build();
 
         return teacherRepository.save(entity);
-    }
-
-    private void assertHourlyRatesAreValid(Map<Currency, BigDecimal> hourlyRates) {
-        boolean rateWithNegativeValueExists = hourlyRates.entrySet().stream()
-                .anyMatch(hourlyRate -> 0 >= hourlyRate.getValue().compareTo(BigDecimal.valueOf(0)));
-
-        if(rateWithNegativeValueExists){
-            throw new BusinessException(ErrorCodes.HOURLY_RATES_VALUES_CANNOT_BE_NEGATIVE_OR_ZERO);
-        }
     }
 
     @Override
@@ -223,16 +212,7 @@ public class TeacherServiceImpl implements TeacherService {
         teacherRepository.deleteById(id);
     }
 
-    private void assertTeacherDoesNotAlreadyExist(TeacherCreateRequestDto createRequestDto) {
-        if(teacherRepository.findByEmail(createRequestDto.getEmail()).isPresent()){
-            throw new BusinessException(ErrorCodes.TEACHER_WITH_SAME_EMAIL_ALREADY_EXISTS);
-        }
-    }
 
-    private void assertEmailIsValid(String email) {
-        if(!EmailValidator.getInstance().isValid(email)){
-            throw new BadRequestException("email", email);
-        };
-    }
+
 
 }

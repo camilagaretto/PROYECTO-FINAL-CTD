@@ -28,8 +28,6 @@ public class TeacherCreateRequestDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 6417087755664586128L;
 
-    //TODO: Swagger annotations
-
     @Schema(title = "Teacher name", example = "Juan Martin", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = ErrorCodes.FIRST_NAME_CANNOT_BE_NULL_OR_EMPTY)
     private String firstName;
