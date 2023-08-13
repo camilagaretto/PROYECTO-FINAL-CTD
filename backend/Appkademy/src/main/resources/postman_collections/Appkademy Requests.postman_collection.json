@@ -475,7 +475,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/v1/categories/1/providers/{{juanMartinezId}}",
+					"raw": "localhost:8080/v1/categories/1/providers/{{pedroSanchezId}}",
 					"host": [
 						"localhost"
 					],
@@ -485,7 +485,7 @@
 						"categories",
 						"1",
 						"providers",
-						"{{juanMartinezId}}"
+						"{{pedroSanchezId}}"
 					]
 				}
 			},
@@ -833,6 +833,135 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Create Student Belisario Justiniano",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Setting response data as Postman collection variable\",\r",
+							"    function() {\r",
+							"        let response = pm.response.json();\r",
+							"        pm.collectionVariables.set(\"belisarioJustinianoId\", response.id)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Belisario\",\r\n    \"lastName\": \"Justiniano\",\r\n    \"email\" : \"belisario.onmywaytorome@gmail.com\",\r\n    \"address\": {\r\n        \"country\": \"ARGENTINA\",\r\n        \"province\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"city\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"streetName\": \"Av Roma\",\r\n        \"streetNumber\": \"1555\",\r\n        \"floorApt\": \"1a\"\r\n    },\r\n    \"scheduledAppointments\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/categories/1/customers/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"categories",
+						"1",
+						"customers",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get student by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/categories/1/customers/{{belisarioJustinianoId}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"categories",
+						"1",
+						"customers",
+						"{{belisarioJustinianoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ceate Appointment PedroSanchez - BelisarioJustiniano",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"startsOn\" : \"2023-11-13T17:00:00.000Z\",\r\n    \"endsOn\" : \"2023-11-13T17:30:00.000Z\",\r\n    \"teacherId\" : {{pedroSanchezId}},\r\n    \"studentId\" : {{belisarioJustinianoId}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/categories/1/appointments/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"categories",
+						"1",
+						"appointments",
+						""
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [
@@ -870,6 +999,10 @@
 		},
 		{
 			"key": "calculinaGomezId",
+			"value": ""
+		},
+		{
+			"key": "belisarioJustinianoId",
 			"value": ""
 		}
 	]
