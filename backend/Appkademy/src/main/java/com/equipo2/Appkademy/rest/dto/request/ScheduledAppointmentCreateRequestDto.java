@@ -27,9 +27,9 @@ public class ScheduledAppointmentCreateRequestDto implements Serializable {
     private LocalDateTime endsOn;
 
     @NotNull(message = ErrorCodes.PROVIDER_ID_CANNOT_BE_NULL)
-    private Long providerId;
+    private Long teacherId;
 
     @NotNull(message = ErrorCodes.CUSTOMER_ID_CANNOT_BE_NULL)
-    private Long customerId;
+    private Long studentId;
 
 }

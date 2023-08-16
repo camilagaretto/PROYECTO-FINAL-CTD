@@ -337,7 +337,7 @@ function TeacherForm() {
                                 checked={userData.modalities.FACE_TO_FACE}
                                 onChange={handleModalitiesChange}
                             />
-                            Prescencial
+                            Presencial
                         </label>
                     </div>
                 </div>
@@ -360,7 +360,7 @@ function TeacherForm() {
 
                 <div className="col-md-6">
                     <label htmlFor='masteryLevel' className="form-label">
-                        Mastery Level
+                        Nivel
                     </label>
                     <select
                         className="form-select"
@@ -378,7 +378,7 @@ function TeacherForm() {
                 </div>
                 <div className="col-md-6">
                     <label htmlFor='subject' className="form-label">
-                        Subject
+                        Materia
                     </label>
                     <select
                         className="form-select"

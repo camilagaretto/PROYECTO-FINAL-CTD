@@ -3,12 +3,17 @@ package com.equipo2.Appkademy.core.model.entity;
 import com.equipo2.Appkademy.core.model.enums.Currency;
 import com.equipo2.Appkademy.core.model.enums.Modality;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -29,7 +34,6 @@ public class Teacher extends NaturalPersonProvider {
     @CollectionTable(name = "teacher_hourly_rate", joinColumns = @JoinColumn(name = "teacher_id"))
     private Map<Currency, BigDecimal> hourlyRates;
 
-    //TODO: persist modality enum as string? currently is persisted as ordinal
     @ElementCollection
     @MapKeyColumn(name = "modality")
     @CollectionTable(name = "teacher_modality", joinColumns = @JoinColumn(name = "teacher_id"))
@@ -45,7 +49,7 @@ public class Teacher extends NaturalPersonProvider {
     private WeeklyWorkingSchedule weeklyWorkingSchedule;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "teacher_id", nullable = false)
+    @JoinColumn(name = "teacher_id", nullable = false, insertable = false, updatable = false)
     private List<ScheduledAppointment> scheduledAppointments;
 
     protected Teacher(Builder builder){
@@ -66,7 +70,19 @@ public class Teacher extends NaturalPersonProvider {
         setAddress(builder.address);
         setTotalLikes(builder.totalLikes);
         setEmail(builder.email);
+        setCreatedOn(builder.createdOn);
+        setLastModifiedOn(builder.lastModifiedOn);
     }
+
+
+    public void addScheduledAppointment(ScheduledAppointment scheduledAppointment){
+        if(Objects.isNull(scheduledAppointments)){
+            scheduledAppointments = new ArrayList<>();
+        }
+        scheduledAppointments.add(scheduledAppointment);
+    }
+
+
 
     public static Builder builder(){
         return new Builder();
@@ -92,6 +108,8 @@ public class Teacher extends NaturalPersonProvider {
         private Address address;
 
         private String email;
+
+        private boolean signupApprovedByAdmin;
 
         public Builder hourlyRates(Map<Currency, BigDecimal> _hourlyRates){
             hourlyRates = _hourlyRates;
@@ -180,6 +198,11 @@ public class Teacher extends NaturalPersonProvider {
 
         public Builder email(String _email){
             email = _email;
+            return this;
+        }
+
+        public Builder signupApprovedByAdmin(boolean _signupApprovedByAdmin){
+            signupApprovedByAdmin = _signupApprovedByAdmin;
             return this;
         }
 

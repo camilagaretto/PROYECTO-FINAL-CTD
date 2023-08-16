@@ -22,4 +22,10 @@ public class ScheduledAppointment extends BaseSqlEntity<Long>{
     @Column(name = "ends_on", nullable = false)
     private LocalDateTime endsOn;
 
+    @Column(name = "teacher_id")
+    private Long teacherId;
+
+    @Column(name = "student_id")
+    private Long studentId;
+
 }

@@ -47,7 +47,7 @@ const TeacherDetail = () => {
                     </div>
                 </section>
                 <section className='detail-right'>
-                    <h4>Algebra Relacional</h4>
+                    <h4>Appkademy</h4>
                     <h1><span>Obtiene</span> los <br /> conocimientos de <span>un Experto</span></h1>
                     <p>{teacherData.shortDescription}</p>
                     <div>

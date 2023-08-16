@@ -282,7 +282,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\": \"Brandon\",\r\n    \"lastName\": \"Sanderson\",\r\n    \"email\" : \"brandon.sanderson@gmail.com\",\r\n    \"shortDescription\": \"Mis clases de ingles se adaptan al nivel y necesidades de mis alumnos\",\r\n    \"fullDescription\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium tincidunt felis, nec pretium arcu scelerisque et. Nam feugiat lorem metus, eu dignissim quam consectetur id. Aliquam rutrum purus augue, id tincidunt justo convallis id. Nam consequat velit purus, in viverra sapien rutrum ac. Aliquam in iaculis justo. Nullam iaculis purus vitae odio gravida, ut vestibulum velit bibendum. Curabitur eget nunc vitae nulla molestie posuere laoreet malesuada tellus. Suspendisse a odio nec velit sagittis faucibus a in neque. Morbi varius diam ac sollicitudin lobortis. Vestibulum quis ante ac odio lacinia mollis vel vel purus. Duis imperdiet, mi at accumsan volutpat, quam ante consectetur quam, in vestibulumurna diam id turpis. Morbi eu scelerisque leo, nec pharetra lectus.\",\r\n    \"address\": {\r\n        \"country\": \"ARGENTINA\",\r\n        \"province\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"city\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"streetName\": \"Riobamba\",\r\n        \"streetNumber\": \"2153\",\r\n        \"floorApt\": \"PB\"\r\n    },\r\n    \"hourlyRates\": {\r\n        \"ARS\": 5000.30,\r\n        \"USD\": 80.00\r\n    },\r\n    \"modalities\": {\r\n        \"FACE_TO_FACE\": true,\r\n        \"REMOTE\": false\r\n    },\r\n    \"proficiencies\": [\r\n        {\r\n            \"masteryLevel\": \"COLLEGE\",\r\n            \"subject\": \"ENGLISH\"\r\n        },\r\n        {\r\n            \"masteryLevel\": \"HIGHSCHOOL\",\r\n            \"subject\": \"ENGLISH\"\r\n        },\r\n        {\r\n            \"masteryLevel\": \"MIDDLE_SCHOOL\",\r\n            \"subject\": \"ENGLISH\"\r\n        }\r\n    ],\r\n    \"weeklyWorkingSchedule\": {\r\n        \"checkIn\": \"09:00:00.000\",\r\n        \"checkOut\": \"18:00:00.000\",\r\n        \"sunday\": false,\r\n        \"monday\": true,\r\n        \"tuesday\": false,\r\n        \"wednesday\": true,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true\r\n    },\r\n    \"scheduledAppointments\": [],\r\n    \"profilePictureUrl\": \"https://watermark.lovepik.com/photo/20211210/large/lovepik-middle-aged-professor-holds-a-teaching-rod-in-picture_501777176.jpg\"\r\n}",
+					"raw": "{\r\n    \"firstName\": \"Brandon\",\r\n    \"lastName\": \"Sanderson\",\r\n    \"email\" : \"brandon.sanderson@gmail.com\",\r\n    \"shortDescription\": \"Mis clases de ingles se adaptan al nivel y necesidades de mis alumnos\",\r\n    \"fullDescription\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium tincidunt felis, nec pretium arcu scelerisque et. Nam feugiat lorem metus, eu dignissim quam consectetur id. Aliquam rutrum purus augue, id tincidunt justo convallis id. Nam consequat velit purus, in viverra sapien rutrum ac. Aliquam in iaculis justo. Nullam iaculis purus vitae odio gravida, ut vestibulum velit bibendum. Curabitur eget nunc vitae nulla molestie posuere laoreet malesuada tellus. Suspendisse a odio nec velit sagittis faucibus a in neque. Morbi varius diam ac sollicitudin lobortis. Vestibulum quis ante ac odio lacinia mollis vel vel purus. Duis imperdiet, mi at accumsan volutpat, quam ante consectetur quam, in vestibulumurna diam id turpis. Morbi eu scelerisque leo, nec pharetra lectus.\",\r\n    \"address\": {\r\n        \"country\": \"ARGENTINA\",\r\n        \"province\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"city\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"streetName\": \"Riobamba\",\r\n        \"streetNumber\": \"2153\",\r\n        \"floorApt\": \"PB\"\r\n    },\r\n    \"hourlyRates\": {\r\n        \"ARS\": 5000.30,\r\n        \"USD\": 10.00\r\n    },\r\n    \"modalities\": {\r\n        \"FACE_TO_FACE\": true,\r\n        \"REMOTE\": false\r\n    },\r\n    \"proficiencies\": [\r\n        {\r\n            \"masteryLevel\": \"COLLEGE\",\r\n            \"subject\": \"ENGLISH\"\r\n        },\r\n        {\r\n            \"masteryLevel\": \"HIGHSCHOOL\",\r\n            \"subject\": \"ENGLISH\"\r\n        },\r\n        {\r\n            \"masteryLevel\": \"MIDDLE_SCHOOL\",\r\n            \"subject\": \"ENGLISH\"\r\n        }\r\n    ],\r\n    \"weeklyWorkingSchedule\": {\r\n        \"checkIn\": \"09:00:00.000\",\r\n        \"checkOut\": \"18:00:00.000\",\r\n        \"sunday\": false,\r\n        \"monday\": true,\r\n        \"tuesday\": false,\r\n        \"wednesday\": true,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true\r\n    },\r\n    \"scheduledAppointments\": [],\r\n    \"profilePictureUrl\": \"https://watermark.lovepik.com/photo/20211210/large/lovepik-middle-aged-professor-holds-a-teaching-rod-in-picture_501777176.jpg\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -475,7 +475,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/v1/categories/1/providers/{{juanMartinezId}}",
+					"raw": "localhost:8080/v1/categories/1/providers/{{pedroSanchezId}}",
 					"host": [
 						"localhost"
 					],
@@ -485,7 +485,7 @@
 						"categories",
 						"1",
 						"providers",
-						"{{juanMartinezId}}"
+						"{{pedroSanchezId}}"
 					]
 				}
 			},
@@ -833,6 +833,167 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Create Student Belisario Justiniano",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Setting response data as Postman collection variable\",\r",
+							"    function() {\r",
+							"        let response = pm.response.json();\r",
+							"        pm.collectionVariables.set(\"belisarioJustinianoId\", response.id)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Belisario\",\r\n    \"lastName\": \"Justiniano\",\r\n    \"email\" : \"belisario.onmywaytorome@gmail.com\",\r\n    \"address\": {\r\n        \"country\": \"ARGENTINA\",\r\n        \"province\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"city\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"streetName\": \"Av Roma\",\r\n        \"streetNumber\": \"1555\",\r\n        \"floorApt\": \"1a\"\r\n    },\r\n    \"scheduledAppointments\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/categories/1/customers/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"categories",
+						"1",
+						"customers",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get student by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/categories/1/customers/{{belisarioJustinianoId}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"categories",
+						"1",
+						"customers",
+						"{{belisarioJustinianoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ceate Appointment PedroSanchez - BelisarioJustiniano",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"startsOn\" : \"2023-11-13T17:00:00.000Z\",\r\n    \"endsOn\" : \"2023-11-13T17:30:00.000Z\",\r\n    \"teacherId\" : {{pedroSanchezId}},\r\n    \"studentId\" : {{belisarioJustinianoId}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/categories/1/appointments/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"categories",
+						"1",
+						"appointments",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create signup request Teacher Marcelo Ramallo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"teacherFormData\" : {\r\n        \"firstName\": \"Marcelo\",\r\n        \"lastName\": \"Ramallo\",\r\n        \"email\" : \"marcelo.ramallo@gmail.com\",\r\n        \"shortDescription\": \"Hola! me apasiona la matematica y la enseñanza!\",\r\n        \"fullDescription\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium tincidunt felis, nec pretium arcu scelerisque et. Nam feugiat lorem metus, eu dignissim quam consectetur id. Aliquam rutrum purus augue, id tincidunt justo convallis id. Nam consequat velit purus, in viverra sapien rutrum ac. Aliquam in iaculis justo. Nullam iaculis purus vitae odio gravida, ut vestibulum velit bibendum. Curabitur eget nunc vitae nulla molestie posuere laoreet malesuada tellus. Suspendisse a odio nec velit sagittis faucibus a in neque. Morbi varius diam ac sollicitudin lobortis. Vestibulum quis ante ac odio lacinia mollis vel vel purus. Duis imperdiet, mi at accumsan volutpat, quam ante consectetur quam, in vestibulumurna diam id turpis. Morbi eu scelerisque leo, nec pharetra lectus.\",\r\n        \"address\": {\r\n        \"country\": \"ARGENTINA\",\r\n        \"province\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"city\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"streetName\": \"Av Cabildo\",\r\n        \"streetNumber\": \"1234\",\r\n        \"floorApt\": \"4a\"\r\n        },\r\n        \"hourlyRates\": {\r\n        \"ARS\": 140.30,\r\n        \"USD\": 10.00\r\n        },\r\n        \"modalities\": {\r\n        \"FACE_TO_FACE\": true,\r\n        \"REMOTE\": true\r\n        },\r\n        \"proficiencies\": [\r\n        {\r\n            \"masteryLevel\": \"COLLEGE\",\r\n            \"subject\": \"MATH\"\r\n        }\r\n        ],\r\n        \"weeklyWorkingSchedule\": {\r\n            \"checkIn\": \"09:00:00.000\",\r\n            \"checkOut\": \"18:00:00.000\",\r\n            \"sunday\": false,\r\n            \"monday\": true,\r\n            \"tuesday\": false,\r\n            \"wednesday\": true,\r\n            \"thursday\": false,\r\n            \"friday\": false,\r\n            \"saturday\": false\r\n        },\r\n        \"scheduledAppointments\": [],\r\n        \"profilePictureUrl\": \"https://img.freepik.com/foto-gratis/profesor-mayor-sexo-masculino-que-explica-que-escribe-pizarra-verde_23-2148200956.jpg\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/categories/1/providers/register/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"categories",
+						"1",
+						"providers",
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [
@@ -870,6 +1031,10 @@
 		},
 		{
 			"key": "calculinaGomezId",
+			"value": ""
+		},
+		{
+			"key": "belisarioJustinianoId",
 			"value": ""
 		}
 	]
