@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import FrontRoutes from './Routes/Front/FrontRoutes'; 
 import AdminRoutes from './Routes/Admin/AdminRoutes';
-import Footer from "./Components/Footer/Footer";
 
 function App() {
 
@@ -10,9 +9,8 @@ function App() {
      <BrowserRouter>
         <Routes>
           <Route path="/*" element={<FrontRoutes/>}/>
-          <Route path="/administracion/*" element={<AdminRoutes/>}/>
+          <Route path="/admin/*" element={<AdminRoutes/>}/>
         </Routes>
-        <Footer/>
      </BrowserRouter>
     </>
   )

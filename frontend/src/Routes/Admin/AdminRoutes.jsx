@@ -1,21 +1,26 @@
 // AdminRoutes.js
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import AdminDashboard from './AdminDashboard/AdminDashboard';
-import AddTeacherPage from './AddTeacherPage/AddTeacherPage';
-import ListTeacherPage from './ListTeachersPage/ListTeachersPage';
-import Navbar from "../../Components/Admin/Navbar/Navbar"
+import Dashboard from './Dashboard';
+import Teachers from './Teachers';
+import SideBar from '../../Components/Admin/Sidebar';
+import sidebar_menu from '../../constants/sidebar-menu';
+import Estudents from './Estudents';
 
 function AdminRoutes() {
   return (
-    <>
-    <Navbar/>
-    <Routes>
-      <Route path="/" element={<AdminDashboard />} />
-      <Route path="/agregar-profesor" element={<AddTeacherPage />} />
-      <Route path="/profesores" element={<ListTeacherPage />} />
-    </Routes>
-    </>
+    <div className='dashboard-container'>
+      <SideBar menu={sidebar_menu} />
+      <main className='dashboard-body'>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/profesores" element={<Teachers />} />
+          <Route path="/estudiantes" element={<Estudents />} />
+          <Route path="/categorias" element={<div></div>} />
+          <Route path="/caracteristicas" element={<div></div>} />
+        </Routes>
+      </main>
+    </div>
   );
 }
 
