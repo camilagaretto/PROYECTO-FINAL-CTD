@@ -31,7 +31,7 @@ function NavScrollExample() {
         <header>
             <Navbar expand="lg" className={`fixed-top navbar-white`}>
                 <Container fluid>
-                    <Navbar.Brand href="/"><img className='navbar__logo' src={AppkademyLogo} alt="Appkademy Logo" /></Navbar.Brand>
+                    <Link to="/"><Navbar.Brand><img className='navbar__logo' src={AppkademyLogo} alt="Appkademy Logo" /></Navbar.Brand></Link>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
@@ -41,7 +41,7 @@ function NavScrollExample() {
                         />
                         <Nav className="d-flex navbar__links__flex">
                             <Link className='navbar__link-secondary' to="/">Iniciar sesión</Link>
-                            <Link className='navbar__link-primary' to="/">Crear cuenta</Link>
+                            <Link className='navbar__link-primary' to="/register">Crear cuenta</Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
