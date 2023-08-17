@@ -1,15 +1,14 @@
 import React from 'react'
-import Graphics from '../../../assets/graficas-admin.svg'
-
+import DashboardHeader from '../../../Components/Admin/DashboardHeader';
 
 const AdminDashboard = () => {
 
   return (
-    <main>
+    <div className='dashboard-content'>
+        <DashboardHeader />
         <section className='dashboard__container'>
-          <img src={Graphics} alt="Panel de administracion" />
         </section>
-    </main>
+    </div>
   )
 }
 
