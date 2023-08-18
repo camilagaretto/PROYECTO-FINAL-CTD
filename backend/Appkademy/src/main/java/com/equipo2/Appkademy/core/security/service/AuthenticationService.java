@@ -30,6 +30,10 @@ public class AuthenticationService {
         if(repository.findByEmail(request.getEmail()).isPresent()){
             throw new BusinessException(ErrorCodes.EMAIL_ALREADY_REGISTERED);
         }
+        
+        if(request.getPassword().length() < 7){
+            throw new BusinessException(ErrorCodes.MINIMUM_PASSSWORD_LENGTH_IS_7_CHARACTERS);
+        }
 
         var user = User.builder()
                 .email(request.getEmail())

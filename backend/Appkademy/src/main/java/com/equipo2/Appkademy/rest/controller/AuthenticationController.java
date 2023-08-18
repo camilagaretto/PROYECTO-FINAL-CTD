@@ -5,6 +5,7 @@ import com.equipo2.Appkademy.rest.dto.request.AuthenticationRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.RegisterRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.AuthenticationResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,8 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponseDto> register(@RequestBody RegisterRequestDto request){
-        return ResponseEntity.ok(authenticationService.register(request));
+        AuthenticationResponseDto responseDto = authenticationService.register(request);
+        return new ResponseEntity<AuthenticationResponseDto>(responseDto, HttpStatus.CREATED);
     }
 
     @PostMapping("/authenticate")

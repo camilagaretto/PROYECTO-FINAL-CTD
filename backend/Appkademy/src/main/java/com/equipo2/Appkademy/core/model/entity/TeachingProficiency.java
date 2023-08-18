@@ -1,7 +1,6 @@
 package com.equipo2.Appkademy.core.model.entity;
 
 import com.equipo2.Appkademy.core.model.enums.TeachingMasteryLevel;
-import com.equipo2.Appkademy.core.model.enums.TeachingSubject;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,8 +19,7 @@ public class TeachingProficiency extends BaseSqlEntity<Long>{
     @Column(name = "mastery_level", nullable = false)
     private TeachingMasteryLevel masteryLevel;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "subject", nullable = false)
-    private TeachingSubject subject;
+    private String subject;
 
 }
