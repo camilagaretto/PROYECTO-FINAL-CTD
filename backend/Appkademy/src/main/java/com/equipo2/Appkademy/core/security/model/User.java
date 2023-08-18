@@ -6,11 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
@@ -20,22 +21,34 @@ import java.util.List;
 @Table(name = "_user")
 public class User implements UserDetails {
 
-    //We need to give another name to the table using @Table because Postgresql already has a table called user for internal use.
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     private Long userId;
+
+    @Column(name = "email", nullable = false)
     private String email;
 
     //Note that lombok is overriding getPassword from interface UserDetails, if not using lombok we need to override getPassword()
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "_user_role",  // Name of the join table
+            joinColumns = @JoinColumn(name = "user_id"),  // Column in this entity's table
+            inverseJoinColumns = @JoinColumn(name = "role_id")  // Column in the related entity's table
+    )
+    private Set<Role> roles;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        //Here goes the logic to search the permissions based on user roles
+        Set<Permission> authorities  = new HashSet<>();
+        roles.forEach(role -> {
+            authorities.addAll(role.getPermissions());
+        });
+        return Collections.unmodifiableSet(authorities);
     }
 
     @Override

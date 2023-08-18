@@ -8,8 +8,11 @@ import com.equipo2.Appkademy.rest.dto.response.StudentResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import static com.equipo2.Appkademy.core.security.model.PermissionConstants.STUDENT_CREATE;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -29,6 +32,7 @@ public class StudentController implements IStudentController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('" + STUDENT_CREATE + "')")
     public ResponseEntity<StudentResponseDto> create(@RequestBody StudentCreateRequestDto createRequestDto){
         Student entity = studentService.save(createRequestDto);
         return new ResponseEntity<StudentResponseDto>(mapper.studentToStudentResponseDto(entity), HttpStatus.CREATED);
