@@ -8,11 +8,14 @@ import com.equipo2.Appkademy.rest.dto.response.ScheduledAppointmentResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import static com.equipo2.Appkademy.core.security.model.PermissionConstants.SCHEDULED_APPOINTMENT_CREATE;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -26,6 +29,7 @@ public class ScheduledAppointmentController implements IScheduledAppointmentCont
     private ScheduledAppointmentService scheduledAppointmentService;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('" + SCHEDULED_APPOINTMENT_CREATE + "')")
     public ResponseEntity<ScheduledAppointmentResponseDto> create(@RequestBody ScheduledAppointmentCreateRequestDto
                                                                               createRequestDto){
         ScheduledAppointment appointment = scheduledAppointmentService.save(createRequestDto);

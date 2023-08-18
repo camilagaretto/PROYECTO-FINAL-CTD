@@ -1,7 +1,7 @@
 package com.equipo2.Appkademy.core.security.service;
 
-import com.equipo2.Appkademy.core.security.model.Role;
 import com.equipo2.Appkademy.core.security.model.User;
+import com.equipo2.Appkademy.core.security.model.repository.RoleRepository;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
 import com.equipo2.Appkademy.rest.dto.request.AuthenticationRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.RegisterRequestDto;
@@ -14,6 +14,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -24,6 +26,8 @@ public class AuthenticationService {
     private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
+
+    private final RoleRepository roleRepository;
 
     public AuthenticationResponseDto register(RegisterRequestDto request) {
 
@@ -38,7 +42,7 @@ public class AuthenticationService {
         var user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .build();
 
         repository.save(user);
@@ -48,6 +52,7 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
+
 
     public AuthenticationResponseDto authenticate(AuthenticationRequestDto request) {
         authenticationManager.authenticate(

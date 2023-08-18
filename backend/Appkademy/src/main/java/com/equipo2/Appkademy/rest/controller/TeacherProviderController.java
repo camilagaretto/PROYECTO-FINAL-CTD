@@ -11,8 +11,12 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import static com.equipo2.Appkademy.core.security.model.PermissionConstants.TEACHER_CREATE;
+import static com.equipo2.Appkademy.core.security.model.PermissionConstants.TEACHER_DELETE;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -35,6 +39,7 @@ public class TeacherProviderController implements ITeacherProviderController {
 
     @Override
     @PostMapping
+    @PreAuthorize("hasAuthority('" + TEACHER_CREATE + "')")
     public ResponseEntity<TeacherResponseDto> create(@Valid @RequestBody TeacherCreateRequestDto TeacherCreateRequestDto){
         Teacher entity = teacherService.save(TeacherCreateRequestDto);
         TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(entity);
@@ -60,6 +65,7 @@ public class TeacherProviderController implements ITeacherProviderController {
 
     @Override
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + TEACHER_DELETE + "')")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         teacherService.delete(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
