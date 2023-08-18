@@ -30,6 +30,6 @@ public class StudentResponseDto implements Serializable {
 
     private List<Long> likedProviderIds;
 
-    private AddressResponseDto address;
+    //private AddressResponseDto address;
 
 }

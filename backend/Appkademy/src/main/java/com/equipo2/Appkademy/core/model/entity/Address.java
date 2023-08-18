@@ -15,11 +15,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @AttributeOverrides({
-        @AttributeOverride( name = "country", column = @Column(name = "country", nullable = false)),
-        @AttributeOverride( name = "province", column = @Column(name = "province", nullable = false)),
-        @AttributeOverride( name = "city", column = @Column(name = "city", nullable = false)),
-        @AttributeOverride( name = "streetName", column = @Column(name = "street_name", nullable = false)),
-        @AttributeOverride( name = "streetNumber", column = @Column(name = "street_number", nullable = false)),
+        //TODO revertir eventualemtne countr, province, city, streetname y streetnumber a nullable false cuando se pida direccion al alumno
+        @AttributeOverride( name = "country", column = @Column(name = "country", nullable = true)),
+        @AttributeOverride( name = "province", column = @Column(name = "province", nullable = true)),
+        @AttributeOverride( name = "city", column = @Column(name = "city", nullable = true)),
+        @AttributeOverride( name = "streetName", column = @Column(name = "street_name", nullable = true)),
+        @AttributeOverride( name = "streetNumber", column = @Column(name = "street_number", nullable = true)),
         @AttributeOverride( name = "floorApt", column = @Column(name = "floor_apt", nullable = true))
 })
 public class Address {

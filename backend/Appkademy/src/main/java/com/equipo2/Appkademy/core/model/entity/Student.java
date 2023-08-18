@@ -25,7 +25,7 @@ public class Student extends NaturalPersonCustomer {
         setEnabled(builder.enabled);
         setFirstName(builder.firstName);
         setLastName(builder.lastName);
-        setAddress(builder.address);
+        //setAddress(builder.address);
         setEmail(builder.email);
         setCreatedOn(builder.createdOn);
         setLastModifiedOn(builder.lastModifiedOn);

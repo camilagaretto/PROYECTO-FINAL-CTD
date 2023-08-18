@@ -45,7 +45,7 @@ public class StudentServiceImpl implements StudentService {
                                 .firstName(createRequestDto.getFirstName())
                                 .lastName(createRequestDto.getLastName())
                                 .email(createRequestDto.getEmail())
-                                .address(mapper.addressCreateRequestDtoToAddress(createRequestDto.getAddress()))
+                                //.address(mapper.addressCreateRequestDtoToAddress(createRequestDto.getAddress()))
                                 .scheduledAppointments(mapper.scheduledAppointmentCreateRequestDtoListToScheduledAppointmentList(createRequestDto.getScheduledAppointments()))
                                 .enabled(true)
                                 .createdOn(LocalDateTime.now())
