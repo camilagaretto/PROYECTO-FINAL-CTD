@@ -33,4 +33,8 @@ public interface AppkademyMapper {
     //REQUEST
     TeacherSignupRequestResponseDto teacherSignupRequestToTeacherSignupRequestResponseDto(TeacherSignupRequest signupRequest);
 
+
+    List<TeachingSubjectResponseDto> teachingSubjectListToTeachingSubjectResponseDtoList(List<TeachingSubject> entities);
+
+    TeachingSubjectResponseDto teachingSubjectToTeachingSubjectResponseDto(TeachingSubject entity);
 }

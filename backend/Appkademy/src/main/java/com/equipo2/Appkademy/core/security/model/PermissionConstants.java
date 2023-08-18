@@ -17,4 +17,10 @@ public class PermissionConstants {
     public static final String SCHEDULED_APPOINTMENT_UPDATE = "SCHEDULED_APPOINTMENT_UPDATE";
     public static final String SCHEDULED_APPOINTMENT_DELETE = "SCHEDULED_APPOINTMENT_DELETE";
 
+    public static final String TEACHING_SUBJECT_READ = "TEACHING_SUBJECT_READ";
+    public static final String TEACHING_SUBJECT_CREATE = "TEACHING_SUBJECT_CREATE";
+    public static final String TEACHING_SUBJECT_UPDATE = "TEACHING_SUBJECT_UPDATE";
+    public static final String TEACHING_SUBJECT_DELETE = "TEACHING_SUBJECT_DELETE";
+
+
 }

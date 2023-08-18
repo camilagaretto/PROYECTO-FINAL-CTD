@@ -1,5 +1,6 @@
 package com.equipo2.Appkademy.rest.dto.request;
 
+import com.equipo2.Appkademy.core.model.entity.TeachingSubject;
 import com.equipo2.Appkademy.core.model.enums.TeachingMasteryLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,6 @@ public class TeachingProficiencyDto implements Serializable {
 
     private TeachingMasteryLevel masteryLevel;
 
-    private String subject;
+    private TeachingSubject subject;
 
 }

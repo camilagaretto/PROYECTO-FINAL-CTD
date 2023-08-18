@@ -93,7 +93,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "//if the authenticate endpoint is sent wrong credentials it returns a 403 forbidden\r\n{\r\n    \"email\" : \"s@gmail.com\",\r\n    \"password\" : \"thePassword\"\r\n}",
+					"raw": "//if the authenticate endpoint is sent wrong credentials it returns a 403 forbidden\r\n{\r\n    \"email\" : \"adminUser@gmail.com\",\r\n    \"password\" : \"thePassword\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -152,7 +152,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\" : {{userId}},\r\n    \"firstName\": \"Juan\",\r\n    \"lastName\": \"Martinez\",\r\n    \"email\" : \"juan.martinez@gmail.com\",\r\n    \"shortDescription\": \"Hola! me apasiona la matematica y la enseñanza!\",\r\n    \"fullDescription\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium tincidunt felis, nec pretium arcu scelerisque et. Nam feugiat lorem metus, eu dignissim quam consectetur id. Aliquam rutrum purus augue, id tincidunt justo convallis id. Nam consequat velit purus, in viverra sapien rutrum ac. Aliquam in iaculis justo. Nullam iaculis purus vitae odio gravida, ut vestibulum velit bibendum. Curabitur eget nunc vitae nulla molestie posuere laoreet malesuada tellus. Suspendisse a odio nec velit sagittis faucibus a in neque. Morbi varius diam ac sollicitudin lobortis. Vestibulum quis ante ac odio lacinia mollis vel vel purus. Duis imperdiet, mi at accumsan volutpat, quam ante consectetur quam, in vestibulumurna diam id turpis. Morbi eu scelerisque leo, nec pharetra lectus.\",\r\n    \"address\": {\r\n        \"country\": \"ARGENTINA\",\r\n        \"province\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"city\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"streetName\": \"Av Cabildo\",\r\n        \"streetNumber\": \"1234\",\r\n        \"floorApt\": \"4a\"\r\n    },\r\n    \"hourlyRates\": {\r\n        \"ARS\": 140.30,\r\n        \"USD\": 10.00\r\n    },\r\n    \"modalities\": {\r\n        \"FACE_TO_FACE\": true,\r\n        \"REMOTE\": true\r\n    },\r\n    \"proficiencies\": [\r\n        {\r\n            \"masteryLevel\": \"COLLEGE\",\r\n            \"subject\": \"MATH\"\r\n        }\r\n    ],\r\n    \"weeklyWorkingSchedule\": {\r\n        \"checkIn\": \"09:00:00.000\",\r\n        \"checkOut\": \"18:00:00.000\",\r\n        \"sunday\": false,\r\n        \"monday\": true,\r\n        \"tuesday\": false,\r\n        \"wednesday\": true,\r\n        \"thursday\": false,\r\n        \"friday\": false,\r\n        \"saturday\": false\r\n    },\r\n    \"scheduledAppointments\": [],\r\n    \"profilePictureUrl\": \"https://img.freepik.com/foto-gratis/profesor-mayor-sexo-masculino-que-explica-que-escribe-pizarra-verde_23-2148200956.jpg\"\r\n}",
+					"raw": "{\r\n    \"userId\" : {{userId}},\r\n    \"firstName\": \"Juan\",\r\n    \"lastName\": \"Martinez\",\r\n    \"email\" : \"juan.martinez@gmail.com\",\r\n    \"shortDescription\": \"Hola! me apasiona la matematica y la enseñanza!\",\r\n    \"fullDescription\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium tincidunt felis, nec pretium arcu scelerisque et. Nam feugiat lorem metus, eu dignissim quam consectetur id. Aliquam rutrum purus augue, id tincidunt justo convallis id. Nam consequat velit purus, in viverra sapien rutrum ac. Aliquam in iaculis justo. Nullam iaculis purus vitae odio gravida, ut vestibulum velit bibendum. Curabitur eget nunc vitae nulla molestie posuere laoreet malesuada tellus. Suspendisse a odio nec velit sagittis faucibus a in neque. Morbi varius diam ac sollicitudin lobortis. Vestibulum quis ante ac odio lacinia mollis vel vel purus. Duis imperdiet, mi at accumsan volutpat, quam ante consectetur quam, in vestibulumurna diam id turpis. Morbi eu scelerisque leo, nec pharetra lectus.\",\r\n    \"address\": {\r\n        \"country\": \"ARGENTINA\",\r\n        \"province\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"city\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"streetName\": \"Av Cabildo\",\r\n        \"streetNumber\": \"1234\",\r\n        \"floorApt\": \"4a\"\r\n    },\r\n    \"hourlyRates\": {\r\n        \"ARS\": 140.30,\r\n        \"USD\": 10.00\r\n    },\r\n    \"modalities\": {\r\n        \"FACE_TO_FACE\": true,\r\n        \"REMOTE\": true\r\n    },\r\n    \"proficiencies\": [\r\n        {\r\n            \"masteryLevel\": \"COLLEGE\",\r\n            \"subject\": \"WASABI\"\r\n        }\r\n    ],\r\n    \"weeklyWorkingSchedule\": {\r\n        \"checkIn\": \"09:00:00.000\",\r\n        \"checkOut\": \"18:00:00.000\",\r\n        \"sunday\": false,\r\n        \"monday\": true,\r\n        \"tuesday\": false,\r\n        \"wednesday\": true,\r\n        \"thursday\": false,\r\n        \"friday\": false,\r\n        \"saturday\": false\r\n    },\r\n    \"scheduledAppointments\": [],\r\n    \"profilePictureUrl\": \"https://img.freepik.com/foto-gratis/profesor-mayor-sexo-masculino-que-explica-que-escribe-pizarra-verde_23-2148200956.jpg\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1285,6 +1285,102 @@
 						"providers",
 						"register",
 						"{{signupId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create teaching subject",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"subject\" : \"nombreDeMateriaRandom\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/categories/1/providers/teaching_subject",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"categories",
+						"1",
+						"providers",
+						"teaching_subject"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Teaching Subject",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pageSize\" : 10,\r\n    \"pageNumber\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/categories/1/providers/teaching_subject/search",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"categories",
+						"1",
+						"providers",
+						"teaching_subject",
+						"search"
 					]
 				}
 			},

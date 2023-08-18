@@ -229,19 +229,28 @@ CREATE TABLE `teacher_termination_request` (
   CONSTRAINT `FKlkpyr0rj1w30wgv4m8o6jl3d3` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- appkademy.teaching_subject definition
+
+CREATE TABLE `teaching_subject` (
+  `id` bigint NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 -- appkademy.teaching_proficiency definition
 
 CREATE TABLE `teaching_proficiency` (
   `id` bigint NOT NULL,
   `mastery_level` enum('COLLEGE','HIGHSCHOOL','MIDDLE_SCHOOL') NOT NULL,
-  `subject` varchar(255) NOT NULL,
+  `subject_id` bigint DEFAULT NULL,
   `teacher_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_o3us64jgu1s29n7xmxdoalxxw` (`subject_id`),
   KEY `FK5p3ou112fuh7hgeiny2q36rc` (`teacher_id`),
-  CONSTRAINT `FK5p3ou112fuh7hgeiny2q36rc` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`)
+  CONSTRAINT `FK5p3ou112fuh7hgeiny2q36rc` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`),
+  CONSTRAINT `FKqbilr4wlajtjwv6jkdqg6vqgm` FOREIGN KEY (`subject_id`) REFERENCES `teaching_subject` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 
 -- appkademy.scheduled_appointment definition
 

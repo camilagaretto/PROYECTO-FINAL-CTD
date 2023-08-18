@@ -19,7 +19,7 @@ public class TeachingProficiency extends BaseSqlEntity<Long>{
     @Column(name = "mastery_level", nullable = false)
     private TeachingMasteryLevel masteryLevel;
 
-    @Column(name = "subject", nullable = false)
-    private String subject;
+    @OneToOne
+    private TeachingSubject subject;
 
 }

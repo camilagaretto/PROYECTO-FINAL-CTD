@@ -1,5 +1,6 @@
 package com.equipo2.Appkademy.rest.dto.response;
 
+import com.equipo2.Appkademy.core.model.entity.TeachingSubject;
 import com.equipo2.Appkademy.core.model.enums.TeachingMasteryLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,6 @@ public class TeachingProficiencyResponseDto implements Serializable {
     private static final long serialVersionUID = 6017525869803988353L;
 
     private TeachingMasteryLevel masteryLevel;
-    private String subject;
+    private TeachingSubject subject;
 
 }

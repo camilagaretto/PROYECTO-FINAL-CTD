@@ -29,6 +29,11 @@ INSERT INTO appkademy.permission VALUES(18, "ROLE_CREATE");
 INSERT INTO appkademy.permission VALUES(19, "ROLE_UPDATE");
 INSERT INTO appkademy.permission VALUES(20, "ROLE_DELETE");
 
+INSERT INTO appkademy.permission VALUES(21, "TEACHING_SUBJECT_READ");
+INSERT INTO appkademy.permission VALUES(22, "TEACHING_SUBJECT_CREATE");
+INSERT INTO appkademy.permission VALUES(23, "TEACHING_SUBJECT_UPDATE");
+INSERT INTO appkademy.permission VALUES(24, "TEACHING_SUBJECT_DELETE");
+
 
 --ROLES
 INSERT INTO appkademy.`role` VALUES(1, "USER");
@@ -64,6 +69,11 @@ INSERT INTO appkademy.role_permission VALUES(2, 14);
 INSERT INTO appkademy.role_permission VALUES(2, 15);
 INSERT INTO appkademy.role_permission VALUES(2, 16);
 
+INSERT INTO appkademy.role_permission VALUES(2, 21);
+INSERT INTO appkademy.role_permission VALUES(2, 22);
+INSERT INTO appkademy.role_permission VALUES(2, 23);
+INSERT INTO appkademy.role_permission VALUES(2, 24);
+
 
 --SUPER ADMIN ROLE PERMISSIONS
 INSERT INTO appkademy.role_permission VALUES(3, 1);
@@ -90,3 +100,8 @@ INSERT INTO appkademy.role_permission VALUES(3, 17);
 INSERT INTO appkademy.role_permission VALUES(3, 18);
 INSERT INTO appkademy.role_permission VALUES(3, 19);
 INSERT INTO appkademy.role_permission VALUES(3, 20);
+
+INSERT INTO appkademy.role_permission VALUES(3, 21);
+INSERT INTO appkademy.role_permission VALUES(3, 22);
+INSERT INTO appkademy.role_permission VALUES(3, 23);
+INSERT INTO appkademy.role_permission VALUES(3, 24);
