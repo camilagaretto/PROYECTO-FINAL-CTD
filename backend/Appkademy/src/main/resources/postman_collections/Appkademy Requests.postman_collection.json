@@ -93,7 +93,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "//if the authenticate endpoint is sent wrong credentials it returns a 403 forbidden\r\n{\r\n    \"email\" : \"julian@gmail.com\",\r\n    \"password\" : \"thePassword\"\r\n}",
+					"raw": "//if the authenticate endpoint is sent wrong credentials it returns a 403 forbidden\r\n{\r\n    \"email\" : \"s@gmail.com\",\r\n    \"password\" : \"thePassword\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1067,20 +1067,13 @@
 			],
 			"request": {
 				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{accessToken}}",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\" : {{userId}},\r\n    \"firstName\": \"Belisario\",\r\n    \"lastName\": \"Justiniano\",\r\n    \"email\" : \"belisario.onmywaytorome@gmail.com\",\r\n    \"address\": {\r\n        \"country\": \"ARGENTINA\",\r\n        \"province\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"city\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"streetName\": \"Av Roma\",\r\n        \"streetNumber\": \"1555\",\r\n        \"floorApt\": \"1a\"\r\n    },\r\n    \"scheduledAppointments\": []\r\n}",
+					"raw": "{\r\n    \"userId\" : {{userId}},\r\n    \"firstName\": \"Belisario\",\r\n    \"lastName\": \"Justiniano\",\r\n    \"email\" : \"belisario.onmywaytorome@gmail.com\"//,\r\n    /*\r\n    \"address\": {\r\n        \"country\": \"ARGENTINA\",\r\n        \"province\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"city\": \"CIUDAD_DE_BUENOS_AIRES\",\r\n        \"streetName\": \"Av Roma\",\r\n        \"streetNumber\": \"1555\",\r\n        \"floorApt\": \"1a\"\r\n    },\r\n    */\r\n    //\"scheduledAppointments\": []\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
