@@ -1,14 +1,33 @@
 import React from 'react'
 import './UserForm.scss'
+import {useFormik} from 'formik'
+import { Link } from 'react-router-dom'
+import RegisterSchema from './RegisterSchema/RegisterSchema'
 
 const UserForm = () => {
+
+    const {handleSubmit, handleChange, errors} = useFormik({
+        initialValues:{
+            firstName : '',
+            lastName : '',
+            email : '',
+            password : '',
+            confirmPassword : ''
+        },
+        onSubmit:(values)=>{
+            //Logica de envio de formulario
+        },
+        validationSchema : RegisterSchema
+    })
+
     return (
         <div className="userAdd__container">
             <h1 className='mb-5'>List@ para Aprender?</h1>
-            <form className="row g-3">
+            <form className="row g-3" onSubmit={handleSubmit}>
                 <div className="col-md-6">
                     <label htmlFor="firstName" className="form-label">Nombre</label>
                     <input
+                        onChange={handleChange}
                         type="text"
                         className="form-control"
                         id="firstName"
@@ -18,6 +37,7 @@ const UserForm = () => {
                 <div className="col-md-6">
                     <label htmlFor="lastName" className="form-label">Apellido</label>
                     <input
+                        onChange={handleChange}
                         type="text"
                         className="form-control"
                         id="lastName"
@@ -25,8 +45,9 @@ const UserForm = () => {
                     />
                 </div>
                 <div className="col-12">
-                    <label htmlFor="email" className="form-label">Correo</label>
+                    <label htmlFor="email" className="form-label">Correo electronico</label>
                     <input
+                        onChange={handleChange}
                         type="email"
                         className="form-control"
                         id="email"
@@ -34,60 +55,9 @@ const UserForm = () => {
                     />
                 </div>
                 <div className="col-md-6">
-                    <label htmlFor="phone" className="form-label">Telefono</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="phone"
-                        name="phone"
-                    />
-                </div>
-                <div className='col-md-6'></div>
-                <div className="col-md-6">
-                    <label htmlFor="country" className="form-label">País</label>
-                    <select
-                        className="form-select"
-                        id="country"
-                        name="country"
-                    >
-                        <option value="">--</option>
-                        <option value="ARGENTINA">Argentina</option>
-                    </select>
-                </div>
-                <div className="col-md-6">
-                    <label htmlFor="province" className="form-label">Provincia</label>
-                    <select
-                        className="form-select"
-                        id="province"
-                        name="province"
-                    >
-                        <option value="">--</option>
-                        <option value="CIUDAD_DE_BUENOS_AIRES">Ciudad de Buenos Aires</option>
-                        <option value="SANTA_FE">Santa Fe</option>
-                        <option value="BUENOS_AIRES">Buenos Aires</option>
-                    </select>
-                </div>
-                <div className="col-md-6">
-                    <label htmlFor="streetName" className="form-label">Calle</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="streetName"
-                        name="streetName"
-                    />
-                </div>
-                <div className="col-md-6">
-                    <label htmlFor="streetNumber" className="form-label">Nro. Calle</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="streetNumber"
-                        name="streetNumber"                 
-                    />
-                </div>
-                <div className="col-md-6">
                     <label htmlFor="password" className="form-label">Contraseña</label>
                     <input
+                        onChange={handleChange}
                         type="password"
                         className="form-control"
                         id="password"
@@ -97,14 +67,23 @@ const UserForm = () => {
                 <div className="col-md-6">
                     <label htmlFor="confirmPassword" className="form-label">Confirmar Contraseña</label>
                     <input
+                        onChange={handleChange}
                         type="password"
                         className="form-control"
                         id="confirmPassword"
                         name="confirmPassword"                 
                     />
                 </div>
-                <div className="col-12">
+                <div className="col-12 btn-register">
                     <button type="submit" className="btn btn-primary">Registrarse</button>
+                    <p>Ya tiene cuenta? <Link to="/login">Inicie sesion</Link> </p>
+                </div>
+                <div className='col-12'>
+                    {errors.firstName && <p className='error'>{errors.firstName}</p>}
+                    {errors.lastName && <p className='error'>{errors.lastName}</p>}
+                    {errors.email && <p className='error'>{errors.email}</p>}
+                    {errors.password && <p className='error'>{errors.password}</p>}
+                    {errors.confirmPassword && <p className='error'>{errors.confirmPassword}</p>}
                 </div>
             </form>
         </div>
