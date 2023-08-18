@@ -53,11 +53,13 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher save(TeacherCreateRequestDto createRequestDto) {
+        teacherValidation.assertUserDoesNotAlreadyExist(createRequestDto.getUserId());
         teacherValidation.assertTeacherDoesNotAlreadyExist(createRequestDto.getEmail());
         TeacherValidation.assertEmailIsValid(createRequestDto.getEmail());
         TeacherValidation.assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
         
         Teacher entity = Teacher.builder()
+                .userId(createRequestDto.getUserId())
                 .firstName(createRequestDto.getFirstName())
                 .lastName(createRequestDto.getLastName())
                 .email(createRequestDto.getEmail())

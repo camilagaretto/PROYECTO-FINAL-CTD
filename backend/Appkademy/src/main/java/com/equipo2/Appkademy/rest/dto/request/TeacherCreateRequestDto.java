@@ -28,6 +28,10 @@ public class TeacherCreateRequestDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 6417087755664586128L;
 
+    @Schema(title = "User id", example = "5", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = ErrorCodes.USER_ID_CANNOT_BE_NULL)
+    private Long userId;
+
     @Schema(title = "Teacher name", example = "Juan Martin", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = ErrorCodes.FIRST_NAME_CANNOT_BE_NULL_OR_EMPTY)
     private String firstName;

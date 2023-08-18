@@ -29,6 +29,7 @@ public class Student extends NaturalPersonCustomer {
         setEmail(builder.email);
         setCreatedOn(builder.createdOn);
         setLastModifiedOn(builder.lastModifiedOn);
+        setUserId(builder.userId);
     }
 
     public static Builder builder(){
@@ -37,6 +38,7 @@ public class Student extends NaturalPersonCustomer {
 
     public static class Builder{
 
+        private Long userId;
         private List<ScheduledAppointment> scheduledAppointments;
         private List<Long> likedProviderIds;
         private String firstName;
@@ -50,11 +52,16 @@ public class Student extends NaturalPersonCustomer {
         private LocalDateTime lastModifiedOn;
 
 
+
         public Student.Builder scheduledAppointments(List<ScheduledAppointment> _scheduledAppointments){
             scheduledAppointments = _scheduledAppointments;
             return this;
         }
 
+        public Student.Builder userId(Long _userId){
+            userId = _userId;
+            return this;
+        }
 
 
         public Student.Builder identityVerified(boolean _identityVerified){

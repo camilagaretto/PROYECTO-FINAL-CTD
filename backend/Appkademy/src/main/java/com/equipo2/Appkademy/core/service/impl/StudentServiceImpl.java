@@ -3,6 +3,7 @@ package com.equipo2.Appkademy.core.service.impl;
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.Student;
 import com.equipo2.Appkademy.core.model.repository.StudentRepository;
+import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.service.StudentService;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
 import com.equipo2.Appkademy.rest.error.BadRequestException;
@@ -22,6 +23,9 @@ public class StudentServiceImpl implements StudentService {
     private StudentRepository studentRespository;
 
     @Autowired
+    private TeacherRepository teacherRepository;
+
+    @Autowired
     private AppkademyMapper mapper;
 
     @Override
@@ -32,10 +36,12 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student save(StudentCreateRequestDto createRequestDto) {
         //TODO: validations?
+        assertUserDoesNotAlreadyExist(createRequestDto.getUserId());
         assertStudentDoesNotAlreadyExist(createRequestDto);
         assertEmailIsValid(createRequestDto.getEmail());
 
         Student entity = Student.builder()
+                                .userId(createRequestDto.getUserId())
                                 .firstName(createRequestDto.getFirstName())
                                 .lastName(createRequestDto.getLastName())
                                 .email(createRequestDto.getEmail())
@@ -58,6 +64,12 @@ public class StudentServiceImpl implements StudentService {
     private void assertStudentDoesNotAlreadyExist(StudentCreateRequestDto createRequestDto) {
         if(studentRespository.findByEmail(createRequestDto.getEmail()).isPresent()){
             throw new BusinessException(ErrorCodes.STUDENT_WITH_SAME_EMAIL_ALREADY_EXISTS);
+        }
+    }
+
+    public void assertUserDoesNotAlreadyExist(Long userId) {
+        if(studentRespository.findByUserId(userId).isPresent() || teacherRepository.findByUserId(userId).isPresent()){
+            throw new BusinessException(ErrorCodes.USER_ID_IS_ALREADY_ATTACHED_TO_ANOTHER_ENTITY);
         }
     }
 }

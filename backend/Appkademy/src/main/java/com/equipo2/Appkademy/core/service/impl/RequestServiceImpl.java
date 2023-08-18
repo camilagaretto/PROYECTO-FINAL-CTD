@@ -8,6 +8,7 @@ import com.equipo2.Appkademy.core.model.repository.TeacherTerminationRequestRepo
 import com.equipo2.Appkademy.core.service.RequestService;
 import com.equipo2.Appkademy.core.validation.TeacherValidation;
 import com.equipo2.Appkademy.rest.dto.request.TeacherSignupRequestCreateDto;
+import com.equipo2.Appkademy.rest.error.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +58,12 @@ public class RequestServiceImpl implements RequestService {
                 .build();
 
         return signupRequestRepository.save(entity);
+    }
+
+    @Override
+    public TeacherSignupRequest getSignUpRequestById(Long id) {
+        return signupRequestRepository.findById(id).orElseThrow(() -> new NotFoundException(
+                "No Signup Request found for id: " + id));
     }
 
 }

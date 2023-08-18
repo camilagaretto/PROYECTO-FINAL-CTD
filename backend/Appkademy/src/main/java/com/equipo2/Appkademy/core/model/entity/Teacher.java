@@ -53,6 +53,7 @@ public class Teacher extends NaturalPersonProvider {
     private List<ScheduledAppointment> scheduledAppointments;
 
     protected Teacher(Builder builder){
+        setUserId(builder.userId);
         setHourlyRates(builder.hourlyRates);
         setModalities(builder.modalities);
         setProficiencies(builder.proficiencies);
@@ -89,6 +90,8 @@ public class Teacher extends NaturalPersonProvider {
     }
 
     public static class Builder {
+
+        private Long userId;
         private Map<Currency, BigDecimal> hourlyRates;
         private Map<Modality, Boolean> modalities;
         private List<TeachingProficiency> proficiencies;
@@ -110,6 +113,11 @@ public class Teacher extends NaturalPersonProvider {
         private String email;
 
         private boolean signupApprovedByAdmin;
+
+        public Builder userId(Long _userId){
+            userId = _userId;
+            return this;
+        }
 
         public Builder hourlyRates(Map<Currency, BigDecimal> _hourlyRates){
             hourlyRates = _hourlyRates;

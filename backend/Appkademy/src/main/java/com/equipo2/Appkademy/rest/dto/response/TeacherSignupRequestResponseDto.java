@@ -17,6 +17,7 @@ public class TeacherSignupRequestResponseDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 8840449846611121272L;
 
+    private Long id;
     private TeacherResponseDto teacher;
     private LocalDateTime requestCreatedOn;
     private boolean requestHasBeenReviewed;

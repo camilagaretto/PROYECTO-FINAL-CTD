@@ -17,6 +17,9 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class NaturalPerson extends BaseSqlEntity<Long> {
 
+    @Column(name = "user_id", nullable = false, unique = true)
+    private Long userId;
+
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 

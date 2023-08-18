@@ -18,6 +18,10 @@ import java.util.List;
 @NoArgsConstructor
 public class StudentCreateRequestDto implements Serializable {
 
+    @Schema(title = "User id", example = "5", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = ErrorCodes.USER_ID_CANNOT_BE_NULL)
+    private Long userId;
+
     @Serial
     private static final long serialVersionUID = 139534939274393244L;
 

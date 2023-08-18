@@ -2,6 +2,14 @@ package com.equipo2.Appkademy.rest.error;
 
 public class ErrorCodes {
 
+    //COMMON
+    public static final String USER_ID_CANNOT_BE_NULL = "USER_ID_CANNOT_BE_NULL";
+    public static final String EMAIL_ALREADY_REGISTERED = "EMAIL_ALREADY_REGISTERED";
+
+    public static final String USER_ID_IS_ALREADY_ATTACHED_TO_ANOTHER_ENTITY = "USER_ID_IS_ALREADY_ATTACHED_TO_ANOTHER_ENTITY";
+
+
+
     //TEACHER
     public static final String HOURLY_RATES_CANNOT_BE_NULL_OR_EMPTY = "HOURLY_RATES_CANNOT_BE_NULL_OR_EMPTY";
     public static final String FIRST_NAME_CANNOT_BE_NULL_OR_EMPTY = "FIRST_NAME_CANNOT_BE_NULL_OR_EMPTY";

@@ -10,15 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "/v1/categories/1/providers/register/")
-public class SignupRequestController {
+public class SignupRequestController implements ISignupRequestController {
 
     @Autowired
     private RequestService requestService;
@@ -31,6 +28,13 @@ public class SignupRequestController {
         TeacherSignupRequest entity = requestService.createSignupRequest(signupRequestDto);
         return new ResponseEntity<TeacherSignupRequestResponseDto>(mapper
                 .teacherSignupRequestToTeacherSignupRequestResponseDto(entity), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TeacherSignupRequestResponseDto> getSignupRequestById(@PathVariable Long id){
+        TeacherSignupRequest entity = requestService.getSignUpRequestById(id);
+        TeacherSignupRequestResponseDto responseDto = mapper.teacherSignupRequestToTeacherSignupRequestResponseDto(entity);
+        return ResponseEntity.ok(responseDto);
     }
 
 }

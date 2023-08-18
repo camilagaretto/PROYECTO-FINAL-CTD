@@ -7,4 +7,6 @@ public interface RequestService {
 
     TeacherSignupRequest createSignupRequest(TeacherSignupRequestCreateDto signupRequest);
 
+    TeacherSignupRequest getSignUpRequestById(Long id);
+
 }
