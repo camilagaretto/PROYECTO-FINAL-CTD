@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class TeachingProficiencyServiceImpl implements TeachingProficiencyService {
+public class TeachingSubjectServiceImpl implements TeachingProficiencyService {
 
     @Autowired
     private TeachingSubjectRepository subjectRepository;
@@ -26,10 +26,10 @@ public class TeachingProficiencyServiceImpl implements TeachingProficiencyServic
 
     @Override
     public TeachingSubject create(TeachingSubjectCreateDto createDto){
-        if(subjectRepository.findBySubject(createDto.getSubject()).isPresent()){
-            return subjectRepository.findBySubject(createDto.getSubject()).get();
+        if(subjectRepository.findByName(createDto.getName()).isPresent()){
+            return subjectRepository.findByName(createDto.getName()).get();
         }
-        return subjectRepository.save(new TeachingSubject(createDto.getSubject()));
+        return subjectRepository.save(new TeachingSubject(createDto.getName()));
     }
 
     @Override

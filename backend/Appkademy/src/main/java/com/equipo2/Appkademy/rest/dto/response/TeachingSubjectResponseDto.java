@@ -13,5 +13,5 @@ public class TeachingSubjectResponseDto {
 
     private Long id;
 
-    private String subject;
+    private String name;
 }

@@ -16,7 +16,7 @@ import lombok.Setter;
 @Table(name = "teaching_subject")
 public class TeachingSubject extends BaseSqlEntity<Long> {
 
-    @Column(name = "subject", nullable = false)
-    private String subject;
+    @Column(name = "name", nullable = false)
+    private String name;
 
 }
