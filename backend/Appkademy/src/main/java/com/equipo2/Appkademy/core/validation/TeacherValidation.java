@@ -60,11 +60,7 @@ public class TeacherValidation {
     }
 
     public void assertTeachingSubjectsExist(List<TeachingProficiencyDto> dtoTeachingProficiencies){
-
-        //List<TeachingSubject> availableTeachingSubjects = teachingSubjectRepository.findDistinctByName();
         List<String> availableTeachingSubjects = teachingSubjectRepository.findDistinctByName();
-
-        //List<String> distinctTeachingSubjectNames = availableTeachingSubjects.stream().map(TeachingSubject::getName).toList();
 
         dtoTeachingProficiencies.forEach(dtoProficiency -> {
                     if(!availableTeachingSubjects.contains(dtoProficiency.getSubject().getName())){
