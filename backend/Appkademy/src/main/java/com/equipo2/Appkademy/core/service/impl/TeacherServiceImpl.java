@@ -47,7 +47,6 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher getById(Long id) {
-        Teacher teacher = teacherRepository.findById(id).get();
         return teacherRepository.findById(id).orElseThrow(() -> new NotFoundException("No Teacher found for id: " + id));
     }
 
