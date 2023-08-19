@@ -3,7 +3,9 @@ package com.equipo2.Appkademy.core.validation;
 import com.equipo2.Appkademy.core.model.enums.Currency;
 import com.equipo2.Appkademy.core.model.repository.StudentRepository;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
+import com.equipo2.Appkademy.core.model.repository.TeachingSubjectRepository;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
+import com.equipo2.Appkademy.rest.dto.request.TeachingProficiencyDto;
 import com.equipo2.Appkademy.rest.error.BadRequestException;
 import com.equipo2.Appkademy.rest.error.BusinessException;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -25,6 +28,9 @@ public class TeacherValidation {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TeachingSubjectRepository teachingSubjectRepository;
 
     public static void assertHourlyRatesAreValid(Map<Currency, BigDecimal> hourlyRates) {
         boolean rateWithNegativeValueExists = hourlyRates.entrySet().stream()
@@ -51,6 +57,20 @@ public class TeacherValidation {
         if(teacherRepository.findByUserId(userId).isPresent() || studentRepository.findByUserId(userId).isPresent()){
             throw new BusinessException(ErrorCodes.USER_ID_IS_ALREADY_ATTACHED_TO_ANOTHER_ENTITY);
         }
+    }
+
+    public void assertTeachingSubjectsExist(List<TeachingProficiencyDto> dtoTeachingProficiencies){
+
+        //List<TeachingSubject> availableTeachingSubjects = teachingSubjectRepository.findDistinctByName();
+        List<String> availableTeachingSubjects = teachingSubjectRepository.findDistinctByName();
+
+        //List<String> distinctTeachingSubjectNames = availableTeachingSubjects.stream().map(TeachingSubject::getName).toList();
+
+        dtoTeachingProficiencies.forEach(dtoProficiency -> {
+                    if(!availableTeachingSubjects.contains(dtoProficiency.getSubject().getName())){
+                        throw new BusinessException(ErrorCodes.TEACHING_SUBJECT_NAME_NOT_FOUND);
+                    }
+                });
     }
 
 }

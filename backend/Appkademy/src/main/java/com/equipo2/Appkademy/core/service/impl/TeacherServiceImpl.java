@@ -57,6 +57,7 @@ public class TeacherServiceImpl implements TeacherService {
         teacherValidation.assertTeacherDoesNotAlreadyExist(createRequestDto.getEmail());
         TeacherValidation.assertEmailIsValid(createRequestDto.getEmail());
         TeacherValidation.assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
+        teacherValidation.assertTeachingSubjectsExist(createRequestDto.getProficiencies());
         
         Teacher entity = Teacher.builder()
                 .userId(createRequestDto.getUserId())
