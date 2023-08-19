@@ -120,7 +120,6 @@ CREATE TABLE `_user_role` (
   `user_id` bigint NOT NULL,
   `role_id` bigint NOT NULL,
   PRIMARY KEY (`user_id`,`role_id`),
-  UNIQUE KEY `UK_retu30hel6ogo432pxf6s2c8a` (`role_id`),
   CONSTRAINT `FK4u3g3ti6kh3fxp5k6x6k897je` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
   CONSTRAINT `FKsa99se25erlgqmbdawypj2fiw` FOREIGN KEY (`user_id`) REFERENCES `_user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
