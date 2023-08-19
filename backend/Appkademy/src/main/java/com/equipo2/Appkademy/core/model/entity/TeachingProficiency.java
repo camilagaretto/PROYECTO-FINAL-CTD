@@ -19,7 +19,7 @@ public class TeachingProficiency extends BaseSqlEntity<Long>{
     @Column(name = "mastery_level", nullable = false)
     private TeachingMasteryLevel masteryLevel;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private TeachingSubject subject;
 
 }
