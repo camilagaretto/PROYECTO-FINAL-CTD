@@ -12,4 +12,9 @@
 4) Run AppkademyApplication class as a java application.
 
 # Swagger documentation:
-Swagger documentation can be found be accessing: localhost:8080/documentation
+Swagger documentation can be found be accessing: localhost:8080/documentation.
+
+# Features:
+- Swagger UI documentation
+- Liquibase integration for database change control / creation/update of tables and population of initial data
+- Global error handling that returns clear and concise error JSONs to the fron
