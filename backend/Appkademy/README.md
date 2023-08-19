@@ -15,6 +15,11 @@
 Swagger documentation can be found be accessing: localhost:8080/documentation.
 
 # Features:
-- Swagger UI documentation
 - Liquibase integration for database change control / creation/update of tables and population of initial data
-- Global error handling that returns clear and concise error JSONs to the fron
+- Global error handling that returns clear and concise errors to the front end
+- Spring Security JWT stateless authentication
+- Uses Spring Data JPA to perform database transactions
+- JaCoCo integration for code coverage reporting and enforcement
+- Paginated and filter friendly search endpoints
+- Swagger UI documentation
+- MapStruct integration for DTO <-> POJO mapping
