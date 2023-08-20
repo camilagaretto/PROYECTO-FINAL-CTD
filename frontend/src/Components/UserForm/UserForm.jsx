@@ -6,6 +6,68 @@ import RegisterSchema from './RegisterSchema/RegisterSchema'
 
 const UserForm = () => {
 
+    const handleSubmitForm = async (values) => {
+        // Lógica de envío de formulario
+        const userData = {
+          email: values.email,
+          password: values.password,
+        };
+    
+        try {
+          const response = await fetch('http://localhost:8080/v1/auth/register', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+          });
+          if (response.ok) {
+            alert('Usuario creado exitosamente');
+            const data = await response.json();
+            const userId = data.userId;
+            const token = data.token;
+    
+            // Llamar a la función para crear estudiante
+            createStudent(userId, values, token);
+          } else {
+            alert('Error al crear usuario');
+          }
+        } catch (error) {
+          console.error('Error de red:', error);
+        }
+      };
+    
+      // Función para crear un estudiante
+      const createStudent = async (userId, values, token) => {
+        const studentData = {
+          userId: userId,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          scheduledAppointments: [],
+        };
+    
+        try {
+          const response = await fetch('http://localhost:8080/v1/categories/1/customers/', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(studentData),
+          });
+          if (response.ok) {
+            alert('Estudiante creado exitosamente');
+          } else {
+            alert('Error al crear estudiante');
+          }
+        } catch (error) {
+          console.error('Error de red:', error);
+        }
+      };
+
     const {handleSubmit, handleChange, errors} = useFormik({
         initialValues:{
             firstName : '',
@@ -14,9 +76,7 @@ const UserForm = () => {
             password : '',
             confirmPassword : ''
         },
-        onSubmit:(values)=>{
-            //Logica de envio de formulario
-        },
+        onSubmit: handleSubmitForm,
         validationSchema : RegisterSchema
     })
 
