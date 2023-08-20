@@ -9,18 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import static com.equipo2.Appkademy.core.security.model.PermissionConstants.STUDENT_CREATE;
 
-@Controller
+@RestController
+//@CrossOrigin(origins = "*")
 @CrossOrigin(
-        // origins = "http://127.0.0.1/5173",
+       // origins = "http://127.0.0.1/5173",
         origins = "http://localhost:5173",
         allowedHeaders = "*",
         exposedHeaders = "*",
-        methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})@RequestMapping(path = "/v1/categories/1/customers/")
+        methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(path = "/v1/categories/1/customers/")
 public class StudentController implements IStudentController {
 
     @Autowired
