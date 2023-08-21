@@ -7,7 +7,6 @@ import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.model.repository.TeachingSubjectRepository;
 import com.equipo2.Appkademy.core.security.model.repository.CharacteristicRespository;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
-import com.equipo2.Appkademy.rest.dto.request.CharacteristicCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.TeachingProficiencyDto;
 import com.equipo2.Appkademy.rest.error.BadRequestException;
 import com.equipo2.Appkademy.rest.error.BusinessException;
@@ -76,7 +75,17 @@ public class TeacherValidation {
                 });
     }
 
-    public void assertCharacteristicsExists(List<CharacteristicCreateRequestDto> createRequestCharacteristics) {
+    public List<Characteristic> assertCharacteristicsExists(List<Long> createRequestCharacteristicIds) {
+
+        List<Characteristic> characteristicEntities = characteristicRespository.findAllById(createRequestCharacteristicIds);
+
+        if(characteristicEntities.size() != createRequestCharacteristicIds.size()){
+            throw new NotFoundException(ErrorCodes.AT_LEAST_ONE_CHARACTERISTIC_IN_CREATE_REQUEST_DTO_DOESNT_EXISTS);
+        }
+
+        return characteristicEntities;
+
+        /*
         List<String> existingCharacteristics = characteristicRespository.findAll().stream().map(Characteristic::getName).toList();
 
 
@@ -86,5 +95,7 @@ public class TeacherValidation {
         if(aCharacteristicFromCreateDtoDoesntExists){
             throw new NotFoundException(ErrorCodes.AT_LEAST_ONE_CHARACTERISTIC_IN_CREATE_REQUEST_DTO_DOESNT_EXISTS);
         }
+
+         */
     }
 }

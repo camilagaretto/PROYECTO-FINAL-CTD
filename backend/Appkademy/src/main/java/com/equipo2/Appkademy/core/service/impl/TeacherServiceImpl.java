@@ -1,6 +1,7 @@
 package com.equipo2.Appkademy.core.service.impl;
 
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
+import com.equipo2.Appkademy.core.model.entity.Characteristic;
 import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.service.TeacherService;
@@ -57,8 +58,10 @@ public class TeacherServiceImpl implements TeacherService {
         TeacherValidation.assertEmailIsValid(createRequestDto.getEmail());
         TeacherValidation.assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
         teacherValidation.assertTeachingSubjectsExist(createRequestDto.getProficiencies());
-        if(CollectionUtils.isNotEmpty(createRequestDto.getCharacteristics())){
-            teacherValidation.assertCharacteristicsExists(createRequestDto.getCharacteristics());
+
+        List<Characteristic> characteristicEntities = null;
+        if(CollectionUtils.isNotEmpty(createRequestDto.getCharacteristicIds())){
+            characteristicEntities = teacherValidation.assertCharacteristicsExists(createRequestDto.getCharacteristicIds());
         }
 
         Teacher entity = Teacher.builder()
@@ -79,7 +82,7 @@ public class TeacherServiceImpl implements TeacherService {
                 .createdOn(LocalDateTime.now())
                 .lastModifiedOn(LocalDateTime.now())
                 .totalLikes(0L)
-                .characteristics(mapper.characteristicCreateRequestDtoListToCharacteristicList(createRequestDto.getCharacteristics()))
+                .characteristics(characteristicEntities)
                 .signupApprovedByAdmin(true)
                 .build();
 

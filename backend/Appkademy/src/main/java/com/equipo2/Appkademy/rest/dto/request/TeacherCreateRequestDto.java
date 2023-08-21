@@ -87,7 +87,7 @@ public class TeacherCreateRequestDto implements Serializable {
     @Schema(title = "Link to professor profile picture", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String profilePictureUrl;
 
-    @Schema(title = "List of characteristics", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private List<CharacteristicCreateRequestDto> characteristics;
+    @Schema(title = "List of characteristic ids", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private List<Long> characteristicIds;
 
 }
