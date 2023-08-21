@@ -11,6 +11,7 @@ function NavScrollExample() {
 
     const { isLoggedIn, isAdmin, logout, login } = useAuth()
     const [initials, setInitials] = useState("")
+    const [fullName, setFullName] = useState("")
     const [id, setId] = useState()
     const navigate = useNavigate()
 
@@ -20,8 +21,10 @@ function NavScrollExample() {
             const userData = JSON.parse(userDataJSON);
             if (userData.userType != 'ADMIN') {
                 const { firstName, lastName, userTypeId } = userData;
+                const fullname = `${firstName} ${lastName}`
                 const initials = `${firstName[0]?.toUpperCase()}${lastName[0]?.toUpperCase()}`
                 setInitials(initials)
+                setFullName(fullname)
                 setId(userTypeId)
             }
         } else {
@@ -57,7 +60,12 @@ function NavScrollExample() {
                         <Nav className="d-flex navbar__links__flex">
                             {isLoggedIn ? (
                                 <>
-                                    {!isAdmin && <Link className='user-logo' to={`/user/${id}`}><p>{initials}</p></Link>}
+                                    {!isAdmin &&
+                                     <Link className='user-name' to={`/user/${id}`}>
+                                        <div className='user-logo'><p>{initials}</p></div>
+                                        <p>{fullName}</p>
+                                     </Link>
+                                     }
                                     {isAdmin && <Link className='navbar__link-secondary' to="/admin">Admin</Link>}
                                     <button onClick={handleLogOut} className='btn btn-dark'>Cerrar Sesión</button>
                                 </>

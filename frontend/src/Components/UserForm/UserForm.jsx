@@ -10,7 +10,7 @@ const UserForm = () => {
   const navigate = useNavigate()
 
   const handleSubmitForm = async (values) => {
-    // Lógica de envío de formulario
+
     const userData = {
       email: values.email,
       password: values.password,
@@ -25,17 +25,18 @@ const UserForm = () => {
         body: JSON.stringify(userData),
       });
       if (response.ok) {
-        alert('Usuario creado exitosamente');
+        // alert('Usuario creado exitosamente');
         const data = await response.json();
         const userId = data.userId;
         const token = data.token;
         // Llamar a la función para crear estudiante
         createStudent(userId, values, token);
       } else {
-        alert('Error al crear usuario');
+        console.log(response.body)
       }
     } catch (error) {
       console.error('Error de red:', error);
+      console.log(error)
     }
   };
 
