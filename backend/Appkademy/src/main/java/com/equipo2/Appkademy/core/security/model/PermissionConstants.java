@@ -22,5 +22,11 @@ public class PermissionConstants {
     public static final String TEACHING_SUBJECT_UPDATE = "TEACHING_SUBJECT_UPDATE";
     public static final String TEACHING_SUBJECT_DELETE = "TEACHING_SUBJECT_DELETE";
 
+    public static final String CHARACTERISTIC_READ = "CHARACTERISTIC_READ";
+    public static final String CHARACTERISTIC_CREATE = "CHARACTERISTIC_CREATE";
+    public static final String CHARACTERISTIC_UPDATE = "CHARACTERISTIC_UPDATE";
+    public static final String CHARACTERISTIC_DELETE = "CHARACTERISTIC_DELETE";
+
+
 
 }

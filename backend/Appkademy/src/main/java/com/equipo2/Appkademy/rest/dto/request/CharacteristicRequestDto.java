@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CharacteristicCreateRequestDto {
+public class CharacteristicRequestDto {
 
     @NotBlank(message = ErrorCodes.CHARACTERISTIC_ICON_CANNOT_BE_NULL_OR_EMPTY)
     private String icon;
