@@ -2,30 +2,45 @@ import { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AppkademyLogo from "../../assets/Logo.svg";
 import './Navbar.scss'
+import { useAuth } from '../../Context/AuthContext';
 
 function NavScrollExample() {
-    const [scrolling, setScrolling] = useState(false);
+
+    const { isLoggedIn, isAdmin, logout, login } = useAuth()
+    const [initials, setInitials] = useState("")
+    const [id, setId] = useState()
+    const navigate = useNavigate()
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+        const userDataJSON = localStorage.getItem('user');
+        if (userDataJSON) {
+            const userData = JSON.parse(userDataJSON);
+            if (userData.userType != 'ADMIN') {
+                const { firstName, lastName, userTypeId } = userData;
+                const initials = `${firstName[0]?.toUpperCase()}${lastName[0]?.toUpperCase()}`
+                setInitials(initials)
+                setId(userTypeId)
+            }
+        } else {
+            console.log('No se encontraron datos de usuario en el localStorage');
+        }
+    }, [isLoggedIn])
 
-    const handleScroll = () => {
+    useEffect(() => {
+        const userDataJSON = localStorage.getItem('user');
+        if (userDataJSON) {
+            const userData = JSON.parse(userDataJSON);
+            login(userData)
+        }
+    }, [])
 
-        const scrollY = window.scrollY;
-
-        // Altura a partir de la cual se cambia el fondo (60px)
-        const offset = 60;
-    
-        // Cambia el estado "scrolling" basado en si el scroll supera la altura definida
-        setScrolling(scrollY > offset);
-      };
+    const handleLogOut = () => {
+        logout()
+        navigate("/")
+    }
 
     return (
         <header>
@@ -40,8 +55,18 @@ function NavScrollExample() {
                             navbarScroll
                         />
                         <Nav className="d-flex navbar__links__flex">
-                            <Link className='navbar__link-secondary' to="/login">Iniciar sesión</Link>
-                            <Link className='navbar__link-primary' to="/register">Crear cuenta</Link>
+                            {isLoggedIn ? (
+                                <>
+                                    {!isAdmin && <Link className='user-logo' to={`/user/${id}`}><p>{initials}</p></Link>}
+                                    {isAdmin && <Link className='navbar__link-secondary' to="/admin">Admin</Link>}
+                                    <button onClick={handleLogOut} className='btn btn-dark'>Cerrar Sesión</button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link className='navbar__link-secondary' to="/login">Iniciar Sesión</Link>
+                                    <Link className='navbar__link-primary' to="/register">Crear cuenta</Link>
+                                </>
+                            )}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
