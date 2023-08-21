@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.equipo2.Appkademy.core.security.model.PermissionConstants.STUDENT_CREATE;
 
 @RestController
-//@CrossOrigin(origins = "*")
 @CrossOrigin(
-       // origins = "http://127.0.0.1/5173",
         origins = "http://localhost:5173",
         allowedHeaders = "*",
         exposedHeaders = "*",
