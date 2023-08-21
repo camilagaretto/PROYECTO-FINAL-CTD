@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressCreateRequestDto implements Serializable {
+public class AddressRequestDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -73129671520599264L;

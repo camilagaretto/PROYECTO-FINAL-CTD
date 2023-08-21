@@ -54,6 +54,9 @@ public class ErrorCodes {
 
     public static final String AT_LEAST_ONE_PROFICIENCY_DOESNT_EXIST = "AT_LEAST_ONE_PROFICIENCY_DOESNT_EXIST";
 
+    public static final String TEACHER_NOT_FOUND = "TEACHER_NOT_FOUND";
+
+
 
 
     //STUDENT

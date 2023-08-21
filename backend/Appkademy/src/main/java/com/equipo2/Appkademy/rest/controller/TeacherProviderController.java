@@ -5,6 +5,7 @@ import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.service.TeacherService;
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.TeacherUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
 import jakarta.validation.Valid;
@@ -15,8 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import static com.equipo2.Appkademy.core.security.model.PermissionConstants.TEACHER_CREATE;
-import static com.equipo2.Appkademy.core.security.model.PermissionConstants.TEACHER_DELETE;
+import static com.equipo2.Appkademy.core.security.model.PermissionConstants.*;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -51,6 +51,15 @@ public class TeacherProviderController implements ITeacherProviderController {
     public ResponseEntity<TeacherSearchResponseDto> search(@RequestBody TeacherFilterDto filter){
         TeacherSearchResponseDto searchResponse = teacherService.search(filter);
         return ResponseEntity.ok(searchResponse);
+    }
+
+    @Override
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + TEACHER_UPDATE + "')")
+    public ResponseEntity<TeacherResponseDto> update(@RequestBody @Valid TeacherUpdateRequestDto updateRequestDto){
+        Teacher teacher = teacherService.update(updateRequestDto);
+        TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(teacher);
+        return ResponseEntity.ok(responseDto);
     }
 
     /* TODO TO BE IMPLEMENTED

@@ -41,7 +41,7 @@ public class TeachingSubjectServiceImpl implements TeachingProficiencyService {
         teachingProficiencyRepository.save(new TeachingProficiency(TeachingMasteryLevel.COLLEGE, entity));
         teachingProficiencyRepository.save(new TeachingProficiency(TeachingMasteryLevel.HIGHSCHOOL, entity));
         teachingProficiencyRepository.save(new TeachingProficiency(TeachingMasteryLevel.MIDDLE_SCHOOL, entity));
-        
+
         return entity;
     }
 

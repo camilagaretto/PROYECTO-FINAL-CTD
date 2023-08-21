@@ -42,6 +42,6 @@ public class StudentCreateRequestDto implements Serializable {
     //@Schema(title = "Address", requiredMode = Schema.RequiredMode.REQUIRED)
     //@Valid
     //@NotNull(message = ErrorCodes.ADDRESS_CANNOT_BE_NULL)
-    //private AddressCreateRequestDto address;
+    //private AddressRequestDto address;
 
 }

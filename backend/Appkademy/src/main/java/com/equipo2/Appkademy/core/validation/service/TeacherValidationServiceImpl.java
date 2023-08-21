@@ -1,4 +1,4 @@
-package com.equipo2.Appkademy.core.validation;
+package com.equipo2.Appkademy.core.validation.service;
 
 import com.equipo2.Appkademy.core.model.entity.Characteristic;
 import com.equipo2.Appkademy.core.model.entity.TeachingProficiency;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class TeacherValidation {
+public class TeacherValidationServiceImpl {
 
     @Autowired
     private TeacherRepository teacherRepository;
@@ -42,7 +42,7 @@ public class TeacherValidation {
     @Autowired
     private CharacteristicRespository characteristicRespository;
 
-    public static void assertHourlyRatesAreValid(Map<Currency, BigDecimal> hourlyRates) {
+    public void assertHourlyRatesAreValid(Map<Currency, BigDecimal> hourlyRates) {
         boolean rateWithNegativeValueExists = hourlyRates.entrySet().stream()
                 .anyMatch(hourlyRate -> 0 >= hourlyRate.getValue().compareTo(BigDecimal.valueOf(0)));
 
@@ -51,7 +51,7 @@ public class TeacherValidation {
         }
     }
 
-    public static void assertEmailIsValid(String email) {
+    public void assertEmailIsValid(String email) {
         if(!EmailValidator.getInstance().isValid(email)){
             throw new BadRequestException("email", email);
         };

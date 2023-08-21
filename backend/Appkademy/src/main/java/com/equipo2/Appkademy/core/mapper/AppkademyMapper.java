@@ -16,7 +16,7 @@ public interface AppkademyMapper {
 
     WeeklyWorkingSchedule weeklyWorkingScheduleCreateRequestDtoToWeeklyWorkginSchedule(WeeklyWorkingScheduleCreateRequestDto createRequestDto);
 
-    Address addressCreateRequestDtoToAddress(AddressCreateRequestDto createRequestDto);
+    Address addressRequestDtoToAddress(AddressRequestDto createRequestDto);
 
     AddressResponseDto addressToAddressResponseDto(Address address);
 
