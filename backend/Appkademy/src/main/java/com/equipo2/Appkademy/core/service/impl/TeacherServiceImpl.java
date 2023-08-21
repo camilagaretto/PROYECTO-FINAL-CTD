@@ -4,7 +4,10 @@ import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.Characteristic;
 import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.model.entity.TeachingProficiency;
+import com.equipo2.Appkademy.core.model.enums.UserType;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
+import com.equipo2.Appkademy.core.security.model.User;
+import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
 import com.equipo2.Appkademy.core.service.TeacherService;
 import com.equipo2.Appkademy.core.validation.service.TeacherValidationServiceImpl;
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
@@ -34,6 +37,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     private TeacherRepository teacherRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private AppkademyMapper mapper;
@@ -69,7 +75,9 @@ public class TeacherServiceImpl implements TeacherService {
             characteristicEntities = teacherValidationService.assertCharacteristicsExists(createRequestDto.getCharacteristicIds());
         }
 
-        Teacher entity = Teacher.builder()
+        User user = userRepository.findById(createRequestDto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorCodes.USER_NOT_FOUND));
+
+        Teacher teacher = Teacher.builder()
                 .userId(createRequestDto.getUserId())
                 .firstName(createRequestDto.getFirstName())
                 .lastName(createRequestDto.getLastName())
@@ -91,7 +99,13 @@ public class TeacherServiceImpl implements TeacherService {
                 .signupApprovedByAdmin(true)
                 .build();
 
-        return teacherRepository.save(entity);
+        Teacher entity = teacherRepository.save(teacher);
+
+        user.setType(UserType.TEACHER);
+        user.setUserTypeId(entity.getId());
+        userRepository.save(user);
+
+        return entity;
     }
 
     @Override
