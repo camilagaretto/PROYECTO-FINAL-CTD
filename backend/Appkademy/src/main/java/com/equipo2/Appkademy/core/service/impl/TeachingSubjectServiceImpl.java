@@ -1,7 +1,10 @@
 package com.equipo2.Appkademy.core.service.impl;
 
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
+import com.equipo2.Appkademy.core.model.entity.TeachingProficiency;
 import com.equipo2.Appkademy.core.model.entity.TeachingSubject;
+import com.equipo2.Appkademy.core.model.enums.TeachingMasteryLevel;
+import com.equipo2.Appkademy.core.model.repository.TeachingProficiencyRepository;
 import com.equipo2.Appkademy.core.model.repository.TeachingSubjectRepository;
 import com.equipo2.Appkademy.core.service.TeachingProficiencyService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
@@ -22,6 +25,9 @@ public class TeachingSubjectServiceImpl implements TeachingProficiencyService {
     private TeachingSubjectRepository subjectRepository;
 
     @Autowired
+    private TeachingProficiencyRepository teachingProficiencyRepository;
+
+    @Autowired
     private AppkademyMapper mapper;
 
     @Override
@@ -29,7 +35,14 @@ public class TeachingSubjectServiceImpl implements TeachingProficiencyService {
         if(subjectRepository.findByName(createDto.getName()).isPresent()){
             return subjectRepository.findByName(createDto.getName()).get();
         }
-        return subjectRepository.save(new TeachingSubject(createDto.getName()));
+        TeachingSubject entity = subjectRepository.save(new TeachingSubject(createDto.getName()));
+
+        //create proficiencies for new subject
+        teachingProficiencyRepository.save(new TeachingProficiency(TeachingMasteryLevel.COLLEGE, entity));
+        teachingProficiencyRepository.save(new TeachingProficiency(TeachingMasteryLevel.HIGHSCHOOL, entity));
+        teachingProficiencyRepository.save(new TeachingProficiency(TeachingMasteryLevel.MIDDLE_SCHOOL, entity));
+        
+        return entity;
     }
 
     @Override
