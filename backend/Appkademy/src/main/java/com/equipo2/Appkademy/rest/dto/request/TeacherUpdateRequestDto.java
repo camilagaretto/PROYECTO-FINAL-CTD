@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,15 +21,14 @@ import java.util.Map;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-public class TeacherCreateRequestDto implements Serializable {
+public class TeacherUpdateRequestDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 6417087755664586128L;
+    private static final long serialVersionUID = 2519796429392593618L;
 
-    @Schema(title = "User id", example = "5", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = ErrorCodes.USER_ID_CANNOT_BE_NULL)
-    private Long userId;
+    @Schema(title = "Teacher id", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull
+    private Long id;
 
     @Schema(title = "Teacher name", example = "Juan Martin", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = ErrorCodes.FIRST_NAME_CANNOT_BE_NULL_OR_EMPTY)
@@ -88,5 +86,9 @@ public class TeacherCreateRequestDto implements Serializable {
 
     @Schema(title = "List of characteristic ids", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private List<Long> characteristicIds;
+
+    @Schema(title = "Enabled", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull
+    private Boolean enabled;
 
 }

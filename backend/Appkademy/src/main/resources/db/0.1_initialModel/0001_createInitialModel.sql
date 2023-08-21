@@ -42,8 +42,10 @@ INSERT INTO appkademy.DATABASECHANGELOGLOCK VALUES(1,0,null,null);
 
 CREATE TABLE `_user` (
   `user_id` bigint NOT NULL,
+  `user_type_id` bigint DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `type` enum('ADMIN','STUDENT','TEACHER') DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

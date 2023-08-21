@@ -2,6 +2,7 @@ package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.TeacherUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,7 +32,7 @@ public interface ITeacherProviderController {
 
     @Operation(summary = "Create a Teacher")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successfully created the Teacher",
+            @ApiResponse(responseCode = "201", description = "Successfully created Teacher",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = TeacherResponseDto.class)) }),
             @ApiResponse(responseCode = "409", description = "Conflict",
@@ -52,4 +53,13 @@ public interface ITeacherProviderController {
             @ApiResponse(responseCode = "404", description = "Teacher not found",
                     content = @Content) })
     ResponseEntity<Void> delete(@PathVariable Long id);
+
+    @Operation(summary = "Update a Teacher")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully updated Teacher",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TeacherResponseDto.class)) }),
+            @ApiResponse(responseCode = "409", description = "Conflict",
+                    content = @Content) })
+    ResponseEntity<TeacherResponseDto> update(@RequestBody @Valid TeacherUpdateRequestDto updateRequestDto);
 }

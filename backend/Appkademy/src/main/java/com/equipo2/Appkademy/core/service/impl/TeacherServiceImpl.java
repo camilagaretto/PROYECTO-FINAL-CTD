@@ -4,13 +4,18 @@ import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.Characteristic;
 import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.model.entity.TeachingProficiency;
+import com.equipo2.Appkademy.core.model.enums.UserType;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
+import com.equipo2.Appkademy.core.security.model.User;
+import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
 import com.equipo2.Appkademy.core.service.TeacherService;
-import com.equipo2.Appkademy.core.validation.TeacherValidation;
+import com.equipo2.Appkademy.core.validation.service.TeacherValidationServiceImpl;
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.TeacherUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherCompactResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
+import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -34,10 +39,13 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherRepository teacherRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private AppkademyMapper mapper;
 
     @Autowired
-    private TeacherValidation teacherValidation;
+    private TeacherValidationServiceImpl teacherValidationService;
 
     /* TODO TO BE IMPLEMENTED
     @Autowired
@@ -54,20 +62,22 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher save(TeacherCreateRequestDto createRequestDto) {
-        teacherValidation.assertUserDoesNotAlreadyExist(createRequestDto.getUserId());
-        teacherValidation.assertTeacherDoesNotAlreadyExist(createRequestDto.getEmail());
-        TeacherValidation.assertEmailIsValid(createRequestDto.getEmail());
-        TeacherValidation.assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
+        teacherValidationService.assertUserDoesNotAlreadyExist(createRequestDto.getUserId());
+        teacherValidationService.assertTeacherDoesNotAlreadyExist(createRequestDto.getEmail());
+        teacherValidationService.assertEmailIsValid(createRequestDto.getEmail());
+        teacherValidationService.assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
 
-        List<TeachingProficiency> teachingProficiencyEntities = teacherValidation.assertTeachingProficienciesExist(
+        List<TeachingProficiency> teachingProficiencyEntities = teacherValidationService.assertTeachingProficienciesExist(
                 createRequestDto.getProficiencyIds());
 
         List<Characteristic> characteristicEntities = null;
         if(CollectionUtils.isNotEmpty(createRequestDto.getCharacteristicIds())){
-            characteristicEntities = teacherValidation.assertCharacteristicsExists(createRequestDto.getCharacteristicIds());
+            characteristicEntities = teacherValidationService.assertCharacteristicsExists(createRequestDto.getCharacteristicIds());
         }
 
-        Teacher entity = Teacher.builder()
+        User user = userRepository.findById(createRequestDto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorCodes.USER_NOT_FOUND));
+
+        Teacher teacher = Teacher.builder()
                 .userId(createRequestDto.getUserId())
                 .firstName(createRequestDto.getFirstName())
                 .lastName(createRequestDto.getLastName())
@@ -80,7 +90,7 @@ public class TeacherServiceImpl implements TeacherService {
                 .profilePictureUrl(createRequestDto.getProfilePictureUrl())
                 .shortDescription(createRequestDto.getShortDescription())
                 .fullDescription(createRequestDto.getFullDescription())
-                .address(mapper.addressCreateRequestDtoToAddress(createRequestDto.getAddress()))
+                .address(mapper.addressRequestDtoToAddress(createRequestDto.getAddress()))
                 .enabled(true)
                 .createdOn(LocalDateTime.now())
                 .lastModifiedOn(LocalDateTime.now())
@@ -89,7 +99,13 @@ public class TeacherServiceImpl implements TeacherService {
                 .signupApprovedByAdmin(true)
                 .build();
 
-        return teacherRepository.save(entity);
+        Teacher entity = teacherRepository.save(teacher);
+
+        user.setType(UserType.TEACHER);
+        user.setUserTypeId(entity.getId());
+        userRepository.save(user);
+
+        return entity;
     }
 
     @Override
@@ -224,7 +240,42 @@ public class TeacherServiceImpl implements TeacherService {
         teacherRepository.deleteById(id);
     }
 
+    @Override
+    public Teacher update(TeacherUpdateRequestDto updateRequestDto) {
+        Teacher entity = teacherRepository.findById(updateRequestDto.getId()).orElseThrow(() -> new NotFoundException(
+                ErrorCodes.TEACHER_NOT_FOUND));
 
+        teacherValidationService.assertEmailIsValid(updateRequestDto.getEmail());
+        teacherValidationService.assertHourlyRatesAreValid(updateRequestDto.getHourlyRates());
+
+        List<TeachingProficiency> teachingProficiencyEntities = teacherValidationService.assertTeachingProficienciesExist(
+                updateRequestDto.getProficiencyIds());
+
+        List<Characteristic> characteristicEntities = null;
+        if(CollectionUtils.isNotEmpty(updateRequestDto.getCharacteristicIds())){
+            characteristicEntities = teacherValidationService.assertCharacteristicsExists(updateRequestDto.getCharacteristicIds());
+        }
+
+        //Update attributes
+        entity.setFirstName(updateRequestDto.getFirstName());
+        entity.setLastName(updateRequestDto.getLastName());
+        //Email de clase User para login??
+        entity.setEmail(updateRequestDto.getEmail());
+        entity.setHourlyRates(updateRequestDto.getHourlyRates());
+        entity.setModalities(updateRequestDto.getModalities());
+        entity.setProficiencies(teachingProficiencyEntities);
+        entity.setWeeklyWorkingSchedule(mapper.weeklyWorkingScheduleCreateRequestDtoToWeeklyWorkginSchedule(updateRequestDto.getWeeklyWorkingSchedule()));
+        entity.setProfilePictureUrl(updateRequestDto.getProfilePictureUrl());
+        entity.setShortDescription(updateRequestDto.getShortDescription());
+        entity.setFullDescription(updateRequestDto.getFullDescription());
+        entity.setAddress(mapper.addressRequestDtoToAddress(updateRequestDto.getAddress()));
+        entity.setEnabled(updateRequestDto.getEnabled());
+        entity.setLastModifiedOn(LocalDateTime.now());
+        entity.setTotalLikes(updateRequestDto.getTotalLikes());
+        entity.setCharacteristics(characteristicEntities);
+
+        return teacherRepository.save(entity);
+    }
 
 
 }

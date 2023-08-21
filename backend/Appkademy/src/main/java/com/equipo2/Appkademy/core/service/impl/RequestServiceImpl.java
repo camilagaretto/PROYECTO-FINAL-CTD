@@ -6,7 +6,7 @@ import com.equipo2.Appkademy.core.model.enums.ReviewDecision;
 import com.equipo2.Appkademy.core.model.repository.TeacherSignupRequestRepository;
 import com.equipo2.Appkademy.core.model.repository.TeacherTerminationRequestRepository;
 import com.equipo2.Appkademy.core.service.RequestService;
-import com.equipo2.Appkademy.core.validation.TeacherValidation;
+import com.equipo2.Appkademy.core.validation.service.TeacherValidationServiceImpl;
 import com.equipo2.Appkademy.rest.dto.request.TeacherSignupRequestCreateDto;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +27,13 @@ public class RequestServiceImpl implements RequestService {
     private AppkademyMapper mapper;
 
     @Autowired
-    private TeacherValidation teacherValidation;
+    private TeacherValidationServiceImpl teacherValidation;
 
     @Override
     public TeacherSignupRequest createSignupRequest(TeacherSignupRequestCreateDto signupRequestDto) {
         teacherValidation.assertTeacherDoesNotAlreadyExist(signupRequestDto.getTeacherFormData().getEmail());
-        TeacherValidation.assertEmailIsValid(signupRequestDto.getTeacherFormData().getEmail());
-        TeacherValidation.assertHourlyRatesAreValid(signupRequestDto.getTeacherFormData().getHourlyRates());
+        teacherValidation.assertEmailIsValid(signupRequestDto.getTeacherFormData().getEmail());
+        teacherValidation.assertHourlyRatesAreValid(signupRequestDto.getTeacherFormData().getHourlyRates());
 
         TeacherSignupRequest entity = TeacherSignupRequest.builder()
                 .firstName(signupRequestDto.getTeacherFormData().getFirstName())
@@ -47,7 +47,7 @@ public class RequestServiceImpl implements RequestService {
                 .profilePictureUrl(signupRequestDto.getTeacherFormData().getProfilePictureUrl())
                 .shortDescription(signupRequestDto.getTeacherFormData().getShortDescription())
                 .fullDescription(signupRequestDto.getTeacherFormData().getFullDescription())
-                .address(mapper.addressCreateRequestDtoToAddress(signupRequestDto.getTeacherFormData().getAddress()))
+                .address(mapper.addressRequestDtoToAddress(signupRequestDto.getTeacherFormData().getAddress()))
                 .enabled(true)
                 .createdOn(LocalDateTime.now())
                 .lastModifiedOn(LocalDateTime.now())

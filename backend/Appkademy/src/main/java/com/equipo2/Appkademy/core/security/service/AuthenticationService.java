@@ -78,6 +78,8 @@ public class AuthenticationService {
                 .userId(user.getUserId())
                 .token(jwtToken)
                 .isAdmin(isAdmin)
+                .userType(user.getType())
+                .userTypeId(user.getUserTypeId())
                 .build();
     }
 }

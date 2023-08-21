@@ -1,5 +1,6 @@
 package com.equipo2.Appkademy.core.security.model;
 
+import com.equipo2.Appkademy.core.model.enums.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,12 @@ public class User implements UserDetails {
     //Note that lombok is overriding getPassword from interface UserDetails, if not using lombok we need to override getPassword()
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserType type;
+
+    @Column(name = "userTypeId", nullable = true)
+    private Long UserTypeId;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
