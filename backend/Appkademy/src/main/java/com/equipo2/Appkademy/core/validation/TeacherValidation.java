@@ -1,14 +1,18 @@
 package com.equipo2.Appkademy.core.validation;
 
+import com.equipo2.Appkademy.core.model.entity.Characteristic;
 import com.equipo2.Appkademy.core.model.enums.Currency;
 import com.equipo2.Appkademy.core.model.repository.StudentRepository;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.model.repository.TeachingSubjectRepository;
+import com.equipo2.Appkademy.core.security.model.repository.CharacteristicRespository;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
+import com.equipo2.Appkademy.rest.dto.request.CharacteristicCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.TeachingProficiencyDto;
 import com.equipo2.Appkademy.rest.error.BadRequestException;
 import com.equipo2.Appkademy.rest.error.BusinessException;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
+import com.equipo2.Appkademy.rest.error.NotFoundException;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,6 +35,9 @@ public class TeacherValidation {
 
     @Autowired
     private TeachingSubjectRepository teachingSubjectRepository;
+
+    @Autowired
+    private CharacteristicRespository characteristicRespository;
 
     public static void assertHourlyRatesAreValid(Map<Currency, BigDecimal> hourlyRates) {
         boolean rateWithNegativeValueExists = hourlyRates.entrySet().stream()
@@ -69,4 +76,15 @@ public class TeacherValidation {
                 });
     }
 
+    public void assertCharacteristicsExists(List<CharacteristicCreateRequestDto> createRequestCharacteristics) {
+        List<String> existingCharacteristics = characteristicRespository.findAll().stream().map(Characteristic::getName).toList();
+
+
+        boolean aCharacteristicFromCreateDtoDoesntExists =  createRequestCharacteristics.stream()
+                .anyMatch(createCharacteristic -> !existingCharacteristics.contains(createCharacteristic.getName()));
+
+        if(aCharacteristicFromCreateDtoDoesntExists){
+            throw new NotFoundException(ErrorCodes.AT_LEAST_ONE_CHARACTERISTIC_IN_CREATE_REQUEST_DTO_DOESNT_EXISTS);
+        }
+    }
 }

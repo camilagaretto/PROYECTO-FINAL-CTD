@@ -58,18 +58,15 @@ public class TeacherCreateRequestDto implements Serializable {
     @NotNull(message = ErrorCodes.ADDRESS_CANNOT_BE_NULL)
     private AddressCreateRequestDto address;
 
-    //PASA VALIDATION
     @Schema(title = "Hourly rates charged by teacher", example = "{ \"ARS\" : \"2500\"}", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotEmpty(message = ErrorCodes.HOURLY_RATES_CANNOT_BE_NULL_OR_EMPTY)
     private Map<Currency, BigDecimal> hourlyRates;
 
-    //PASA VALIDATION
     @Schema(title = "If classes can be taught in person, remotely or both", example = "{ \"FACE_TO_FACE\" : \"true\"}",
             requiredMode = Schema.RequiredMode.REQUIRED)
     @NotEmpty(message = ErrorCodes.MODALITIES_CANNOT_BE_NULL_OR_EMPTY)
     private Map<Modality, Boolean> modalities;
 
-    //PASA VALIDATION
     @Schema(title = "Teaching subjects and their respective level", example = "[{ \"subject\" : \"MATH\", \"masteryLevel\" : \"HIGHSCHOOL\"}]", requiredMode = Schema.RequiredMode.REQUIRED)
     @Valid
     @NotEmpty(message = ErrorCodes.PROFICIENCIES_CANNOT_BE_NULL_OR_EMPTY)
@@ -89,5 +86,8 @@ public class TeacherCreateRequestDto implements Serializable {
 
     @Schema(title = "Link to professor profile picture", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String profilePictureUrl;
+
+    @Schema(title = "List of characteristics", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private List<CharacteristicCreateRequestDto> characteristics;
 
 }

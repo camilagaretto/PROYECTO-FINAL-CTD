@@ -39,4 +39,6 @@ public interface AppkademyMapper {
     TeachingSubjectResponseDto teachingSubjectToTeachingSubjectResponseDto(TeachingSubject entity);
 
     CharacteristicResponseDto characteristicToCharacteristicResponseDto(Characteristic entity);
+
+    List<Characteristic> characteristicCreateRequestDtoListToCharacteristicList(List<CharacteristicCreateRequestDto> characteristics);
 }

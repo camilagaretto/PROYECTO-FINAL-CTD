@@ -53,7 +53,7 @@ public class Teacher extends NaturalPersonProvider {
     private List<ScheduledAppointment> scheduledAppointments;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "teacher_id", nullable = false)
+    @JoinColumn(name = "teacher_id", nullable = true)
     private List<Characteristic> characteristics;
 
     protected Teacher(Builder builder){
@@ -77,6 +77,7 @@ public class Teacher extends NaturalPersonProvider {
         setEmail(builder.email);
         setCreatedOn(builder.createdOn);
         setLastModifiedOn(builder.lastModifiedOn);
+        setCharacteristics(builder.characteristics);
     }
 
 
@@ -115,6 +116,8 @@ public class Teacher extends NaturalPersonProvider {
         private Address address;
 
         private String email;
+
+        private List<Characteristic> characteristics;
 
         private boolean signupApprovedByAdmin;
 
@@ -215,6 +218,11 @@ public class Teacher extends NaturalPersonProvider {
 
         public Builder signupApprovedByAdmin(boolean _signupApprovedByAdmin){
             signupApprovedByAdmin = _signupApprovedByAdmin;
+            return this;
+        }
+
+        public Builder characteristics(List<Characteristic> _characteristics){
+            characteristics = _characteristics;
             return this;
         }
 

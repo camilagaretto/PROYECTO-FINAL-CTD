@@ -54,6 +54,7 @@ public class AuthenticationService {
         return AuthenticationResponseDto.builder()
                 .userId(user.getUserId())
                 .token(jwtToken)
+                .isAdmin(false)
                 .build();
     }
 

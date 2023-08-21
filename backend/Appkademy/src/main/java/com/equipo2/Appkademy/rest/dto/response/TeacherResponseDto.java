@@ -58,4 +58,6 @@ public class TeacherResponseDto implements Serializable {
 
     private boolean signupApprovedByAdmin;
 
+    private List<CharacteristicResponseDto> characteristics;
+
 }

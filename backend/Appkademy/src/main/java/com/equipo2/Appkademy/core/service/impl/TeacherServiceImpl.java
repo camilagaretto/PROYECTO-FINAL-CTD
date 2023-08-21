@@ -57,7 +57,10 @@ public class TeacherServiceImpl implements TeacherService {
         TeacherValidation.assertEmailIsValid(createRequestDto.getEmail());
         TeacherValidation.assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
         teacherValidation.assertTeachingSubjectsExist(createRequestDto.getProficiencies());
-        
+        if(CollectionUtils.isNotEmpty(createRequestDto.getCharacteristics())){
+            teacherValidation.assertCharacteristicsExists(createRequestDto.getCharacteristics());
+        }
+
         Teacher entity = Teacher.builder()
                 .userId(createRequestDto.getUserId())
                 .firstName(createRequestDto.getFirstName())
@@ -76,6 +79,7 @@ public class TeacherServiceImpl implements TeacherService {
                 .createdOn(LocalDateTime.now())
                 .lastModifiedOn(LocalDateTime.now())
                 .totalLikes(0L)
+                .characteristics(mapper.characteristicCreateRequestDtoListToCharacteristicList(createRequestDto.getCharacteristics()))
                 .signupApprovedByAdmin(true)
                 .build();
 
