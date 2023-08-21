@@ -56,8 +56,8 @@ public class TeacherProviderController implements ITeacherProviderController {
     @Override
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('" + TEACHER_UPDATE + "')")
-    public ResponseEntity<TeacherResponseDto> update(@RequestBody @Valid TeacherUpdateRequestDto updateRequestDto){
-        Teacher teacher = teacherService.update(updateRequestDto);
+    public ResponseEntity<TeacherResponseDto> update(@PathVariable Long id, @RequestBody @Valid TeacherUpdateRequestDto updateRequestDto){
+        Teacher teacher = teacherService.update(id, updateRequestDto);
         TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(teacher);
         return ResponseEntity.ok(responseDto);
     }

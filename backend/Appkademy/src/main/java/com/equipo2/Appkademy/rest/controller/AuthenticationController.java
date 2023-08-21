@@ -14,16 +14,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/v1/auth")
 @RequiredArgsConstructor
-public class AuthenticationController {
+public class AuthenticationController implements IAuthenticationContoller {
 
     private final AuthenticationService authenticationService;
 
+    @Override
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponseDto> register(@RequestBody RegisterRequestDto request){
         AuthenticationResponseDto responseDto = authenticationService.register(request);
         return new ResponseEntity<AuthenticationResponseDto>(responseDto, HttpStatus.CREATED);
     }
 
+    @Override
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponseDto> authenticate(@RequestBody AuthenticationRequestDto request){
         return ResponseEntity.ok(authenticationService.authenticate(request));

@@ -18,5 +18,5 @@ public interface TeacherService {
 
     void delete(Long id);
 
-    Teacher update(TeacherUpdateRequestDto updateRequestDto);
+    Teacher update(Long id, TeacherUpdateRequestDto updateRequestDto);
 }

@@ -3,7 +3,6 @@ package com.equipo2.Appkademy.rest.dto.request;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,14 +14,10 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class StudentCreateRequestDto implements Serializable {
+public class StudentUpdateRequestDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 139534939274393244L;
-
-    @Schema(title = "User id", example = "5", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = ErrorCodes.USER_ID_CANNOT_BE_NULL)
-    private Long userId;
+    private static final long serialVersionUID = 2136417808899677959L;
 
     @Schema(title = "Student name", example = "Juan Martin", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = ErrorCodes.FIRST_NAME_CANNOT_BE_NULL_OR_EMPTY)
@@ -43,5 +38,4 @@ public class StudentCreateRequestDto implements Serializable {
     //@Valid
     //@NotNull(message = ErrorCodes.ADDRESS_CANNOT_BE_NULL)
     //private AddressRequestDto address;
-
 }

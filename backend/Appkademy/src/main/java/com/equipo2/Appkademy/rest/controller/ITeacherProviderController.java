@@ -61,5 +61,5 @@ public interface ITeacherProviderController {
                             schema = @Schema(implementation = TeacherResponseDto.class)) }),
             @ApiResponse(responseCode = "409", description = "Conflict",
                     content = @Content) })
-    ResponseEntity<TeacherResponseDto> update(@RequestBody @Valid TeacherUpdateRequestDto updateRequestDto);
+    ResponseEntity<TeacherResponseDto> update(@PathVariable Long id, @RequestBody @Valid TeacherUpdateRequestDto updateRequestDto);
 }

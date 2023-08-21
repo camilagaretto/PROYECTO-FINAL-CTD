@@ -241,8 +241,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Teacher update(TeacherUpdateRequestDto updateRequestDto) {
-        Teacher entity = teacherRepository.findById(updateRequestDto.getId()).orElseThrow(() -> new NotFoundException(
+    public Teacher update(Long id, TeacherUpdateRequestDto updateRequestDto) {
+        Teacher entity = teacherRepository.findById(id).orElseThrow(() -> new NotFoundException(
                 ErrorCodes.TEACHER_NOT_FOUND));
 
         teacherValidationService.assertEmailIsValid(updateRequestDto.getEmail());

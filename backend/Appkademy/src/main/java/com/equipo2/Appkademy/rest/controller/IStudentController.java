@@ -1,6 +1,7 @@
 package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,5 +36,14 @@ public interface IStudentController {
             @ApiResponse(responseCode = "409", description = "Conflict",
                     content = @Content) })
     ResponseEntity<StudentResponseDto> create(@RequestBody StudentCreateRequestDto createRequestDto);
+
+    @Operation(summary = "Update a Student")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully updated Student",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = StudentResponseDto.class)) }),
+            @ApiResponse(responseCode = "409", description = "Conflict",
+                    content = @Content) })
+    ResponseEntity<StudentResponseDto> update(Long id, @RequestBody StudentUpdateRequestDto updateRequestDto);
 
 }

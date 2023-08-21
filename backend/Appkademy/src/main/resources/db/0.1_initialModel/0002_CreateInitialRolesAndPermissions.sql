@@ -50,6 +50,7 @@ INSERT INTO appkademy.`role` VALUES(3, "SUPER_ADMIN");
 INSERT INTO appkademy.role_permission VALUES(1, 2);
 INSERT INTO appkademy.role_permission VALUES(1, 6);
 INSERT INTO appkademy.role_permission VALUES(1, 10);
+INSERT INTO appkademy.role_permission VALUES(1, 11);
 INSERT INTO appkademy.role_permission VALUES(1, 14);
 
 
