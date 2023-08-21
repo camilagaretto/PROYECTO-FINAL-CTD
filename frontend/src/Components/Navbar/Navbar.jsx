@@ -5,28 +5,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import AppkademyLogo from "../../assets/Logo.svg";
 import './Navbar.scss'
+import { useAuth } from '../../Context/AuthContext';
 
 function NavScrollExample() {
-    const [scrolling, setScrolling] = useState(false);
 
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
-    const handleScroll = () => {
-
-        const scrollY = window.scrollY;
-
-        // Altura a partir de la cual se cambia el fondo (60px)
-        const offset = 60;
+    const {isLoggedIn, isAdmin, logout} = useAuth()
     
-        // Cambia el estado "scrolling" basado en si el scroll supera la altura definida
-        setScrolling(scrollY > offset);
-      };
-
     return (
         <header>
             <Navbar expand="lg" className={`fixed-top navbar-white`}>
@@ -40,8 +24,17 @@ function NavScrollExample() {
                             navbarScroll
                         />
                         <Nav className="d-flex navbar__links__flex">
-                            <Link className='navbar__link-secondary' to="/login">Iniciar sesión</Link>
-                            <Link className='navbar__link-primary' to="/register">Crear cuenta</Link>
+                            {isLoggedIn ? (
+                                <>
+                                    {isAdmin && <Link className='navbar__link-secondary' to="/admin">Admin</Link>}
+                                    <button onClick={logout} className='btn btn-dark'>Cerrar Sesión</button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link className='navbar__link-secondary' to="/login">Iniciar Sesión</Link>
+                                    <Link className='navbar__link-primary' to="/register">Crear cuenta</Link>
+                                </>
+                            )}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

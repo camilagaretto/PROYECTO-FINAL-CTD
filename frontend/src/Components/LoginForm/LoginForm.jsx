@@ -3,10 +3,12 @@ import { useFormik } from 'formik'
 import './LoginForm.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import { LoginSchema } from '../../Schemas/Schemas'
+import { useAuth } from '../../Context/AuthContext'
 
 const LoginForm = () => {
 
   const [credentialError, setCredentialError] = useState("") 
+  const {login} = useAuth()
 
   const navigate = useNavigate()
 
@@ -22,14 +24,16 @@ const LoginForm = () => {
       if (response.ok) {
         alert('Login exitoso');
         const data = await response.json();
-        const userId = data.userId;
-        const token = data.token;
-        const isAdmin = data.isAdmin;
+        const userData = {
+          userId: data.userId,
+          token: data.token,
+          isAdmin: data.isAdmin,
+        };
+        const userDataJSON = JSON.stringify(userData);
+        localStorage.setItem('user', userDataJSON);
+        login(userData)
+
         navigate('/')
-        
-        console.log(`userId: ${userId} `);
-        console.log(`token: ${token} `);
-        console.log(`isAdmin: ${isAdmin} `);
       } else {
         setCredentialError("Credenciales invalidas");
       }
