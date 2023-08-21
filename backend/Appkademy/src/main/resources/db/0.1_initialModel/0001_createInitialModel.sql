@@ -146,6 +146,15 @@ CREATE TABLE `role_permission` (
   CONSTRAINT `FKf8yllw1ecvwqy3ehyxawqa1qp` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- appkademy.characteristic definition
+
+CREATE TABLE `characteristic` (
+  `id` bigint NOT NULL,
+  `icon` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 -- appkademy.teacher definition
 
@@ -179,6 +188,17 @@ CREATE TABLE `teacher` (
   CONSTRAINT `FKap7qu4nl161li1myey6tkoew` FOREIGN KEY (`weekly_working_schedule_id`) REFERENCES `weekly_working_schedule` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+
+-- appkademy.teacher_characteristics definition
+
+CREATE TABLE `teacher_characteristics` (
+  `teacher_id` bigint NOT NULL,
+  `characteristics_id` bigint NOT NULL,
+  KEY `FKrgecpt2gwmth7vgg0wrl22ysj` (`characteristics_id`),
+  KEY `FKl3nqi7fn6dn08tnxgwr87rivl` (`teacher_id`),
+  CONSTRAINT `FKl3nqi7fn6dn08tnxgwr87rivl` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`),
+  CONSTRAINT `FKrgecpt2gwmth7vgg0wrl22ysj` FOREIGN KEY (`characteristics_id`) REFERENCES `characteristic` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- appkademy.teacher_hourly_rate definition
 

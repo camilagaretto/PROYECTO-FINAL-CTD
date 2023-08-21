@@ -52,6 +52,10 @@ public class Teacher extends NaturalPersonProvider {
     @JoinColumn(name = "teacher_id", nullable = false, insertable = false, updatable = false)
     private List<ScheduledAppointment> scheduledAppointments;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_id", nullable = false)
+    private List<Characteristic> characteristics;
+
     protected Teacher(Builder builder){
         setUserId(builder.userId);
         setHourlyRates(builder.hourlyRates);
