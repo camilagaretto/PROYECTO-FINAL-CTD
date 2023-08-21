@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import SideBarItem from './sidebar-item';
 import './styles.css';
@@ -7,7 +7,7 @@ import './styles.css';
 import AppkademyLogo from "../../../assets/Logo.svg";
 import LogoutIcon from '../../../assets/icons/logout.svg';
 
-function SideBar ({ menu }) {
+function SideBar({ menu }) {
     const location = useLocation();
 
     const [active, setActive] = useState(1);
@@ -24,15 +24,17 @@ function SideBar ({ menu }) {
         setActive(id);
     }
 
-    return(
+    return (
         <nav className='sidebar'>
             <div className='sidebar-container'>
                 <div className='sidebar-logo-container'>
-                    <img
-                        src={AppkademyLogo}
-                        alt="logo" />
+                    <Link to="/">
+                        <img
+                            src={AppkademyLogo}
+                            alt="logo" />
+                    </Link>
                 </div>
-                
+
                 <div className='sidebar-container'>
                     <div className='sidebar-items'>
                         {menu.map((item, index) => (
@@ -46,7 +48,7 @@ function SideBar ({ menu }) {
 
                     <div className='sidebar-footer'>
                         <span className='sidebar-item-label'>Logout</span>
-                        <img 
+                        <img
                             src={LogoutIcon}
                             alt='icon-logout'
                             className='sidebar-item-icon' />

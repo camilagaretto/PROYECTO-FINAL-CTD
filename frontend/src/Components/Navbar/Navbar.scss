@@ -3,7 +3,6 @@
     transition: 0.8s;
 }
 
-
 .navbar__links__flex{
     display: flex;
     flex-direction: row !important;
@@ -31,4 +30,18 @@
 
 .navbar__logo{
     width: 190px;
+}
+
+.user-logo{
+    background-color: var(--bs-secondary);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+
+    p{
+        margin: 0;
+    }
 }
