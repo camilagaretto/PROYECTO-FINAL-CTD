@@ -27,6 +27,12 @@ public class PermissionConstants {
     public static final String CHARACTERISTIC_UPDATE = "CHARACTERISTIC_UPDATE";
     public static final String CHARACTERISTIC_DELETE = "CHARACTERISTIC_DELETE";
 
+    public static final String ROLE_READ = "ROLE_READ";
+    public static final String ROLE_CREATE = "ROLE_CREATE";
+    public static final String ROLE_UPDATE = "ROLE_UPDATE";
+    public static final String ROLE_DELETE = "ROLE_DELETE";
+
+
 
 
 }
