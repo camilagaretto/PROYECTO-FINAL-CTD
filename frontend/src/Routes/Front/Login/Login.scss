@@ -1,0 +1,16 @@
+.login-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+
+    img{
+        width: 400px;
+    }
+
+    @include media-breakpoint-down(md){
+        img{
+            display: none;
+        }
+    }
+}

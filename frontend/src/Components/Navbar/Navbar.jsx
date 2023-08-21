@@ -40,7 +40,7 @@ function NavScrollExample() {
                             navbarScroll
                         />
                         <Nav className="d-flex navbar__links__flex">
-                            <Link className='navbar__link-secondary' to="/">Iniciar sesión</Link>
+                            <Link className='navbar__link-secondary' to="/login">Iniciar sesión</Link>
                             <Link className='navbar__link-primary' to="/register">Crear cuenta</Link>
                         </Nav>
                     </Navbar.Collapse>

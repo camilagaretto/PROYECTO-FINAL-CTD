@@ -2,7 +2,8 @@ import React from 'react'
 import './UserForm.scss'
 import {useFormik} from 'formik'
 import { Link } from 'react-router-dom'
-import RegisterSchema from './RegisterSchema/RegisterSchema'
+import { RegisterSchema } from '../../Schemas/Schemas'
+
 
 const UserForm = () => {
 
@@ -134,7 +135,7 @@ const UserForm = () => {
                     />
                 </div>
                 <div className="col-12 btn-register">
-                    <button type="submit" className="btn btn-primary">Registrarse</button>
+                    <button type="submit" className="btn btn-dark">Registrarse</button>
                     <p>Ya tiene cuenta? <Link to="/login">Inicie sesion</Link> </p>
                 </div>
                 <div className='col-12'>

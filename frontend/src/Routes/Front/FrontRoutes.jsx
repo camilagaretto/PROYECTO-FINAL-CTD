@@ -5,6 +5,7 @@ import Navbar from "../../Components/Navbar/Navbar"
 import TeacherDetail from './TeacherDetail/TeacherDetail';
 import RegisterUser from './RegisterUser/RegisterUser';
 import Footer from "../../Components/Footer/Footer";
+import Login from './Login/Login';
 
 function FrontRoutes() {
   return (
@@ -14,6 +15,7 @@ function FrontRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/teacher/:id" element={<TeacherDetail />} />
       <Route path="/register" element={<RegisterUser />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
     <Footer/>
     </>
