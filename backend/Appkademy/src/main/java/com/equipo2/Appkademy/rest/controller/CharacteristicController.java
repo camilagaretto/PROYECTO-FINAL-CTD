@@ -3,8 +3,10 @@ package com.equipo2.Appkademy.rest.controller;
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.Characteristic;
 import com.equipo2.Appkademy.core.service.CharacteristicService;
+import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.CharacteristicCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.CharacteristicResponseDto;
+import com.equipo2.Appkademy.rest.dto.response.CharacteristicSearchResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,13 @@ public class CharacteristicController implements ICharacteristicController {
         Characteristic entity = characteristicService.create(createRequestDto);
         CharacteristicResponseDto responseDto = mapper.characteristicToCharacteristicResponseDto(entity);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/search")
+    @Override
+    public ResponseEntity<CharacteristicSearchResponseDto> search(@RequestBody PageableFilter filter){
+        CharacteristicSearchResponseDto searchResponse = characteristicService.search(filter);
+        return ResponseEntity.ok(searchResponse);
     }
 
 }
