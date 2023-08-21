@@ -1,11 +1,13 @@
 import React from 'react'
 import './UserForm.scss'
 import {useFormik} from 'formik'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { RegisterSchema } from '../../Schemas/Schemas'
 
 
 const UserForm = () => {
+
+  const navigate = useNavigate()
 
     const handleSubmitForm = async (values) => {
         // Lógica de envío de formulario
@@ -27,7 +29,7 @@ const UserForm = () => {
             const data = await response.json();
             const userId = data.userId;
             const token = data.token;
-    
+            
             // Llamar a la función para crear estudiante
             createStudent(userId, values, token);
           } else {
@@ -60,6 +62,7 @@ const UserForm = () => {
           });
           if (response.ok) {
             alert('Estudiante creado exitosamente');
+            navigate('/')
           } else {
             alert('Error al crear estudiante');
           }
