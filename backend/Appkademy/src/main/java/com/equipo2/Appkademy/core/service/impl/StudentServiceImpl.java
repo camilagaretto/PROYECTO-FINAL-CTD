@@ -9,6 +9,7 @@ import com.equipo2.Appkademy.core.security.model.User;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
 import com.equipo2.Appkademy.core.service.StudentService;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
 import com.equipo2.Appkademy.rest.error.BadRequestException;
 import com.equipo2.Appkademy.rest.error.BusinessException;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
@@ -37,6 +38,19 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student getById(Long id) {
         return studentRepository.findById(id).orElseThrow(() -> new NotFoundException("No Student found for id: " + id));
+    }
+
+    @Override
+    public Student update(Long id, StudentUpdateRequestDto updateRequestDto) {
+        Student entity = studentRepository.findById(id).orElseThrow(() -> new NotFoundException("No Student found for id: " + id));
+
+        entity.setFirstName(updateRequestDto.getFirstName());
+        entity.setLastName(updateRequestDto.getLastName());
+        entity.setEmail(updateRequestDto.getEmail());
+        entity.setScheduledAppointments(mapper.scheduledAppointmentCreateRequestDtoListToScheduledAppointmentList(updateRequestDto.getScheduledAppointments()));
+        entity.setLastModifiedOn(LocalDateTime.now());
+
+        return studentRepository.save(entity);
     }
 
     @Override

@@ -1,20 +1,27 @@
 package com.equipo2.Appkademy.core.security.service;
 
+import com.equipo2.Appkademy.core.model.entity.BaseSqlEntity;
+import com.equipo2.Appkademy.core.security.model.Role;
 import com.equipo2.Appkademy.core.security.model.User;
 import com.equipo2.Appkademy.core.security.model.repository.RoleRepository;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
 import com.equipo2.Appkademy.rest.dto.request.AuthenticationRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.RegisterRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.RoleRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.AuthenticationResponseDto;
 import com.equipo2.Appkademy.rest.error.BusinessException;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
+import com.equipo2.Appkademy.rest.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,11 +57,15 @@ public class AuthenticationService {
                 .build();
 
         repository.save(user);
+
+        Set<Long> roleIds = user.getRoles().stream().map(BaseSqlEntity::getId).collect(Collectors.toSet());
+
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponseDto.builder()
                 .userId(user.getUserId())
                 .token(jwtToken)
                 .isAdmin(false)
+                .roleIds(roleIds)
                 .build();
     }
 
@@ -73,6 +84,8 @@ public class AuthenticationService {
         //Check if user has role admin or super admin
         boolean isAdmin = user.getRoles().stream().anyMatch(role -> role.getName().equals(ADMIN_ROLE) || role.getName().equals(SUPER_ADMIN_ROLE));
 
+        Set<Long> roleIds = user.getRoles().stream().map(BaseSqlEntity::getId).collect(Collectors.toSet());
+
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponseDto.builder()
                 .userId(user.getUserId())
@@ -80,6 +93,26 @@ public class AuthenticationService {
                 .isAdmin(isAdmin)
                 .userType(user.getType())
                 .userTypeId(user.getUserTypeId())
+                .roleIds(roleIds)
+                .build();
+    }
+
+    public AuthenticationResponseDto updateRoles(Long userId, RoleRequestDto request) {
+        User user = repository.findById(userId).orElseThrow(() -> new NotFoundException(ErrorCodes.USER_NOT_FOUND));
+        List<Role> rolesFromRequest = roleRepository.findAllById(request.getRoleIds());
+        user.setRoles(new HashSet<>(rolesFromRequest));
+        repository.save(user);
+
+        boolean isAdmin = user.getRoles().stream().anyMatch(role -> role.getName().equals(ADMIN_ROLE) || role.getName().equals(SUPER_ADMIN_ROLE));
+
+        Set<Long> roleIds = user.getRoles().stream().map(BaseSqlEntity::getId).collect(Collectors.toSet());
+
+        return AuthenticationResponseDto.builder()
+                .userId(user.getUserId())
+                .isAdmin(isAdmin)
+                .userType(user.getType())
+                .userTypeId(user.getUserTypeId())
+                .roleIds(roleIds)
                 .build();
     }
 }

@@ -4,6 +4,8 @@ package com.equipo2.Appkademy.rest.dto.response;
 import com.equipo2.Appkademy.core.model.enums.UserType;
 import lombok.*;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Builder
@@ -16,5 +18,6 @@ public class AuthenticationResponseDto {
     private Boolean isAdmin;
     private UserType userType;
     private Long userTypeId;
+    private Set<Long> roleIds;
 
 }

@@ -1,7 +1,9 @@
 package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.rest.dto.request.AuthenticationRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.CharacteristicRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.RegisterRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.RoleRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.AuthenticationResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,5 +34,14 @@ public interface IAuthenticationContoller {
             @ApiResponse(responseCode = "403", description = "Forbidden",
                     content = @Content) })
     ResponseEntity<AuthenticationResponseDto> authenticate(@RequestBody AuthenticationRequestDto request);
+
+    @Operation(summary = "Update a Role")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully updated Role",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CharacteristicRequestDto.class)) }),
+            @ApiResponse(responseCode = "409", description = "Conflict",
+                    content = @Content) })
+    ResponseEntity<AuthenticationResponseDto> updateRoles(Long userId, @RequestBody RoleRequestDto request);
 
 }

@@ -40,7 +40,7 @@ public interface AppkademyMapper {
 
     CharacteristicResponseDto characteristicToCharacteristicResponseDto(Characteristic entity);
 
-    List<Characteristic> characteristicCreateRequestDtoListToCharacteristicList(List<CharacteristicCreateRequestDto> characteristics);
+    List<Characteristic> characteristicCreateRequestDtoListToCharacteristicList(List<CharacteristicRequestDto> characteristics);
 
     List<CharacteristicResponseDto> characteristicListToCharacteristicResponseDtoList(List<Characteristic> resultList);
 }

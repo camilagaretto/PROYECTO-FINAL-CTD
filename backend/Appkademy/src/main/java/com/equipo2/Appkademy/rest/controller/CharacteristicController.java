@@ -4,17 +4,18 @@ import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.Characteristic;
 import com.equipo2.Appkademy.core.service.CharacteristicService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
-import com.equipo2.Appkademy.rest.dto.request.CharacteristicCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.CharacteristicRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.CharacteristicResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.CharacteristicSearchResponseDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import static com.equipo2.Appkademy.core.security.model.PermissionConstants.*;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -27,19 +28,39 @@ public class CharacteristicController implements ICharacteristicController {
     @Autowired
     private AppkademyMapper mapper;
 
-    @PostMapping
     @Override
-    public ResponseEntity<CharacteristicResponseDto> create(@RequestBody CharacteristicCreateRequestDto createRequestDto){
+    @PostMapping
+    @PreAuthorize("hasAuthority('" + CHARACTERISTIC_CREATE + "')")
+    public ResponseEntity<CharacteristicResponseDto> create(@RequestBody CharacteristicRequestDto createRequestDto){
         Characteristic entity = characteristicService.create(createRequestDto);
         CharacteristicResponseDto responseDto = mapper.characteristicToCharacteristicResponseDto(entity);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
-    @PostMapping("/search")
     @Override
+    @PostMapping("/search")
+    @PreAuthorize("hasAuthority('" + CHARACTERISTIC_READ + "')")
     public ResponseEntity<CharacteristicSearchResponseDto> search(@RequestBody PageableFilter filter){
         CharacteristicSearchResponseDto searchResponse = characteristicService.search(filter);
         return ResponseEntity.ok(searchResponse);
+    }
+
+    @Override
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + CHARACTERISTIC_UPDATE + "')")
+    public ResponseEntity<CharacteristicResponseDto> update(@PathVariable Long id, @RequestBody @Valid CharacteristicRequestDto
+            updateRequestDto){
+        Characteristic entity = characteristicService.update(id, updateRequestDto);
+        CharacteristicResponseDto responseDto = mapper.characteristicToCharacteristicResponseDto(entity);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @Override
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + CHARACTERISTIC_DELETE + "')")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        characteristicService.delete(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
 }

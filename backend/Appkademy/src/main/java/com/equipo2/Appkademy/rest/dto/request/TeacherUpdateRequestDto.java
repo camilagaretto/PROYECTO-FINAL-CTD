@@ -26,10 +26,6 @@ public class TeacherUpdateRequestDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 2519796429392593618L;
 
-    @Schema(title = "Teacher id", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull
-    private Long id;
-
     @Schema(title = "Teacher name", example = "Juan Martin", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = ErrorCodes.FIRST_NAME_CANNOT_BE_NULL_OR_EMPTY)
     private String firstName;
