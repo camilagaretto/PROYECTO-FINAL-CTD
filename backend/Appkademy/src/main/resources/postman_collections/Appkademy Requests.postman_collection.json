@@ -755,7 +755,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 10,\r\n    \"teachingProficiency\" : {\r\n        \"subject\" : \"MATH\",\r\n        \"masteryLevel\" : \"COLLEGE\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 10,\r\n    \"teachingProficiency\" : {\r\n        \"subject\": {\r\n                \"name\" : \"MATH\"\r\n        },\r\n        \"masteryLevel\" : \"COLLEGE\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -799,7 +799,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 10,\r\n    \"teachingProficiency\" : {\r\n        \"subject\" : \"MATH\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 10,\r\n    \"teachingProficiency\" : {\r\n        \"subject\": {\r\n            \"name\" : \"MATH\"\r\n        }\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -843,7 +843,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 10,\r\n        \"teachingProficiency\" : {\r\n        \"subject\" : \"MATH\",\r\n        \"masteryLevel\" : \"COLLEGE\"\r\n    },\r\n    \"city\" : \"ROSARIO\"\r\n}",
+					"raw": "{\r\n    \"pageNumber\" : 1,\r\n    \"pageSize\" : 10,\r\n        \"teachingProficiency\" : {\r\n        \"subject\": {\r\n            \"name\" : \"MATH\"\r\n        },\r\n        \"masteryLevel\" : \"COLLEGE\"\r\n    },\r\n    \"city\" : \"ROSARIO\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

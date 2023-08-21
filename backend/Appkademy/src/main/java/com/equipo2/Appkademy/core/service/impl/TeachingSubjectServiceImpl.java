@@ -5,7 +5,7 @@ import com.equipo2.Appkademy.core.model.entity.TeachingSubject;
 import com.equipo2.Appkademy.core.model.repository.TeachingSubjectRepository;
 import com.equipo2.Appkademy.core.service.TeachingProficiencyService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
-import com.equipo2.Appkademy.rest.dto.request.TeachingSubjectCreateDto;
+import com.equipo2.Appkademy.rest.dto.request.TeachingSubjectDto;
 import com.equipo2.Appkademy.rest.dto.response.TeachingSubjectSearchResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,7 +25,7 @@ public class TeachingSubjectServiceImpl implements TeachingProficiencyService {
     private AppkademyMapper mapper;
 
     @Override
-    public TeachingSubject create(TeachingSubjectCreateDto createDto){
+    public TeachingSubject create(TeachingSubjectDto createDto){
         if(subjectRepository.findByName(createDto.getName()).isPresent()){
             return subjectRepository.findByName(createDto.getName()).get();
         }

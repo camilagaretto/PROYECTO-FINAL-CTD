@@ -1,7 +1,7 @@
 package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
-import com.equipo2.Appkademy.rest.dto.request.TeachingSubjectCreateDto;
+import com.equipo2.Appkademy.rest.dto.request.TeachingSubjectDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeachingSubjectResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeachingSubjectSearchResponseDto;
@@ -24,7 +24,7 @@ public interface ITeachingSubjectController {
                             schema = @Schema(implementation = TeachingSubjectResponseDto.class)) }),
             @ApiResponse(responseCode = "409", description = "Conflict",
                     content = @Content) })
-    ResponseEntity<TeachingSubjectResponseDto> create(@RequestBody TeachingSubjectCreateDto createDto);
+    ResponseEntity<TeachingSubjectResponseDto> create(@RequestBody TeachingSubjectDto createDto);
 
     @Operation(summary = "Paginated search of Teaching Subject")
     @ApiResponses(value = {

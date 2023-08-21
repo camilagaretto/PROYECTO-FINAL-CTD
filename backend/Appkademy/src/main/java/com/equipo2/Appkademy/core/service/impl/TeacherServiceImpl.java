@@ -138,10 +138,10 @@ public class TeacherServiceImpl implements TeacherService {
             countRoot.join("proficiencies");
             if(Objects.nonNull(filter.getTeachingProficiency().getSubject())){
                 Predicate condition = criteriaBuilder.equal(
-                        root.join("proficiencies").get("subject"), filter.getTeachingProficiency().getSubject());
+                        root.join("proficiencies").get("subject").get("name"), filter.getTeachingProficiency().getSubject().getName());
                 predicateListTeacher.add(condition);
                 predicateListCount.add(criteriaBuilder.equal(
-                        countRoot.join("proficiencies").get("subject"), filter.getTeachingProficiency().getSubject()));
+                        countRoot.join("proficiencies").get("subject").get("name"), filter.getTeachingProficiency().getSubject().getName()));
             }
             if(Objects.nonNull(filter.getTeachingProficiency().getMasteryLevel())){
                 Predicate condition = criteriaBuilder.equal(

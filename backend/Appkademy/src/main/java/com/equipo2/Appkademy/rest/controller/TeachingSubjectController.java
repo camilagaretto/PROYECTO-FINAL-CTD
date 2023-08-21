@@ -4,7 +4,7 @@ import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.TeachingSubject;
 import com.equipo2.Appkademy.core.service.TeachingProficiencyService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
-import com.equipo2.Appkademy.rest.dto.request.TeachingSubjectCreateDto;
+import com.equipo2.Appkademy.rest.dto.request.TeachingSubjectDto;
 import com.equipo2.Appkademy.rest.dto.response.TeachingSubjectResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeachingSubjectSearchResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class TeachingSubjectController implements ITeachingSubjectController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('" + TEACHING_SUBJECT_CREATE + "')")
-    public ResponseEntity<TeachingSubjectResponseDto> create(@RequestBody TeachingSubjectCreateDto createDto){
+    public ResponseEntity<TeachingSubjectResponseDto> create(@RequestBody TeachingSubjectDto createDto){
         TeachingSubject entity = teachingProficiencyService.create(createDto);
         TeachingSubjectResponseDto responseDto = mapper.teachingSubjectToTeachingSubjectResponseDto(entity);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
