@@ -1,13 +1,14 @@
 package com.equipo2.Appkademy.core.validation;
 
 import com.equipo2.Appkademy.core.model.entity.Characteristic;
+import com.equipo2.Appkademy.core.model.entity.TeachingProficiency;
 import com.equipo2.Appkademy.core.model.enums.Currency;
 import com.equipo2.Appkademy.core.model.repository.StudentRepository;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
+import com.equipo2.Appkademy.core.model.repository.TeachingProficiencyRepository;
 import com.equipo2.Appkademy.core.model.repository.TeachingSubjectRepository;
 import com.equipo2.Appkademy.core.security.model.repository.CharacteristicRespository;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
-import com.equipo2.Appkademy.rest.dto.request.TeachingProficiencyDto;
 import com.equipo2.Appkademy.rest.error.BadRequestException;
 import com.equipo2.Appkademy.rest.error.BusinessException;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
@@ -31,6 +32,9 @@ public class TeacherValidation {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TeachingProficiencyRepository teachingProficiencyRepository;
 
     @Autowired
     private TeachingSubjectRepository teachingSubjectRepository;
@@ -65,18 +69,17 @@ public class TeacherValidation {
         }
     }
 
-    public void assertTeachingSubjectsExist(List<TeachingProficiencyDto> dtoTeachingProficiencies){
-        List<String> availableTeachingSubjects = teachingSubjectRepository.findDistinctByName();
+    public List<TeachingProficiency> assertTeachingProficienciesExist(List<Long> createDtoProficiencyIds){
+        List<TeachingProficiency> teachingProficiencyEntities = teachingProficiencyRepository.findAllById(createDtoProficiencyIds);
 
-        dtoTeachingProficiencies.forEach(dtoProficiency -> {
-                    if(!availableTeachingSubjects.contains(dtoProficiency.getSubject().getName())){
-                        throw new BusinessException(ErrorCodes.TEACHING_SUBJECT_NAME_NOT_FOUND);
-                    }
-                });
+        if(teachingProficiencyEntities.size() != createDtoProficiencyIds.size()){
+            throw new NotFoundException(ErrorCodes.AT_LEAST_ONE_PROFICIENCY_DOESNT_EXIST);
+        }
+
+        return teachingProficiencyEntities;
     }
 
     public List<Characteristic> assertCharacteristicsExists(List<Long> createRequestCharacteristicIds) {
-
         List<Characteristic> characteristicEntities = characteristicRespository.findAllById(createRequestCharacteristicIds);
 
         if(characteristicEntities.size() != createRequestCharacteristicIds.size()){
@@ -84,18 +87,5 @@ public class TeacherValidation {
         }
 
         return characteristicEntities;
-
-        /*
-        List<String> existingCharacteristics = characteristicRespository.findAll().stream().map(Characteristic::getName).toList();
-
-
-        boolean aCharacteristicFromCreateDtoDoesntExists =  createRequestCharacteristics.stream()
-                .anyMatch(createCharacteristic -> !existingCharacteristics.contains(createCharacteristic.getName()));
-
-        if(aCharacteristicFromCreateDtoDoesntExists){
-            throw new NotFoundException(ErrorCodes.AT_LEAST_ONE_CHARACTERISTIC_IN_CREATE_REQUEST_DTO_DOESNT_EXISTS);
-        }
-
-         */
     }
 }

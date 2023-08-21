@@ -40,7 +40,7 @@ public class Teacher extends NaturalPersonProvider {
     @Column(name = "value")
     private Map<Modality, Boolean> modalities;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "teacher_id", nullable = false)
     private List<TeachingProficiency> proficiencies;
 

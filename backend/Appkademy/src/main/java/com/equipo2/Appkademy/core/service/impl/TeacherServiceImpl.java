@@ -3,6 +3,7 @@ package com.equipo2.Appkademy.core.service.impl;
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.Characteristic;
 import com.equipo2.Appkademy.core.model.entity.Teacher;
+import com.equipo2.Appkademy.core.model.entity.TeachingProficiency;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.service.TeacherService;
 import com.equipo2.Appkademy.core.validation.TeacherValidation;
@@ -57,7 +58,9 @@ public class TeacherServiceImpl implements TeacherService {
         teacherValidation.assertTeacherDoesNotAlreadyExist(createRequestDto.getEmail());
         TeacherValidation.assertEmailIsValid(createRequestDto.getEmail());
         TeacherValidation.assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
-        teacherValidation.assertTeachingSubjectsExist(createRequestDto.getProficiencies());
+
+        List<TeachingProficiency> teachingProficiencyEntities = teacherValidation.assertTeachingProficienciesExist(
+                createRequestDto.getProficiencyIds());
 
         List<Characteristic> characteristicEntities = null;
         if(CollectionUtils.isNotEmpty(createRequestDto.getCharacteristicIds())){
@@ -71,7 +74,7 @@ public class TeacherServiceImpl implements TeacherService {
                 .email(createRequestDto.getEmail())
                 .hourlyRates(createRequestDto.getHourlyRates())
                 .modalities(createRequestDto.getModalities())
-                .proficiencies(mapper.teachingProficiencyCreateRequestDtoToTeachingProficiency(createRequestDto.getProficiencies()))
+                .proficiencies(teachingProficiencyEntities)
                 .weeklyWorkingSchedule(mapper.weeklyWorkingScheduleCreateRequestDtoToWeeklyWorkginSchedule(createRequestDto.getWeeklyWorkingSchedule()))
                 .providerCategoryId(1L)
                 .profilePictureUrl(createRequestDto.getProfilePictureUrl())

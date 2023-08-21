@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Tag(name = "Teaching Subject")
+@Tag(name = "Category: Teaching Subject")
 public interface ITeachingSubjectController {
 
     @Operation(summary = "Create a Teaching Subject")

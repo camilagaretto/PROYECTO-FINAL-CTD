@@ -67,10 +67,9 @@ public class TeacherCreateRequestDto implements Serializable {
     @NotEmpty(message = ErrorCodes.MODALITIES_CANNOT_BE_NULL_OR_EMPTY)
     private Map<Modality, Boolean> modalities;
 
-    @Schema(title = "Teaching subjects and their respective level", example = "[{ \"subject\" : \"MATH\", \"masteryLevel\" : \"HIGHSCHOOL\"}]", requiredMode = Schema.RequiredMode.REQUIRED)
-    @Valid
+    @Schema(title = "Ids for Teaching Subjects and their respective mastery level", example = "[1, 2]", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotEmpty(message = ErrorCodes.PROFICIENCIES_CANNOT_BE_NULL_OR_EMPTY)
-    private List<TeachingProficiencyDto> proficiencies;
+    private List<Long> proficiencyIds;
 
     @Schema(title = "Weekly working schedule", requiredMode = Schema.RequiredMode.REQUIRED)
     @Valid

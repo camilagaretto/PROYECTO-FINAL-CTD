@@ -41,7 +41,7 @@ public class RequestServiceImpl implements RequestService {
                 .email(signupRequestDto.getTeacherFormData().getEmail())
                 .hourlyRates(signupRequestDto.getTeacherFormData().getHourlyRates())
                 .modalities(signupRequestDto.getTeacherFormData().getModalities())
-                .proficiencies(mapper.teachingProficiencyCreateRequestDtoToTeachingProficiency(signupRequestDto.getTeacherFormData().getProficiencies()))
+                //.proficiencies(mapper.teachingProficiencyCreateRequestDtoToTeachingProficiency(signupRequestDto.getTeacherFormData().getProficiencies()))
                 .weeklyWorkingSchedule(mapper.weeklyWorkingScheduleCreateRequestDtoToWeeklyWorkginSchedule(signupRequestDto.getTeacherFormData().getWeeklyWorkingSchedule()))
                 .providerCategoryId(1L)
                 .profilePictureUrl(signupRequestDto.getTeacherFormData().getProfilePictureUrl())
