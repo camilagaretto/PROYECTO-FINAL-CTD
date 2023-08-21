@@ -86,7 +86,7 @@ INSERT INTO appkademy.teacher
     weekly_working_schedule_id)
 VALUES(2, 'CIUDAD_DE_BUENOS_AIRES', 'ARGENTINA', '2B', 'CIUDAD_DE_BUENOS_AIRES', 'Libertad', '2023',
  '2023-08-21 20:07:22.124154', 'pedro.sanchez@gmail.com', 1, 'Pedro', 0, '2023-08-21 20:07:22.124154',
-  'Sanchez', -50, 'string', 1, 0, 0, 'string', 'Let''s learn math together!', 52);
+  'Sanchez', -50, 'string', 1, 0, 0, 'string', 'Aprendamos matematica y literatura', 52);
 
 --hourly rate
 INSERT INTO appkademy.teacher_hourly_rate
