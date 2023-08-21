@@ -29,6 +29,10 @@ public class AuthenticationService {
 
     private final RoleRepository roleRepository;
 
+    public static final String ADMIN_ROLE = "ADMIN";
+    public static final String SUPER_ADMIN_ROLE = "SUPER_ADMIN";
+
+
     public AuthenticationResponseDto register(RegisterRequestDto request) {
 
         if(repository.findByEmail(request.getEmail()).isPresent()){
@@ -64,10 +68,15 @@ public class AuthenticationService {
 
         //if I get to this point the user is authenticated -> username and password are correct
         var user = repository.findByEmail(request.getEmail()).orElseThrow();
+
+        //Check if user has role admin or super admin
+        boolean isAdmin = user.getRoles().stream().anyMatch(role -> role.getName().equals(ADMIN_ROLE) || role.getName().equals(SUPER_ADMIN_ROLE));
+
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponseDto.builder()
                 .userId(user.getUserId())
                 .token(jwtToken)
+                .isAdmin(isAdmin)
                 .build();
     }
 }

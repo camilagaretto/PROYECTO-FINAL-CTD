@@ -1,12 +1,10 @@
 
 package com.equipo2.Appkademy.rest.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,5 +12,7 @@ public class AuthenticationResponseDto {
 
     private Long userId;
     private String token;
+
+    private Boolean isAdmin;
 
 }
