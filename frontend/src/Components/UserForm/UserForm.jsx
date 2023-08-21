@@ -29,7 +29,6 @@ const UserForm = () => {
         const data = await response.json();
         const userId = data.userId;
         const token = data.token;
-
         // Llamar a la función para crear estudiante
         createStudent(userId, values, token);
       } else {

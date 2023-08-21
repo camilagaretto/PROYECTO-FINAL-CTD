@@ -2,15 +2,46 @@ import { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AppkademyLogo from "../../assets/Logo.svg";
 import './Navbar.scss'
 import { useAuth } from '../../Context/AuthContext';
 
 function NavScrollExample() {
 
-    const {isLoggedIn, isAdmin, logout} = useAuth()
-    
+    const { isLoggedIn, isAdmin, logout, login } = useAuth()
+    const [initials, setInitials] = useState("")
+    const [id, setId] = useState()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const userDataJSON = localStorage.getItem('user');
+        if (userDataJSON) {
+            const userData = JSON.parse(userDataJSON);
+            if (userData.userType != 'ADMIN') {
+                const { firstName, lastName, userTypeId } = userData;
+                const initials = `${firstName[0]?.toUpperCase()}${lastName[0]?.toUpperCase()}`
+                setInitials(initials)
+                setId(userTypeId)
+            }
+        } else {
+            console.log('No se encontraron datos de usuario en el localStorage');
+        }
+    }, [isLoggedIn])
+
+    useEffect(() => {
+        const userDataJSON = localStorage.getItem('user');
+        if (userDataJSON) {
+            const userData = JSON.parse(userDataJSON);
+            login(userData)
+        }
+    }, [])
+
+    const handleLogOut = () => {
+        logout()
+        navigate("/")
+    }
+
     return (
         <header>
             <Navbar expand="lg" className={`fixed-top navbar-white`}>
@@ -26,8 +57,9 @@ function NavScrollExample() {
                         <Nav className="d-flex navbar__links__flex">
                             {isLoggedIn ? (
                                 <>
+                                    {!isAdmin && <Link className='user-logo' to={`/user/${id}`}><p>{initials}</p></Link>}
                                     {isAdmin && <Link className='navbar__link-secondary' to="/admin">Admin</Link>}
-                                    <button onClick={logout} className='btn btn-dark'>Cerrar Sesión</button>
+                                    <button onClick={handleLogOut} className='btn btn-dark'>Cerrar Sesión</button>
                                 </>
                             ) : (
                                 <>

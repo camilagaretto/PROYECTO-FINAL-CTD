@@ -7,8 +7,8 @@ import { useAuth } from '../../Context/AuthContext'
 
 const LoginForm = () => {
 
-  const [credentialError, setCredentialError] = useState("") 
-  const {login} = useAuth()
+  const [credentialError, setCredentialError] = useState("")
+  const { login } = useAuth()
 
   const navigate = useNavigate()
 
@@ -28,7 +28,28 @@ const LoginForm = () => {
           userId: data.userId,
           token: data.token,
           isAdmin: data.isAdmin,
+          userType: data.userType,
+          userTypeId: data.userTypeId
         };
+
+        // Realizar la segunda solicitud después del inicio de sesión
+        const {userTypeId, token} = userData
+        const getStudent = await fetch(
+          `http://localhost:8080/v1/categories/1/customers/${userTypeId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          }
+        });
+        if (getStudent.ok) {
+          const userInformation = await getStudent.json();
+          const {firstName, lastName, email} = userInformation
+          userData.firstName = firstName
+          userData.lastName = lastName
+          userData.email = email
+        }
+
         const userDataJSON = JSON.stringify(userData);
         localStorage.setItem('user', userDataJSON);
         login(userData)

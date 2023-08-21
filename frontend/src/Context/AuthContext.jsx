@@ -11,13 +11,11 @@ export function AuthProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const login = (userData) => {
-    // Lógica de inicio de sesión exitoso
     setIsLoggedIn(true);
     setIsAdmin(userData.isAdmin || false);
   };
 
   const logout = () => {
-    // Lógica de cierre de sesión
     setIsLoggedIn(false);
     localStorage.removeItem('user');
   };
