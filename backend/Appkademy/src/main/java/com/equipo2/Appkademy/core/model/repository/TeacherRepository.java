@@ -16,6 +16,6 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     Optional<Teacher> findByUserId(Long userId);
 
     //@Query("SELECT * FROM Teacher AS t INNER JOIN teacher_characteristics AS c ON t.id = c.teacher_id WHERE c.characteristics_id = ?1")
-    @Query("SELECT t.* FROM teacher t JOIN teacher_characteristics tc ON t.id = tc.teacher_id WHERE tc.characteristics_id = ?1")
+    @Query(value = "SELECT t.* FROM teacher t JOIN teacher_characteristics tc ON t.id = tc.teacher_id WHERE tc.characteristics_id = ?1", nativeQuery = true)
     List<Teacher> findAllWithCharacteristicId(Long id);
 }
