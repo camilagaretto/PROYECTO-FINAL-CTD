@@ -25,7 +25,7 @@ const UserForm = () => {
         body: JSON.stringify(userData),
       });
       if (response.ok) {
-        // alert('Usuario creado exitosamente');
+         alert('Usuario creado exitosamente');
         const data = await response.json();
         const userId = data.userId;
         const token = data.token;
@@ -64,9 +64,12 @@ const UserForm = () => {
         alert('Estudiante creado exitosamente');
         navigate('/login')
       } else {
+        const error = await response.json();
+        console.log(error);
         alert('Error al crear estudiante');
       }
     } catch (error) {
+      console.log(error)
       console.error('Error de red:', error);
     }
   };
