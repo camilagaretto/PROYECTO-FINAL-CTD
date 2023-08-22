@@ -1,28 +1,26 @@
 import React, {useState, useEffect} from 'react';
 import DashboardHeader from '../../../Components/Admin/DashboardHeader';
-import all_teachers from '../../../constants/teachers';
+import all_categories from '../../../constants/categories';
 import {calculateRange, sliceData} from '../../../utils/table-pagination';
-import { Link } from 'react-router-dom';
 
-function Teachers () {
+function Categories () {
     const [search, setSearch] = useState('');
-    const [teachers, setTeachers] = useState(all_teachers);
+    const [categories, setCategories] = useState(all_categories);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
 
     useEffect(() => {
-        setPagination(calculateRange(all_teachers, 6));
-        setTeachers(sliceData(all_teachers, page, 6));
+        setPagination(calculateRange(all_categories, 6));
+        setCategories(sliceData(all_categories, page, 6));
     }, []);
 
     const __handleSearch = (event) => {
         setSearch(event.target.value);
         if (event.target.value !== '') {
-            let search_results = teachers.filter((item) =>
-                item.firstName.toLowerCase().includes(search.toLowerCase()) ||
-                item.lastName.toLowerCase().includes(search.toLowerCase())
+            let search_results = categories.filter((item) =>
+                item.name.toLowerCase().includes(search.toLowerCase())
             );
-            setTeachers(search_results);
+            setCategories(search_results);
         }
         else {
             __handleChangePage(1);
@@ -31,17 +29,16 @@ function Teachers () {
 
     const __handleChangePage = (new_page) => {
         setPage(new_page);
-        setTeachers(sliceData(all_teachers, new_page, 5));
+        setCategories(sliceData(all_categories, new_page, 5));
     }
 
     return(
         <div className='dashboard-content'>
             <DashboardHeader/>
-            <Link className='btn btn-primary' to="/admin/agregar-profesor">Agregar profesor</Link>
 
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
-                    <h2>Profesores</h2>
+                    <h2>Categorías</h2>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'
@@ -55,30 +52,24 @@ function Teachers () {
                 <table>
                     <thead>
                         <tr>
-                            <th>Usuario</th>
-                            <th>Verificado</th>
-                            <th>Categoría</th>
-                            <th>C. Likes</th>
-                            <th>Acciones</th>
+                            <th>Id</th>
+                            <th>Nombre</th>
                         </tr>
                     </thead>
 
-                    {teachers.length !== 0 ?
+                    {categories.length !== 0 ?
                         <tbody>
-                            {teachers.map((teacher, index) => (
+                            {categories.map((category, index) => (
                                 <tr key={index}>
-                                    <td><span>{teacher.firstName} {teacher.lastName}</span></td>
-                                    <td><span>{teacher.identityVerified ? 'Yes' : 'No'}</span></td>
-                                    <td><span>{teacher.providerCategoryId}</span></td>
-                                    <td><span>{teacher.totalLikes}</span></td>
-                                    <td><span>Eliminar</span></td>
+                                    <td><span>{category.id}</span></td>
+                                    <td><span>{category.name}</span></td>
                                 </tr>
                             ))}
                         </tbody>
                     : null}
                 </table>
 
-                {teachers.length !== 0 ?
+                {categories.length !== 0 ?
                     <div className='dashboard-content-footer'>
                         {pagination.map((item, index) => (
                             <span 
@@ -99,4 +90,4 @@ function Teachers () {
     )
 }
 
-export default Teachers;
+export default Categories;

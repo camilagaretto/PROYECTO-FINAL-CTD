@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import './TeacherForm.scss'
 
 function TeacherForm() {
@@ -43,7 +43,11 @@ function TeacherForm() {
         },
         scheduledAppointments: [],
         profilePictureUrl: '',
+        characteristicIds: []
     });
+    const [subjects, setSubjects] = useState([]);
+    const [features, setFeatures] = useState([]);
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setUserData((prevData) => ({
@@ -167,6 +171,65 @@ function TeacherForm() {
             console.error('Error de red:', error);
         }
     };
+    const postData = {
+        pageNumber: 1,
+        pageSize: 10,
+    }
+    const getCategories = async () => {
+        const userToken = localStorage.getItem("user");
+        const tokenObj = JSON.parse(userToken);
+        const token = tokenObj.token;            
+
+        try {
+            const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify(postData),
+            });
+            if (response.ok) {
+              const subjects = await response.json();
+              console.log(subjects.searchResults)
+              setSubjects(subjects.searchResults);
+            } else {
+              console.log(response)
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
+    };
+    const getFeatures = async () => {
+        const userToken = localStorage.getItem("user");
+        const tokenObj = JSON.parse(userToken);
+        const token = tokenObj.token;            
+
+        try {
+            const response = await fetch('http://localhost:8080/v1/categories/1/providers/characteristics/search', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify(postData),
+            });
+            if (response.ok) {
+              const features = await response.json();
+              console.log(features.searchResults)
+              setFeatures(features.searchResults);
+            } else {
+              console.log(response)
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
+    };
+
+    useEffect(() => {
+        getCategories();
+        getFeatures();
+    }, []);
 
     return (
         <div className="formAdd__container">
@@ -357,7 +420,6 @@ function TeacherForm() {
                     </div>
                 </div>
                 <h2>Especialidad</h2>
-
                 <div className="col-md-6">
                     <label htmlFor='masteryLevel' className="form-label">
                         Nivel
@@ -383,17 +445,35 @@ function TeacherForm() {
                     <select
                         className="form-select"
                         id='subject'
-                        value={userData.proficiencies[0].subject}
+                        value={userData.proficiencies[0].subject.id}
                         onChange={(event) =>
                             handleProficiencyChange('subject', event.target.value)
                         }
                     >
                         <option value="">--</option>
-                        <option value="MATH">Matemáticas</option>
-                        <option value="ENGLISH">Inglés</option>
-                        <option value="BIOLOGY">Biología</option>
-                        <option value="HISTORY">Historia</option>
-                        <option value="LITERATURE">Literatura</option>
+                        {subjects.map((subject) => (
+                            <option key={subject.id} value={subject.id}>
+                                {subject.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="col-md-6">
+                    <label htmlFor='subject' className="form-label">
+                        Carácteristicas
+                    </label>
+                    <select
+                        className="form-select"
+                        id='features'
+                        multiple
+                        value={userData.characteristicIds}
+                    >
+                        <option value="">--</option>
+                        {features.map((feature) => (
+                            <option key={feature.id} value={feature.id}>
+                                {feature.name}
+                            </option>
+                        ))}
                     </select>
                 </div>
                 <h2>Horario Semanal</h2>

@@ -1,7 +1,7 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container';
-import TeacherForm from '../../../Components/TeacherForm/TeacherForm'
-import './AddTeacherPage.scss'
+import TeacherForm from '../../../../Components/Admin/TeacherForm/TeacherForm'
+import './styles.scss'
 
 const AddTeacherPage = () => {
 

@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import './Filter.scss'
 
 const Filter = ({ activeFilter, setActiveFilter, setSearchData, setTeachingProficiency, setFiltered, popular }) => {
