@@ -66,6 +66,7 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .isAdmin(false)
                 .roleIds(roleIds)
+                .email(user.getEmail())
                 .build();
     }
 
@@ -106,6 +107,7 @@ public class AuthenticationService {
                 .userType(user.getType())
                 .userTypeId(user.getUserTypeId())
                 .roleIds(roleIds)
+                .email(user.getEmail())
                 .build();
     }
 

@@ -19,5 +19,6 @@ public class AuthenticationResponseDto {
     private UserType userType;
     private Long userTypeId;
     private Set<Long> roleIds;
+    private String email;
 
 }
