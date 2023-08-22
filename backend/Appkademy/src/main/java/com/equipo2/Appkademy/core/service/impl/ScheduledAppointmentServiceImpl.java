@@ -2,6 +2,7 @@ package com.equipo2.Appkademy.core.service.impl;
 
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.ScheduledAppointment;
+import com.equipo2.Appkademy.core.model.entity.Student;
 import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.model.entity.WeeklyWorkingSchedule;
 import com.equipo2.Appkademy.core.model.repository.ScheduledAppointmentRepository;
@@ -52,6 +53,23 @@ public class ScheduledAppointmentServiceImpl implements ScheduledAppointmentServ
             newAppointment.setTeacherId(createRequestDto.getTeacherId());
 
             return scheduledAppointmentRepository.save(newAppointment);
+    }
+
+    @Override
+    public void delete(Long id) {
+        ScheduledAppointment appointment = scheduledAppointmentRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorCodes.SCHEDULED_APPOINTMENT_NOT_FOUND));
+
+        //first need to remove associations to parents
+        Teacher teacher = teacherRepository.findById(appointment.getTeacherId()).get();
+        teacher.getScheduledAppointments().removeIf(teacherAppoint -> teacherAppoint.getId().equals(id));
+
+        Student student = studentRepository.findById(appointment.getStudentId()).get();
+        student.getScheduledAppointments().removeIf(studentAppoint -> studentAppoint.getId().equals(id));
+
+        teacherRepository.save(teacher);
+        studentRepository.save(student);
+
+        scheduledAppointmentRepository.deleteById(id);
     }
 
     private void assertAppointmentFallsWithinTeacherWorkingSchedule(Teacher teacher, ScheduledAppointmentCreateRequestDto createRequestDto) {

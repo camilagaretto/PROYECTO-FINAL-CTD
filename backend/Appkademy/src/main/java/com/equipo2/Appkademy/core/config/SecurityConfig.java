@@ -42,6 +42,8 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**", "/documentation/**")
                 .permitAll()
+                .requestMatchers("/error")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

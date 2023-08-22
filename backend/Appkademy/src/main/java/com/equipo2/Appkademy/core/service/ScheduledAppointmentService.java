@@ -7,4 +7,5 @@ public interface ScheduledAppointmentService {
 
     ScheduledAppointment save(ScheduledAppointmentCreateRequestDto createRequestDto);
 
+    void delete(Long id);
 }

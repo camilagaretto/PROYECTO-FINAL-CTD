@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import static com.equipo2.Appkademy.core.security.model.PermissionConstants.SCHEDULED_APPOINTMENT_CREATE;
 
@@ -35,6 +32,12 @@ public class ScheduledAppointmentController implements IScheduledAppointmentCont
         ScheduledAppointment appointment = scheduledAppointmentService.save(createRequestDto);
         return new ResponseEntity<ScheduledAppointmentResponseDto>(mapper
                 .scheduledAppointmenttoToScheduledAppointmentResponseDto(appointment), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        scheduledAppointmentService.delete(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
 }
