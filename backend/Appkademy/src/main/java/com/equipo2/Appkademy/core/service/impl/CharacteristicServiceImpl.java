@@ -2,6 +2,8 @@ package com.equipo2.Appkademy.core.service.impl;
 
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.Characteristic;
+import com.equipo2.Appkademy.core.model.entity.Teacher;
+import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.security.model.repository.CharacteristicRespository;
 import com.equipo2.Appkademy.core.service.CharacteristicService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
@@ -14,15 +16,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CharacteristicServiceImpl implements CharacteristicService {
 
     @Autowired
     private CharacteristicRespository characteristicRespository;
+
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     @Autowired
     private AppkademyMapper mapper;
@@ -83,6 +86,14 @@ public class CharacteristicServiceImpl implements CharacteristicService {
     @Override
     public void delete(Long id) {
         characteristicRespository.findById(id).orElseThrow(() -> new NotFoundException("No Characteristic found for id: " + id));
+
+        //need to remove parent <-> child associations before deleting child
+        List<Teacher> teachersWithCharacteristicToBeDeleted = teacherRepository.findAllWithCharacteristicId(id);
+        for (Teacher teacher : teachersWithCharacteristicToBeDeleted) {
+            teacher.getCharacteristics().removeIf(charElement -> charElement.getId().equals(id));
+        }
+        teacherRepository.saveAll(teachersWithCharacteristicToBeDeleted);
+
         characteristicRespository.deleteById(id);
     }
 

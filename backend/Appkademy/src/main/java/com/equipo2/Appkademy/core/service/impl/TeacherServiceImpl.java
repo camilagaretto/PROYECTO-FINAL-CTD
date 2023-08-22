@@ -236,7 +236,12 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void delete(Long id) {
-        teacherRepository.findById(id).orElseThrow(() -> new NotFoundException("No Teacher found for id: " + id));
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new NotFoundException("No Teacher found for id: " + id));
+
+        //remove associations
+        teacher.setProficiencies(new ArrayList<>());
+        teacherRepository.save(teacher);
+
         teacherRepository.deleteById(id);
     }
 
