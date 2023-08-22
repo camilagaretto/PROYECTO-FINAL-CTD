@@ -3,17 +3,18 @@ package com.equipo2.Appkademy.rest.controller;
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.Student;
 import com.equipo2.Appkademy.core.service.StudentService;
+import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentResponseDto;
+import com.equipo2.Appkademy.rest.dto.response.StudentSearchResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import static com.equipo2.Appkademy.core.security.model.PermissionConstants.STUDENT_CREATE;
-import static com.equipo2.Appkademy.core.security.model.PermissionConstants.STUDENT_UPDATE;
+import static com.equipo2.Appkademy.core.security.model.PermissionConstants.*;
 
 @RestController
 @CrossOrigin(
@@ -43,6 +44,14 @@ public class StudentController implements IStudentController {
     public ResponseEntity<StudentResponseDto> create(@RequestBody StudentCreateRequestDto createRequestDto){
         Student entity = studentService.save(createRequestDto);
         return new ResponseEntity<StudentResponseDto>(mapper.studentToStudentResponseDto(entity), HttpStatus.CREATED);
+    }
+
+    @Override
+    @PostMapping("/search")
+    @PreAuthorize("hasAuthority('" + STUDENT_READ + "')")
+    public ResponseEntity<StudentSearchResponseDto> search(@RequestBody PageableFilter filter){
+        StudentSearchResponseDto searchResponse = studentService.search(filter);
+        return ResponseEntity.ok(searchResponse);
     }
 
     @Override

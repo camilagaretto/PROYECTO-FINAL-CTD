@@ -8,17 +8,23 @@ import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.security.model.User;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
 import com.equipo2.Appkademy.core.service.StudentService;
+import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
+import com.equipo2.Appkademy.rest.dto.response.StudentSearchResponseDto;
 import com.equipo2.Appkademy.rest.error.BadRequestException;
 import com.equipo2.Appkademy.rest.error.BusinessException;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -51,6 +57,33 @@ public class StudentServiceImpl implements StudentService {
         entity.setLastModifiedOn(LocalDateTime.now());
 
         return studentRepository.save(entity);
+    }
+
+    @Override
+    public StudentSearchResponseDto search(PageableFilter filter) {
+        if(Objects.isNull(filter.getPageNumber())){
+            filter.setPageNumber(1);
+        } else {
+            filter.setPageNumber(filter.getPageNumber());
+        }
+
+        if(Objects.isNull(filter.getPageSize())){
+            filter.setPageSize(10);
+        }
+
+        PageRequest pageable = PageRequest.of(filter.getPageNumber()-1, filter.getPageSize());
+
+        Page<Student> resultPage = studentRepository.findAll(pageable);
+        List<Student> resultList = resultPage.getContent();
+
+        StudentSearchResponseDto searchResponseDto = new StudentSearchResponseDto();
+        searchResponseDto.setTotalItemsFound(resultPage.getTotalElements());
+        searchResponseDto.setTotalPagesFound(resultPage.getTotalPages());
+        searchResponseDto.setPageSizeSelected(filter.getPageSize());
+        searchResponseDto.setPageNumberSelected(filter.getPageNumber());
+        searchResponseDto.setSearchResults(mapper.studentListToStudentResponseList(resultList));
+
+        return searchResponseDto;
     }
 
     @Override

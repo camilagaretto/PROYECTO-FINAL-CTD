@@ -1,8 +1,10 @@
 package com.equipo2.Appkademy.rest.controller;
 
+import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentResponseDto;
+import com.equipo2.Appkademy.rest.dto.response.StudentSearchResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -45,5 +47,12 @@ public interface IStudentController {
             @ApiResponse(responseCode = "409", description = "Conflict",
                     content = @Content) })
     ResponseEntity<StudentResponseDto> update(Long id, @RequestBody StudentUpdateRequestDto updateRequestDto);
+
+    @Operation(summary = "Paginated search of Student")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully searched Student",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = StudentSearchResponseDto.class)) })})
+    ResponseEntity<StudentSearchResponseDto> search(@RequestBody PageableFilter filter);
 
 }
