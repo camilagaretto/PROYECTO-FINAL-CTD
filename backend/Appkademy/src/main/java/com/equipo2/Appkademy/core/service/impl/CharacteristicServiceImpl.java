@@ -89,22 +89,11 @@ public class CharacteristicServiceImpl implements CharacteristicService {
 
         //need to remove parent <-> child associations before deleting child
         List<Teacher> teachersWithCharacteristicToBeDeleted = teacherRepository.findAllWithCharacteristicId(id);
-
-        Iterator<Teacher> iterator = teachersWithCharacteristicToBeDeleted.iterator();
-
-        while (iterator.hasNext()) {
-            Teacher element = iterator.next();
-            Iterator<Characteristic> characteristicIterator = element.getCharacteristics().iterator();
-
-            while(characteristicIterator.hasNext()){
-                Characteristic charElement = characteristicIterator.next();
-                if(charElement.getId().equals(id)){
-                    characteristicIterator.remove();
-                }
-            }
+        for (Teacher teacher : teachersWithCharacteristicToBeDeleted) {
+            teacher.getCharacteristics().removeIf(charElement -> charElement.getId().equals(id));
         }
-
         teacherRepository.saveAll(teachersWithCharacteristicToBeDeleted);
+
         characteristicRespository.deleteById(id);
     }
 
