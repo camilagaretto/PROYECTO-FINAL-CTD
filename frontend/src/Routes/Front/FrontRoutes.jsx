@@ -11,15 +11,15 @@ import UserDetail from './UserDetail/UserDetail';
 function FrontRoutes() {
   return (
     <>
-    <Navbar/>
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/teacher/:id" element={<TeacherDetail />} />
-      <Route path="/user/:id" element={<UserDetail />} />
-      <Route path="/register" element={<RegisterUser />} />
-      <Route path="/login" element={<Login />} />
-    </Routes>
-    <Footer/>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/teacher/:id" element={<TeacherDetail />} />
+        <Route path="/user/:id" element={<UserDetail />} />
+        <Route path="/register" element={<RegisterUser />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+      <Footer />
     </>
   );
 }
