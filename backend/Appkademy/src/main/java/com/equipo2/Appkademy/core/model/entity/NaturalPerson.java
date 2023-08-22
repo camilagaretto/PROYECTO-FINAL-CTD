@@ -26,9 +26,6 @@ public abstract class NaturalPerson extends BaseSqlEntity<Long> {
     @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
-    @Column(name = "email", nullable = false)
-    private String email;
-
     @Column(name = "enabled", nullable = false, columnDefinition = "boolean default true")
     private boolean enabled;
 

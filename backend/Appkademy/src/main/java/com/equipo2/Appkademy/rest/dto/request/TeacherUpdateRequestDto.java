@@ -34,10 +34,6 @@ public class TeacherUpdateRequestDto implements Serializable {
     @NotBlank(message = ErrorCodes.LAST_NAME_CANNOT_BE_NULL_OR_EMPTY)
     private String lastName;
 
-    @Schema(title = "email", example = "juan.martin@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = ErrorCodes.EMAIL_CANNOT_BE_NULL_OR_EMPTY)
-    private String email;
-
     @Schema(title = "Short description", example = "Let's learn math together!",
             requiredMode = Schema.RequiredMode.REQUIRED, maxLength = 100)
     @NotBlank(message = ErrorCodes.SHORT_DESCRIPTION_CANNOT_BE_NULL_OR_EMPTY)

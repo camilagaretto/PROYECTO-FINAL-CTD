@@ -20,7 +20,7 @@ import java.io.Serializable;
 public abstract class BaseSqlEntity<ID extends Serializable> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ID id;
 
     @Nullable

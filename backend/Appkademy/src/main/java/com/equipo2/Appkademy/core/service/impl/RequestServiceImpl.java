@@ -31,14 +31,11 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public TeacherSignupRequest createSignupRequest(TeacherSignupRequestCreateDto signupRequestDto) {
-        teacherValidation.assertTeacherDoesNotAlreadyExist(signupRequestDto.getTeacherFormData().getEmail());
-        teacherValidation.assertEmailIsValid(signupRequestDto.getTeacherFormData().getEmail());
         teacherValidation.assertHourlyRatesAreValid(signupRequestDto.getTeacherFormData().getHourlyRates());
 
         TeacherSignupRequest entity = TeacherSignupRequest.builder()
                 .firstName(signupRequestDto.getTeacherFormData().getFirstName())
                 .lastName(signupRequestDto.getTeacherFormData().getLastName())
-                .email(signupRequestDto.getTeacherFormData().getEmail())
                 .hourlyRates(signupRequestDto.getTeacherFormData().getHourlyRates())
                 .modalities(signupRequestDto.getTeacherFormData().getModalities())
                 //.proficiencies(mapper.teachingProficiencyCreateRequestDtoToTeachingProficiency(signupRequestDto.getTeacherFormData().getProficiencies()))

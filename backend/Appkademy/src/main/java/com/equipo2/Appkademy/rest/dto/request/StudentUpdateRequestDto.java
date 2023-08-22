@@ -27,10 +27,6 @@ public class StudentUpdateRequestDto implements Serializable {
     @NotBlank(message = ErrorCodes.LAST_NAME_CANNOT_BE_NULL_OR_EMPTY)
     private String lastName;
 
-    @Schema(title = "email", example = "juan.martin@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = ErrorCodes.EMAIL_CANNOT_BE_NULL_OR_EMPTY)
-    private String email;
-
     @Schema(title = "Student scheduled appointments", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private List<ScheduledAppointmentCreateRequestDto> scheduledAppointments;
 

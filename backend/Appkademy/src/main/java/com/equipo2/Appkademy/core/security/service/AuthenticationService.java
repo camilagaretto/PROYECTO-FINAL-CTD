@@ -9,10 +9,12 @@ import com.equipo2.Appkademy.rest.dto.request.AuthenticationRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.RegisterRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.RoleRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.AuthenticationResponseDto;
+import com.equipo2.Appkademy.rest.error.BadRequestException;
 import com.equipo2.Appkademy.rest.error.BusinessException;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,10 +43,8 @@ public class AuthenticationService {
 
 
     public AuthenticationResponseDto register(RegisterRequestDto request) {
-
-        if(repository.findByEmail(request.getEmail()).isPresent()){
-            throw new BusinessException(ErrorCodes.EMAIL_ALREADY_REGISTERED);
-        }
+        assertEmailIsValid(request.getEmail());
+        assertEmailDoesntAlreadyExist(request.getEmail());
         
         if(request.getPassword().length() < 7){
             throw new BusinessException(ErrorCodes.MINIMUM_PASSSWORD_LENGTH_IS_7_CHARACTERS);
@@ -67,6 +67,18 @@ public class AuthenticationService {
                 .isAdmin(false)
                 .roleIds(roleIds)
                 .build();
+    }
+
+    private void assertEmailDoesntAlreadyExist(String email) {
+        if(repository.findByEmail(email).isPresent()){
+            throw new BusinessException(ErrorCodes.EMAIL_ALREADY_REGISTERED);
+        }
+    }
+
+    public void assertEmailIsValid(String email) {
+        if(!EmailValidator.getInstance().isValid(email)){
+            throw new BadRequestException("email", email);
+        };
     }
 
 

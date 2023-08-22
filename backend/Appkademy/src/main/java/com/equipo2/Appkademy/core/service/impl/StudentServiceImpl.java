@@ -13,7 +13,6 @@ import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentSearchResponseDto;
 import com.equipo2.Appkademy.rest.error.BadRequestException;
-import com.equipo2.Appkademy.rest.error.BusinessException;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -52,7 +51,6 @@ public class StudentServiceImpl implements StudentService {
 
         entity.setFirstName(updateRequestDto.getFirstName());
         entity.setLastName(updateRequestDto.getLastName());
-        entity.setEmail(updateRequestDto.getEmail());
         entity.setScheduledAppointments(mapper.scheduledAppointmentCreateRequestDtoListToScheduledAppointmentList(updateRequestDto.getScheduledAppointments()));
         entity.setLastModifiedOn(LocalDateTime.now());
 
@@ -88,18 +86,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student save(StudentCreateRequestDto createRequestDto) {
-        //TODO: validations?
-        assertUserDoesNotAlreadyExist(createRequestDto.getUserId());
-        assertStudentDoesNotAlreadyExist(createRequestDto);
-        assertEmailIsValid(createRequestDto.getEmail());
-
         User user = userRepository.findById(createRequestDto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorCodes.USER_NOT_FOUND));
 
         Student student = Student.builder()
                                 .userId(createRequestDto.getUserId())
                                 .firstName(createRequestDto.getFirstName())
                                 .lastName(createRequestDto.getLastName())
-                                .email(createRequestDto.getEmail())
                                 //.address(mapper.addressCreateRequestDtoToAddress(createRequestDto.getAddress()))
                                 .scheduledAppointments(mapper.scheduledAppointmentCreateRequestDtoListToScheduledAppointmentList(createRequestDto.getScheduledAppointments()))
                                 .enabled(true)
@@ -122,15 +114,4 @@ public class StudentServiceImpl implements StudentService {
         };
     }
 
-    private void assertStudentDoesNotAlreadyExist(StudentCreateRequestDto createRequestDto) {
-        if(studentRepository.findByEmail(createRequestDto.getEmail()).isPresent()){
-            throw new BusinessException(ErrorCodes.STUDENT_WITH_SAME_EMAIL_ALREADY_EXISTS);
-        }
-    }
-
-    public void assertUserDoesNotAlreadyExist(Long userId) {
-        if(studentRepository.findByUserId(userId).isPresent() || teacherRepository.findByUserId(userId).isPresent()){
-            throw new BusinessException(ErrorCodes.USER_ID_IS_ALREADY_ATTACHED_TO_ANOTHER_ENTITY);
-        }
-    }
 }

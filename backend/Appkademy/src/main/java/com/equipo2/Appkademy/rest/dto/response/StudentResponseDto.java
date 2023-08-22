@@ -22,8 +22,6 @@ public class StudentResponseDto implements Serializable {
 
     private String lastName;
 
-    private String email;
-
     private boolean enabled;
 
     private List<ScheduledAppointmentResponseDto> scheduledAppointments;

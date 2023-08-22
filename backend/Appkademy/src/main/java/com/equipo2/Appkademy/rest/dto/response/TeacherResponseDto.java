@@ -32,8 +32,6 @@ public class TeacherResponseDto implements Serializable {
 
     private String lastName;
 
-    private String email;
-
     private String shortDescription;
 
     private String fullDescription;

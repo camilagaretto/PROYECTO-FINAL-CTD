@@ -60,7 +60,6 @@ public class TeacherSignupRequest extends BaseSqlEntity<Long> {
         teacher.setFullDescription(builder.fullDescription);
         teacher.setAddress(builder.address);
         teacher.setTotalLikes(builder.totalLikes);
-        teacher.setEmail(builder.email);
         teacher.setCreatedOn(builder.createdOn);
         teacher.setLastModifiedOn(builder.lastModifiedOn);
         setRequestCreatedOn(LocalDateTime.now());

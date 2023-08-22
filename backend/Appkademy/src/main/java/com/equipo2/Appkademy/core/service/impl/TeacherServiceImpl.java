@@ -63,8 +63,8 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Teacher save(TeacherCreateRequestDto createRequestDto) {
         teacherValidationService.assertUserDoesNotAlreadyExist(createRequestDto.getUserId());
-        teacherValidationService.assertTeacherDoesNotAlreadyExist(createRequestDto.getEmail());
-        teacherValidationService.assertEmailIsValid(createRequestDto.getEmail());
+        //teacherValidationService.assertTeacherDoesNotAlreadyExist(createRequestDto.getEmail());
+        //teacherValidationService.assertEmailIsValid(createRequestDto.getEmail());
         teacherValidationService.assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
 
         List<TeachingProficiency> teachingProficiencyEntities = teacherValidationService.assertTeachingProficienciesExist(
@@ -81,7 +81,6 @@ public class TeacherServiceImpl implements TeacherService {
                 .userId(createRequestDto.getUserId())
                 .firstName(createRequestDto.getFirstName())
                 .lastName(createRequestDto.getLastName())
-                .email(createRequestDto.getEmail())
                 .hourlyRates(createRequestDto.getHourlyRates())
                 .modalities(createRequestDto.getModalities())
                 .proficiencies(teachingProficiencyEntities)
@@ -250,7 +249,7 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher entity = teacherRepository.findById(id).orElseThrow(() -> new NotFoundException(
                 ErrorCodes.TEACHER_NOT_FOUND));
 
-        teacherValidationService.assertEmailIsValid(updateRequestDto.getEmail());
+        //teacherValidationService.assertEmailIsValid(updateRequestDto.getEmail());
         teacherValidationService.assertHourlyRatesAreValid(updateRequestDto.getHourlyRates());
 
         List<TeachingProficiency> teachingProficiencyEntities = teacherValidationService.assertTeachingProficienciesExist(
@@ -264,8 +263,6 @@ public class TeacherServiceImpl implements TeacherService {
         //Update attributes
         entity.setFirstName(updateRequestDto.getFirstName());
         entity.setLastName(updateRequestDto.getLastName());
-        //Email de clase User para login??
-        entity.setEmail(updateRequestDto.getEmail());
         entity.setHourlyRates(updateRequestDto.getHourlyRates());
         entity.setModalities(updateRequestDto.getModalities());
         entity.setProficiencies(teachingProficiencyEntities);

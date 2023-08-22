@@ -41,26 +41,30 @@ INSERT INTO appkademy.DATABASECHANGELOGLOCK VALUES(1,0,null,null);
 -- appkademy.`_user` definition
 
 CREATE TABLE `_user` (
-  `user_id` bigint NOT NULL,
+  `user_id` bigint NOT NULL AUTO_INCREMENT,
   `user_type_id` bigint DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `type` enum('ADMIN','STUDENT','TEACHER') DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `UK_k11y3pdtsrjgy8w9b6q4bjwrx` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.native definition
+-- appkademy.characteristic definition
 
-CREATE TABLE `native` (
-  `next_val` bigint DEFAULT NULL
+CREATE TABLE `characteristic` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `icon` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- appkademy.permission definition
 
 CREATE TABLE `permission` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -69,7 +73,7 @@ CREATE TABLE `permission` (
 -- appkademy.`role` definition
 
 CREATE TABLE `role` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -78,7 +82,7 @@ CREATE TABLE `role` (
 -- appkademy.student definition
 
 CREATE TABLE `student` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `city` enum('CIUDAD_DE_BUENOS_AIRES','LA_PLATA','ROSARIO') DEFAULT NULL,
   `country` enum('ARGENTINA') DEFAULT NULL,
   `floor_apt` varchar(255) DEFAULT NULL,
@@ -86,7 +90,6 @@ CREATE TABLE `student` (
   `street_name` varchar(255) DEFAULT NULL,
   `street_number` varchar(255) DEFAULT NULL,
   `created_on` datetime(6) NOT NULL,
-  `email` varchar(255) NOT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   `first_name` varchar(50) NOT NULL,
   `identity_verified` tinyint(1) NOT NULL DEFAULT '0',
@@ -94,15 +97,23 @@ CREATE TABLE `student` (
   `last_name` varchar(50) NOT NULL,
   `user_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UKfe0i52si7ybu0wjedj6motiim` (`email`),
   UNIQUE KEY `UK_bkix9btnoi1n917ll7bplkvg5` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- appkademy.teaching_subject definition
+
+CREATE TABLE `teaching_subject` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- appkademy.weekly_working_schedule definition
 
 CREATE TABLE `weekly_working_schedule` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `check_in` time(6) NOT NULL,
   `check_out` time(6) NOT NULL,
   `friday` tinyint(1) DEFAULT '0',
@@ -127,6 +138,7 @@ CREATE TABLE `_user_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
+
 -- appkademy.liked_provider_id definition
 
 CREATE TABLE `liked_provider_id` (
@@ -148,19 +160,11 @@ CREATE TABLE `role_permission` (
   CONSTRAINT `FKf8yllw1ecvwqy3ehyxawqa1qp` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- appkademy.characteristic definition
-
-CREATE TABLE `characteristic` (
-  `id` bigint NOT NULL,
-  `icon` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- appkademy.teacher definition
 
 CREATE TABLE `teacher` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `city` enum('CIUDAD_DE_BUENOS_AIRES','LA_PLATA','ROSARIO') DEFAULT NULL,
   `country` enum('ARGENTINA') DEFAULT NULL,
   `floor_apt` varchar(255) DEFAULT NULL,
@@ -168,7 +172,6 @@ CREATE TABLE `teacher` (
   `street_name` varchar(255) DEFAULT NULL,
   `street_number` varchar(255) DEFAULT NULL,
   `created_on` datetime(6) NOT NULL,
-  `email` varchar(255) NOT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   `first_name` varchar(50) NOT NULL,
   `identity_verified` tinyint(1) NOT NULL DEFAULT '0',
@@ -183,11 +186,11 @@ CREATE TABLE `teacher` (
   `short_description` varchar(100) DEFAULT NULL,
   `weekly_working_schedule_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK3kv6k1e64a9gylvkn3gnghc2q` (`email`),
   UNIQUE KEY `UK_i5wqs2ds2vpmfpbcdxi9m2jvr` (`user_id`),
   UNIQUE KEY `UK_af55cd0o3jbe9tvqo031m396y` (`weekly_working_schedule_id`),
   CONSTRAINT `FKap7qu4nl161li1myey6tkoew` FOREIGN KEY (`weekly_working_schedule_id`) REFERENCES `weekly_working_schedule` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 -- appkademy.teacher_characteristics definition
 
@@ -199,6 +202,7 @@ CREATE TABLE `teacher_characteristics` (
   CONSTRAINT `FKl3nqi7fn6dn08tnxgwr87rivl` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`),
   CONSTRAINT `FKrgecpt2gwmth7vgg0wrl22ysj` FOREIGN KEY (`characteristics_id`) REFERENCES `characteristic` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 -- appkademy.teacher_hourly_rate definition
 
@@ -226,7 +230,7 @@ CREATE TABLE `teacher_modality` (
 -- appkademy.teacher_signup_request definition
 
 CREATE TABLE `teacher_signup_request` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `request_created_on` datetime(6) DEFAULT NULL,
   `request_has_been_reviewed` bit(1) DEFAULT NULL,
   `review_descision` enum('APPROVED','REJECTED','UNDER_REVIEW') DEFAULT NULL,
@@ -240,7 +244,7 @@ CREATE TABLE `teacher_signup_request` (
 -- appkademy.teacher_termination_request definition
 
 CREATE TABLE `teacher_termination_request` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `request_created_on` datetime(6) DEFAULT NULL,
   `teacher_id` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -248,19 +252,11 @@ CREATE TABLE `teacher_termination_request` (
   CONSTRAINT `FKlkpyr0rj1w30wgv4m8o6jl3d3` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- appkademy.teaching_subject definition
-
-CREATE TABLE `teaching_subject` (
-  `id` bigint NOT NULL,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 
 -- appkademy.teaching_proficiency definition
 
 CREATE TABLE `teaching_proficiency` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `mastery_level` enum('COLLEGE','HIGHSCHOOL','MIDDLE_SCHOOL') NOT NULL,
   `subject_id` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -268,21 +264,11 @@ CREATE TABLE `teaching_proficiency` (
   CONSTRAINT `FKqbilr4wlajtjwv6jkdqg6vqgm` FOREIGN KEY (`subject_id`) REFERENCES `teaching_subject` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- appkademy.teacher_proficiencies definition
-
-CREATE TABLE `teacher_proficiencies` (
-  `teacher_id` bigint NOT NULL,
-  `proficiencies_id` bigint NOT NULL,
-  KEY `FKfqwyxj92se2pbejq28i8d3aml` (`proficiencies_id`),
-  KEY `FK3q28c6fjghkn1t61ln8m4n0kq` (`teacher_id`),
-  CONSTRAINT `FK3q28c6fjghkn1t61ln8m4n0kq` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`),
-  CONSTRAINT `FKfqwyxj92se2pbejq28i8d3aml` FOREIGN KEY (`proficiencies_id`) REFERENCES `teaching_proficiency` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- appkademy.scheduled_appointment definition
 
 CREATE TABLE `scheduled_appointment` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `ends_on` datetime(6) NOT NULL,
   `starts_on` datetime(6) NOT NULL,
   `student_id` bigint DEFAULT NULL,
@@ -294,4 +280,14 @@ CREATE TABLE `scheduled_appointment` (
   CONSTRAINT `FKexeshthp3jwdh6fjgqh4f5vf2` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO appkademy.native VALUES(0);
+
+-- appkademy.teacher_proficiencies definition
+
+CREATE TABLE `teacher_proficiencies` (
+  `teacher_id` bigint NOT NULL,
+  `proficiencies_id` bigint NOT NULL,
+  KEY `FKfqwyxj92se2pbejq28i8d3aml` (`proficiencies_id`),
+  KEY `FK3q28c6fjghkn1t61ln8m4n0kq` (`teacher_id`),
+  CONSTRAINT `FK3q28c6fjghkn1t61ln8m4n0kq` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`),
+  CONSTRAINT `FKfqwyxj92se2pbejq28i8d3aml` FOREIGN KEY (`proficiencies_id`) REFERENCES `teaching_proficiency` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

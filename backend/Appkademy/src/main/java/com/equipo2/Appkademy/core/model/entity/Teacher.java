@@ -20,7 +20,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "teacher", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "teacher")
 public class Teacher extends NaturalPersonProvider {
 
     @Column(name = "short_description", nullable = true, length = 100)
@@ -74,7 +74,6 @@ public class Teacher extends NaturalPersonProvider {
         setFullDescription(builder.fullDescription);
         setAddress(builder.address);
         setTotalLikes(builder.totalLikes);
-        setEmail(builder.email);
         setCreatedOn(builder.createdOn);
         setLastModifiedOn(builder.lastModifiedOn);
         setCharacteristics(builder.characteristics);
@@ -114,8 +113,6 @@ public class Teacher extends NaturalPersonProvider {
         private String shortDescription;
         private String fullDescription;
         private Address address;
-
-        private String email;
 
         private List<Characteristic> characteristics;
 
@@ -208,11 +205,6 @@ public class Teacher extends NaturalPersonProvider {
 
         public Builder address(Address _address){
             address = _address;
-            return this;
-        }
-
-        public Builder email(String _email){
-            email = _email;
             return this;
         }
 

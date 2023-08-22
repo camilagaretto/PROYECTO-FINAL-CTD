@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "student", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "student")
 public class Student extends NaturalPersonCustomer {
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -26,7 +26,6 @@ public class Student extends NaturalPersonCustomer {
         setFirstName(builder.firstName);
         setLastName(builder.lastName);
         //setAddress(builder.address);
-        setEmail(builder.email);
         setCreatedOn(builder.createdOn);
         setLastModifiedOn(builder.lastModifiedOn);
         setUserId(builder.userId);
@@ -43,7 +42,6 @@ public class Student extends NaturalPersonCustomer {
         private List<Long> likedProviderIds;
         private String firstName;
         private String lastName;
-        private String email;
         private boolean enabled;
         private Address address;
         private boolean identityVerified;
@@ -97,11 +95,6 @@ public class Student extends NaturalPersonCustomer {
 
         public Student.Builder address(Address _address){
             address = _address;
-            return this;
-        }
-
-        public Student.Builder email(String _email){
-            email = _email;
             return this;
         }
 
