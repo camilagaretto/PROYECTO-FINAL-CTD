@@ -1,17 +1,48 @@
 import React, {useState, useEffect} from 'react';
 import DashboardHeader from '../../../Components/Admin/DashboardHeader';
-import all_students from '../../../constants/students';
 import {calculateRange, sliceData} from '../../../utils/table-pagination';
 
 function Students () {
     const [search, setSearch] = useState('');
-    const [students, setStudents] = useState(all_students);
+    const [students, setStudents] = useState([]);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
 
+    const fetchData = async () => {
+        const userToken = localStorage.getItem("user");
+        const tokenObj = JSON.parse(userToken);
+        const token = tokenObj.token; 
+
+        const searchData = {
+            "pageNumber": 1,
+            "pageSize": 10,
+        }
+
+        try {
+          const response = await fetch('http://localhost:8080/v1/categories/1/customers/search', {
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(searchData),
+            });
+            if (response.ok) {
+                const students = await response.json();
+                setStudents(students.searchResults)
+            } else {
+                console.log(response)
+                alert('Error al crear usuario');
+            }
+        } catch (error) {
+          console.error('Error al obtener los datos:', error);
+        }
+    };
+
     useEffect(() => {
-        setPagination(calculateRange(all_students, 6));
-        setStudents(sliceData(all_students, page, 6));
+        setPagination(calculateRange(students, 6));
+        setStudents(sliceData(students, page, 6));
+        fetchData();
     }, []);
 
     const __handleSearch = (event) => {
@@ -30,7 +61,7 @@ function Students () {
 
     const __handleChangePage = (new_page) => {
         setPage(new_page);
-        setStudents(sliceData(all_students, new_page, 5));
+        setStudents(sliceData(students, new_page, 5));
     }
 
     return(

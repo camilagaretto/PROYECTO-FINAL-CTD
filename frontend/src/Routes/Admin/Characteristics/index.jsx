@@ -1,26 +1,57 @@
 import React, {useState, useEffect} from 'react';
 import DashboardHeader from '../../../Components/Admin/DashboardHeader';
-import all_features from '../../../constants/features';
 import {calculateRange, sliceData} from '../../../utils/table-pagination';
+import { Link } from 'react-router-dom';
 
-function Features () {
+function Characteristics() {
     const [search, setSearch] = useState('');
-    const [features, setFeatures] = useState(all_features);
+    const [characteristics, setCharacteristics] = useState([]);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
 
+    const fetchData = async () => {
+        const userToken = localStorage.getItem("user");
+        const tokenObj = JSON.parse(userToken);
+        const token = tokenObj.token; 
+
+        const searchData = {
+            "pageNumber": 1,
+            "pageSize": 10,
+        }
+
+        try {
+          const response = await fetch('http://localhost:8080/v1/categories/1/providers/characteristics/search', {
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(searchData),
+            });
+            if (response.ok) {
+                const characteristics = await response.json();
+                setCharacteristics(characteristics.searchResults)
+            } else {
+                alert('Error al crear usuario');
+            }
+        } catch (error) {
+          console.error('Error al obtener los datos:', error);
+        }
+    };
+
     useEffect(() => {
-        setPagination(calculateRange(all_features, 6));
-        setFeatures(sliceData(all_features, page, 6));
+        setPagination(calculateRange(characteristics, 6));
+        setCharacteristics(sliceData(characteristics, page, 6));
+        fetchData();
     }, []);
 
     const __handleSearch = (event) => {
         setSearch(event.target.value);
         if (event.target.value !== '') {
-            let search_results = features.filter((item) =>
+            let search_results = characteristics.filter((item) =>
                 item.name.toLowerCase().includes(search.toLowerCase())
             );
-            setFeatures(search_results);
+            setCharacteristics(search_results);
         }
         else {
             __handleChangePage(1);
@@ -29,12 +60,14 @@ function Features () {
 
     const __handleChangePage = (new_page) => {
         setPage(new_page);
-        setFeatures(sliceData(all_features, new_page, 5));
+        setCharacteristics(sliceData(characteristics, new_page, 5));
     }
 
     return(
         <div className='dashboard-content'>
             <DashboardHeader/>
+            <Link className='btn btn-primary' to="/admin/agregar-caracteristica">Agregar característica</Link>
+
 
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
@@ -57,19 +90,19 @@ function Features () {
                         </tr>
                     </thead>
 
-                    {features.length !== 0 ?
+                    {characteristics.length !== 0 ?
                         <tbody>
-                            {features.map((feature, index) => (
+                            {characteristics.map((characteristic, index) => (
                                 <tr key={index}>
-                                    <td><span>{feature.id}</span></td>
-                                    <td><span>{feature.name}</span></td>
+                                    <td><span>{characteristic.id}</span></td>
+                                    <td><span>{characteristic.name}</span></td>
                                 </tr>
                             ))}
                         </tbody>
                     : null}
                 </table>
 
-                {features.length !== 0 ?
+                {characteristics.length !== 0 ?
                     <div className='dashboard-content-footer'>
                         {pagination.map((item, index) => (
                             <span 
@@ -90,4 +123,4 @@ function Features () {
     )
 }
 
-export default Features;
+export default Characteristics;

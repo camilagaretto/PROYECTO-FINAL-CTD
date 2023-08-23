@@ -1,18 +1,49 @@
 import React, {useState, useEffect} from 'react';
 import DashboardHeader from '../../../Components/Admin/DashboardHeader';
-import all_teachers from '../../../constants/teachers';
 import {calculateRange, sliceData} from '../../../utils/table-pagination';
 import { Link } from 'react-router-dom';
 
 function Teachers () {
     const [search, setSearch] = useState('');
-    const [teachers, setTeachers] = useState(all_teachers);
+    const [teachers, setTeachers] = useState([]);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
 
+    const fetchData = async () => {
+        const userToken = localStorage.getItem("user");
+        const tokenObj = JSON.parse(userToken);
+        const token = tokenObj.token; 
+
+        const searchData = {
+            "pageNumber": 1,
+            "pageSize": 10,
+        }
+
+        try {
+          const response = await fetch('http://localhost:8080/v1/categories/1/providers/search', {
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(searchData),
+            });
+            if (response.ok) {
+                const teachers = await response.json();
+                setTeachers(teachers.searchResults)
+            } else {
+                console.log(response)
+                alert('Error al crear usuario');
+            }
+        } catch (error) {
+          console.error('Error al obtener los datos:', error);
+        }
+    };
+
     useEffect(() => {
-        setPagination(calculateRange(all_teachers, 6));
-        setTeachers(sliceData(all_teachers, page, 6));
+        setPagination(calculateRange(teachers, 6));
+        setTeachers(sliceData(teachers, page, 6));
+        fetchData();
     }, []);
 
     const __handleSearch = (event) => {
@@ -28,11 +59,34 @@ function Teachers () {
             __handleChangePage(1);
         }
     };
-
     const __handleChangePage = (new_page) => {
         setPage(new_page);
-        setTeachers(sliceData(all_teachers, new_page, 5));
-    }
+        setTeachers(sliceData(teachers, new_page, 5));
+    };
+    const __handleDelete = (id) => {
+        const userToken = localStorage.getItem("user");
+        const tokenObj = JSON.parse(userToken);
+        const token = tokenObj.token; 
+
+        if (window.confirm('¿Estás seguro que deseas eliminar?')) {
+            try {
+                const response = fetch(`http://localhost:8080/v1/categories/1/providers/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                })
+                if (response.ok) {
+                    alert('Usuario eliminado exitosamente');
+                } else {
+                    console.log(response)
+                    alert('Error al eliminar usuario');
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+            }
+        }
+    };
 
     return(
         <div className='dashboard-content'>
@@ -71,7 +125,10 @@ function Teachers () {
                                     <td><span>{teacher.identityVerified ? 'Yes' : 'No'}</span></td>
                                     <td><span>{teacher.providerCategoryId}</span></td>
                                     <td><span>{teacher.totalLikes}</span></td>
-                                    <td><span>Eliminar</span></td>
+                                    <td>
+                                        <Link key={teacher.id} to={`/admin/editar-profesor/${teacher.id}`}>Editar</Link>
+                                        <button onClick={() => __handleDelete(teacher.id)}>Eliminar</button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
