@@ -1,9 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardHeader from '../../../Components/Admin/DashboardHeader';
-import {calculateRange, sliceData} from '../../../utils/table-pagination';
+import { calculateRange, sliceData } from '../../../utils/table-pagination';
 import { Link } from 'react-router-dom';
+import { FaTrash } from 'react-icons/fa'
+import { BiPencil } from 'react-icons/bi';
 
-function Teachers () {
+function Teachers() {
     const [search, setSearch] = useState('');
     const [teachers, setTeachers] = useState([]);
     const [page, setPage] = useState(1);
@@ -12,7 +14,7 @@ function Teachers () {
     const fetchData = async () => {
         const userToken = localStorage.getItem("user");
         const tokenObj = JSON.parse(userToken);
-        const token = tokenObj.token; 
+        const token = tokenObj.token;
 
         const searchData = {
             "pageNumber": 1,
@@ -20,13 +22,13 @@ function Teachers () {
         }
 
         try {
-          const response = await fetch('http://localhost:8080/v1/categories/1/providers/search', {
-            method:'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(searchData),
+            const response = await fetch('http://localhost:8080/v1/categories/1/providers/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(searchData),
             });
             if (response.ok) {
                 const teachers = await response.json();
@@ -36,7 +38,7 @@ function Teachers () {
                 alert('Error al crear usuario');
             }
         } catch (error) {
-          console.error('Error al obtener los datos:', error);
+            console.error('Error al obtener los datos:', error);
         }
     };
 
@@ -66,7 +68,7 @@ function Teachers () {
     const __handleDelete = (id) => {
         const userToken = localStorage.getItem("user");
         const tokenObj = JSON.parse(userToken);
-        const token = tokenObj.token; 
+        const token = tokenObj.token;
 
         if (window.confirm('¿Estás seguro que deseas eliminar?')) {
             try {
@@ -88,14 +90,13 @@ function Teachers () {
         }
     };
 
-    return(
+    return (
         <div className='dashboard-content'>
-            <DashboardHeader/>
-            <Link className='btn btn-primary' to="/admin/agregar-profesor">Agregar profesor</Link>
-
+            <DashboardHeader />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
                     <h2>Profesores</h2>
+                    <Link className='btn btn-dark' to="/admin/agregar-profesor">Nuevo profesor</Link>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'
@@ -125,28 +126,28 @@ function Teachers () {
                                     <td><span>{teacher.identityVerified ? 'Yes' : 'No'}</span></td>
                                     <td><span>{teacher.providerCategoryId}</span></td>
                                     <td><span>{teacher.totalLikes}</span></td>
-                                    <td>
-                                        <Link key={teacher.id} to={`/admin/editar-profesor/${teacher.id}`}>Editar</Link>
-                                        <button onClick={() => __handleDelete(teacher.id)}>Eliminar</button>
+                                    <td className='action-buttons'>
+                                        <Link key={teacher.id} to={`/admin/editar-profesor/${teacher.id}`}><BiPencil /></Link>
+                                        <button onClick={() => __handleDelete(teacher.id)}><FaTrash /></button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
-                    : null}
+                        : null}
                 </table>
 
                 {teachers.length !== 0 ?
                     <div className='dashboard-content-footer'>
                         {pagination.map((item, index) => (
-                            <span 
-                                key={index} 
+                            <span
+                                key={index}
                                 className={item === page ? 'active-pagination' : 'pagination'}
                                 onClick={() => __handleChangePage(item)}>
-                                    {item}
+                                {item}
                             </span>
                         ))}
                     </div>
-                : 
+                    :
                     <div className='dashboard-content-footer'>
                         <span className='empty-table'>No data</span>
                     </div>

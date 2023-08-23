@@ -39,9 +39,11 @@ main {
 }
 .dashboard-content-header {
    display: flex;
+   align-items: center;
    flex-direction: row;
    justify-content: space-between;
 }
+
 .dashboard-content-header h2 {
    margin-top: auto;
    margin-bottom: auto;
@@ -104,10 +106,22 @@ th {
 }
 tbody {
    display: table-row-group;
+   box-shadow: 0px 0px 9px 1px #cacacaca;
+   border-radius: 10px;
+
+   .action-buttons{
+       display: flex;
+       gap: 10px;
+   
+       button{
+           background: none;
+           border: none;
+       }
+   }
 }
 tr, thead {
    color: inherit;
-   display: table-row;
+   display: revert;
    vertical-align: middle;
    outline: 0px;
 }

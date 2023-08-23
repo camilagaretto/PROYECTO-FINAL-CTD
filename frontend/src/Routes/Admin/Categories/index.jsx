@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardHeader from '../../../Components/Admin/DashboardHeader';
-import {calculateRange, sliceData} from '../../../utils/table-pagination';
+import { calculateRange, sliceData } from '../../../utils/table-pagination';
 import { Link } from 'react-router-dom';
 
-function Categories () {
+function Categories() {
     const [search, setSearch] = useState('');
     const [categories, setCategories] = useState([]);
     const [page, setPage] = useState(1);
@@ -12,7 +12,7 @@ function Categories () {
     const fetchData = async () => {
         const userToken = localStorage.getItem("user");
         const tokenObj = JSON.parse(userToken);
-        const token = tokenObj.token; 
+        const token = tokenObj.token;
 
         const searchData = {
             "pageNumber": 1,
@@ -20,13 +20,13 @@ function Categories () {
         }
 
         try {
-          const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
-            method:'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(searchData),
+            const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(searchData),
             });
             if (response.ok) {
                 const categories = await response.json();
@@ -36,7 +36,7 @@ function Categories () {
                 alert('Error al crear usuario');
             }
         } catch (error) {
-          console.error('Error al obtener los datos:', error);
+            console.error('Error al obtener los datos:', error);
         }
     };
 
@@ -64,14 +64,13 @@ function Categories () {
         setCategories(sliceData(categories, new_page, 5));
     }
 
-    return(
+    return (
         <div className='dashboard-content'>
-            <DashboardHeader/>
-            <Link className='btn btn-primary' to="/admin/agregar-categoria">Agregar categoría</Link>
-
+            <DashboardHeader />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
                     <h2>Categorías</h2>
+                    <Link className='btn btn-dark' to="/admin/agregar-categoria">Nueva categoría</Link>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'
@@ -99,21 +98,21 @@ function Categories () {
                                 </tr>
                             ))}
                         </tbody>
-                    : null}
+                        : null}
                 </table>
 
                 {categories.length !== 0 ?
                     <div className='dashboard-content-footer'>
                         {pagination.map((item, index) => (
-                            <span 
-                                key={index} 
+                            <span
+                                key={index}
                                 className={item === page ? 'active-pagination' : 'pagination'}
                                 onClick={() => __handleChangePage(item)}>
-                                    {item}
+                                {item}
                             </span>
                         ))}
                     </div>
-                : 
+                    :
                     <div className='dashboard-content-footer'>
                         <span className='empty-table'>No data</span>
                     </div>

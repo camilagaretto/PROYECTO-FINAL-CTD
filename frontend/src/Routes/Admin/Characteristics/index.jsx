@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardHeader from '../../../Components/Admin/DashboardHeader';
-import {calculateRange, sliceData} from '../../../utils/table-pagination';
+import { calculateRange, sliceData } from '../../../utils/table-pagination';
 import { Link } from 'react-router-dom';
+import { BiPencil } from 'react-icons/bi';
+import { FaTrash } from 'react-icons/fa';
 
 function Characteristics() {
     const [search, setSearch] = useState('');
@@ -12,7 +14,7 @@ function Characteristics() {
     const fetchData = async () => {
         const userToken = localStorage.getItem("user");
         const tokenObj = JSON.parse(userToken);
-        const token = tokenObj.token; 
+        const token = tokenObj.token;
 
         const searchData = {
             "pageNumber": 1,
@@ -20,13 +22,13 @@ function Characteristics() {
         }
 
         try {
-          const response = await fetch('http://localhost:8080/v1/categories/1/providers/characteristics/search', {
-            method:'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(searchData),
+            const response = await fetch('http://localhost:8080/v1/categories/1/providers/characteristics/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(searchData),
             });
             if (response.ok) {
                 const characteristics = await response.json();
@@ -35,7 +37,7 @@ function Characteristics() {
                 alert('Error al crear usuario');
             }
         } catch (error) {
-          console.error('Error al obtener los datos:', error);
+            console.error('Error al obtener los datos:', error);
         }
     };
 
@@ -63,15 +65,13 @@ function Characteristics() {
         setCharacteristics(sliceData(characteristics, new_page, 5));
     }
 
-    return(
+    return (
         <div className='dashboard-content'>
-            <DashboardHeader/>
-            <Link className='btn btn-primary' to="/admin/agregar-caracteristica">Agregar característica</Link>
-
-
+            <DashboardHeader />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
                     <h2>Caracteristicas</h2>
+                    <Link className='btn btn-dark' to="/admin/agregar-caracteristica">Nueva característica</Link>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'
@@ -87,6 +87,7 @@ function Characteristics() {
                         <tr>
                             <th>Id</th>
                             <th>Nombre</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
 
@@ -96,24 +97,28 @@ function Characteristics() {
                                 <tr key={index}>
                                     <td><span>{characteristic.id}</span></td>
                                     <td><span>{characteristic.name}</span></td>
+                                    <td className='action-buttons'>
+                                        <Link key={characteristic.id} to={`/admin/editar-caracteristica/${characteristic.id}`}><BiPencil /></Link>
+                                        <button onClick={()=> {alert('agregar logica')}}><FaTrash /></button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
-                    : null}
+                        : null}
                 </table>
 
                 {characteristics.length !== 0 ?
                     <div className='dashboard-content-footer'>
                         {pagination.map((item, index) => (
-                            <span 
-                                key={index} 
+                            <span
+                                key={index}
                                 className={item === page ? 'active-pagination' : 'pagination'}
                                 onClick={() => __handleChangePage(item)}>
-                                    {item}
+                                {item}
                             </span>
                         ))}
                     </div>
-                : 
+                    :
                     <div className='dashboard-content-footer'>
                         <span className='empty-table'>No data</span>
                     </div>
