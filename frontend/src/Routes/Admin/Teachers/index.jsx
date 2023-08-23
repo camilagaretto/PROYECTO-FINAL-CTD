@@ -127,8 +127,8 @@ function Teachers() {
                                     <td><span>{teacher.providerCategoryId}</span></td>
                                     <td><span>{teacher.totalLikes}</span></td>
                                     <td className='action-buttons'>
-                                        <Link key={teacher.id} to={`/admin/editar-profesor/${teacher.id}`}><BiPencil /></Link>
-                                        <button onClick={() => __handleDelete(teacher.id)}><FaTrash /></button>
+                                        <Link key={teacher.id} to={`/admin/editar-profesor/${teacher.id}`}><BiPencil/></Link>
+                                        <button onClick={() => __handleDelete(teacher.id)}><FaTrash/></button>
                                     </td>
                                 </tr>
                             ))}

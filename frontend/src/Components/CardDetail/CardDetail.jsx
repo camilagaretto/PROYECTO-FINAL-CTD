@@ -1,7 +1,7 @@
 import React from 'react'
 import './CardDetail.scss'
 
-const CardDetail = ({fullName, hourlyRates}) => {
+const CardDetail = ({fullName, hourlyRates, characteristics}) => {
     return (
         <div className='card__detail__container'>
             <div>
@@ -10,8 +10,11 @@ const CardDetail = ({fullName, hourlyRates}) => {
             <div className='card__detail__text'>
                 <div>
                     <h4>{fullName}</h4>
-                    <p>+50 Estudiantes</p>
-                    <p>+200 Clases dictadas</p>
+                    {/* <p>+50 Estudiantes</p>
+                    <p>+200 Clases dictadas</p> */}
+                    {characteristics?.map(characteristic=>(
+                        <p>{characteristic.name}</p>
+                    ))}
                 </div>
                 <div>
                     <h2>$25</h2>

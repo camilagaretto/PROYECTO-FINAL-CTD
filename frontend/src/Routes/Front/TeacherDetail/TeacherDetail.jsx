@@ -39,6 +39,7 @@ const TeacherDetail = () => {
                         <CardDetail 
                         fullName={teacherData.firstName + ' ' + teacherData.lastName}
                         hourlyRates={hourlyRatesArray}
+                        characteristics={teacherData.characteristics}
                         />
                         <div className='descripcion'>
                             <h2>Descripción</h2>
