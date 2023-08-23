@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './UserForm.scss'
 import { useFormik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
@@ -8,6 +8,8 @@ import { RegisterSchema } from '../../Schemas/Schemas'
 const UserForm = () => {
 
   const navigate = useNavigate()
+
+  const [error, setError] = useState("")
 
   const handleSubmitForm = async (values) => {
 
@@ -25,14 +27,15 @@ const UserForm = () => {
         body: JSON.stringify(userData),
       });
       if (response.ok) {
-         alert('Usuario creado exitosamente');
+        // alert('Usuario creado exitosamente');
         const data = await response.json();
         const userId = data.userId;
         const token = data.token;
-        // Llamar a la función para crear estudiante
         createStudent(userId, values, token);
       } else {
-        console.log(response.body)
+        const res = await response.json()
+        const error = res.cause.split("_").join(" ")
+        setError(error)
       }
     } catch (error) {
       console.error('Error de red:', error);
@@ -64,9 +67,9 @@ const UserForm = () => {
         alert('Estudiante creado exitosamente');
         navigate('/login')
       } else {
-        const error = await response.json();
-        console.log(error);
-        alert('Error al crear estudiante');
+        const error = await response.json();  
+        console.log(error.cause);
+        alert(error.cause);
       }
     } catch (error) {
       console.log(error)
@@ -150,6 +153,7 @@ const UserForm = () => {
           {errors.email && <p className='error'>{errors.email}</p>}
           {errors.password && <p className='error'>{errors.password}</p>}
           {errors.confirmPassword && <p className='error'>{errors.confirmPassword}</p>}
+          {error && <p className='error'>{error}</p>}
         </div>
       </form>
     </div>

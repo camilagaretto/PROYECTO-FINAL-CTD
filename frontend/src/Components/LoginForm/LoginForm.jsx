@@ -29,7 +29,8 @@ const LoginForm = () => {
           token: data.token,
           isAdmin: data.isAdmin,
           userType: data.userType,
-          userTypeId: data.userTypeId
+          userTypeId: data.userTypeId,
+          email : data.email
         };
 
         // Realizar la segunda solicitud después del inicio de sesión
@@ -44,10 +45,9 @@ const LoginForm = () => {
         });
         if (getStudent.ok) {
           const userInformation = await getStudent.json();
-          const {firstName, lastName, email} = userInformation
+          const {firstName, lastName} = userInformation
           userData.firstName = firstName
           userData.lastName = lastName
-          userData.email = email
         }
 
         const userDataJSON = JSON.stringify(userData);
