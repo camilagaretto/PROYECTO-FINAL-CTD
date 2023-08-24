@@ -1,11 +1,11 @@
 import React from 'react'
 import './CardDetail.scss'
 
-const CardDetail = ({fullName, hourlyRates, characteristics}) => {
+const CardDetail = ({fullName, hourlyRates, characteristics, profileImg}) => {
     return (
         <div className='card__detail__container'>
             <div>
-                <img src="https://res.cloudinary.com/tuko/image/upload/v1691591701/14_nrivov.svg" alt="Appkademy teacher image" />
+                <img src={profileImg} alt="Appkademy teacher image" />
             </div>
             <div className='card__detail__text'>
                 <div>

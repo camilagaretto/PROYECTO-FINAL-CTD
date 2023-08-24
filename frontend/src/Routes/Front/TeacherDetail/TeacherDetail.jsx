@@ -40,6 +40,7 @@ const TeacherDetail = () => {
                         fullName={teacherData.firstName + ' ' + teacherData.lastName}
                         hourlyRates={hourlyRatesArray}
                         characteristics={teacherData.characteristics}
+                        profileImg={teacherData.profilePictureUrl}
                         />
                         <div className='descripcion'>
                             <h2>Descripción</h2>
