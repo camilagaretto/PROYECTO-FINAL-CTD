@@ -40,6 +40,8 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers(HttpMethod.POST, "/v1/categories/1/customers/")
                 .permitAll()
+                .requestMatchers(HttpMethod.POST, "/v1/categories/1/providers/teaching_subject/search")
+                .permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**", "/documentation/**")
                 .permitAll()
                 .requestMatchers("/error")
