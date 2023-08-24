@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import DashboardHeader from '../../../Components/Admin/DashboardHeader';
 import { calculateRange, sliceData } from '../../../utils/table-pagination';
 import { Link } from 'react-router-dom';
-import { FaTrash } from 'react-icons/fa'
 import { BiPencil } from 'react-icons/bi';
+import { FaTrash } from 'react-icons/fa';
 
-function Teachers() {
+function Characteristics() {
     const [search, setSearch] = useState('');
-    const [teachers, setTeachers] = useState([]);
+    const [characteristics, setCharacteristics] = useState([]);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
 
@@ -22,7 +22,7 @@ function Teachers() {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/v1/categories/1/providers/search', {
+            const response = await fetch('http://localhost:8080/v1/categories/1/providers/characteristics/search', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,10 +31,9 @@ function Teachers() {
                 body: JSON.stringify(searchData),
             });
             if (response.ok) {
-                const teachers = await response.json();
-                setTeachers(teachers.searchResults)
+                const characteristics = await response.json();
+                setCharacteristics(characteristics.searchResults)
             } else {
-                console.log(response)
                 alert('Error al crear usuario');
             }
         } catch (error) {
@@ -43,60 +42,36 @@ function Teachers() {
     };
 
     useEffect(() => {
-        setPagination(calculateRange(teachers, 6));
-        setTeachers(sliceData(teachers, page, 6));
+        setPagination(calculateRange(characteristics, 6));
+        setCharacteristics(sliceData(characteristics, page, 6));
         fetchData();
     }, []);
 
     const __handleSearch = (event) => {
         setSearch(event.target.value);
         if (event.target.value !== '') {
-            let search_results = teachers.filter((item) =>
-                item.firstName.toLowerCase().includes(search.toLowerCase()) ||
-                item.lastName.toLowerCase().includes(search.toLowerCase())
+            let search_results = characteristics.filter((item) =>
+                item.name.toLowerCase().includes(search.toLowerCase())
             );
-            setTeachers(search_results);
+            setCharacteristics(search_results);
         }
         else {
             __handleChangePage(1);
         }
     };
+
     const __handleChangePage = (new_page) => {
         setPage(new_page);
-        setTeachers(sliceData(teachers, new_page, 5));
-    };
-    const __handleDelete = (id) => {
-        const userToken = localStorage.getItem("user");
-        const tokenObj = JSON.parse(userToken);
-        const token = tokenObj.token;
-
-        if (window.confirm('¿Estás seguro que deseas eliminar?')) {
-            try {
-                const response = fetch(`http://localhost:8080/v1/categories/1/providers/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    },
-                })
-                if (response.ok) {
-                    alert('Usuario eliminado exitosamente');
-                } else {
-                    console.log(response)
-                    alert('Error al eliminar usuario');
-                }
-            } catch (error) {
-                console.error('Error de red:', error);
-            }
-        }
-    };
+        setCharacteristics(sliceData(characteristics, new_page, 5));
+    }
 
     return (
         <div className='dashboard-content'>
             <DashboardHeader />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
-                    <h2>Profesores</h2>
-                    <Link className='btn btn-dark' to="/admin/agregar-profesor">Nuevo profesor</Link>
+                    <h2>Caracteristicas</h2>
+                    <Link className='btn btn-dark' to="/admin/agregar-caracteristica">Nueva característica</Link>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'
@@ -110,25 +85,21 @@ function Teachers() {
                 <table>
                     <thead>
                         <tr>
-                            <th>Usuario</th>
-                            <th>Verificado</th>
-                            <th>Categoría</th>
-                            <th>C. Likes</th>
+                            <th>Id</th>
+                            <th>Nombre</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
 
-                    {teachers.length !== 0 ?
+                    {characteristics.length !== 0 ?
                         <tbody>
-                            {teachers.map((teacher, index) => (
+                            {characteristics.map((characteristic, index) => (
                                 <tr key={index}>
-                                    <td><span>{teacher.firstName} {teacher.lastName}</span></td>
-                                    <td><span>{teacher.identityVerified ? 'Yes' : 'No'}</span></td>
-                                    <td><span>{teacher.providerCategoryId}</span></td>
-                                    <td><span>{teacher.totalLikes}</span></td>
+                                    <td><span>{characteristic.id}</span></td>
+                                    <td><span>{characteristic.name}</span></td>
                                     <td className='action-buttons'>
-                                        <Link key={teacher.id} to={`/admin/editar-profesor/${teacher.id}`}><BiPencil/></Link>
-                                        <button onClick={() => __handleDelete(teacher.id)}><FaTrash/></button>
+                                        <Link key={characteristic.id} to={`/admin/editar-caracteristica/${characteristic.id}`}><BiPencil /></Link>
+                                        <button onClick={()=> {alert('agregar logica')}}><FaTrash /></button>
                                     </td>
                                 </tr>
                             ))}
@@ -136,7 +107,7 @@ function Teachers() {
                         : null}
                 </table>
 
-                {teachers.length !== 0 ?
+                {characteristics.length !== 0 ?
                     <div className='dashboard-content-footer'>
                         {pagination.map((item, index) => (
                             <span
@@ -157,4 +128,4 @@ function Teachers() {
     )
 }
 
-export default Teachers;
+export default Characteristics;

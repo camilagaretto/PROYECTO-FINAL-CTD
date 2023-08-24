@@ -1,17 +1,49 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardHeader from '../../../Components/Admin/DashboardHeader';
-import all_categories from '../../../constants/categories';
-import {calculateRange, sliceData} from '../../../utils/table-pagination';
+import { calculateRange, sliceData } from '../../../utils/table-pagination';
+import { Link } from 'react-router-dom';
 
-function Categories () {
+function Categories() {
     const [search, setSearch] = useState('');
-    const [categories, setCategories] = useState(all_categories);
+    const [categories, setCategories] = useState([]);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
 
+    const fetchData = async () => {
+        const userToken = localStorage.getItem("user");
+        const tokenObj = JSON.parse(userToken);
+        const token = tokenObj.token;
+
+        const searchData = {
+            "pageNumber": 1,
+            "pageSize": 10,
+        }
+
+        try {
+            const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(searchData),
+            });
+            if (response.ok) {
+                const categories = await response.json();
+                setCategories(categories.searchResults)
+            } else {
+                console.log(response)
+                alert('Error al crear usuario');
+            }
+        } catch (error) {
+            console.error('Error al obtener los datos:', error);
+        }
+    };
+
     useEffect(() => {
-        setPagination(calculateRange(all_categories, 6));
-        setCategories(sliceData(all_categories, page, 6));
+        setPagination(calculateRange(categories, 6));
+        setCategories(sliceData(categories, page, 6));
+        fetchData();
     }, []);
 
     const __handleSearch = (event) => {
@@ -29,16 +61,16 @@ function Categories () {
 
     const __handleChangePage = (new_page) => {
         setPage(new_page);
-        setCategories(sliceData(all_categories, new_page, 5));
+        setCategories(sliceData(categories, new_page, 5));
     }
 
-    return(
+    return (
         <div className='dashboard-content'>
-            <DashboardHeader/>
-
+            <DashboardHeader />
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
                     <h2>Categorías</h2>
+                    <Link className='btn btn-dark' to="/admin/agregar-categoria">Nueva categoría</Link>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'
@@ -66,21 +98,21 @@ function Categories () {
                                 </tr>
                             ))}
                         </tbody>
-                    : null}
+                        : null}
                 </table>
 
                 {categories.length !== 0 ?
                     <div className='dashboard-content-footer'>
                         {pagination.map((item, index) => (
-                            <span 
-                                key={index} 
+                            <span
+                                key={index}
                                 className={item === page ? 'active-pagination' : 'pagination'}
                                 onClick={() => __handleChangePage(item)}>
-                                    {item}
+                                {item}
                             </span>
                         ))}
                     </div>
-                : 
+                    :
                     <div className='dashboard-content-footer'>
                         <span className='empty-table'>No data</span>
                     </div>

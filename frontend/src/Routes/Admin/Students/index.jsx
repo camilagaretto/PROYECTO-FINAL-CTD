@@ -1,17 +1,49 @@
 import React, {useState, useEffect} from 'react';
 import DashboardHeader from '../../../Components/Admin/DashboardHeader';
-import all_students from '../../../constants/students';
 import {calculateRange, sliceData} from '../../../utils/table-pagination';
 
 function Students () {
     const [search, setSearch] = useState('');
-    const [students, setStudents] = useState(all_students);
+    const [students, setStudents] = useState([]);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState([]);
 
+    const fetchData = async () => {
+        const userToken = localStorage.getItem("user");
+        const tokenObj = JSON.parse(userToken);
+        const token = tokenObj.token; 
+
+        const searchData = {
+            "pageNumber": 1,
+            "pageSize": 10,
+        }
+
+        try {
+          const response = await fetch('http://localhost:8080/v1/categories/1/customers/search', {
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(searchData),
+            });
+            if (response.ok) {
+                const students = await response.json();
+                setStudents(students.searchResults)
+                console.log(students)
+            } else {
+                console.log(response)
+                alert('Error al crear usuario');
+            }
+        } catch (error) {
+          console.error('Error al obtener los datos:', error);
+        }
+    };
+
     useEffect(() => {
-        setPagination(calculateRange(all_students, 6));
-        setStudents(sliceData(all_students, page, 6));
+        setPagination(calculateRange(students, 6));
+        setStudents(sliceData(students, page, 6));
+        fetchData();
     }, []);
 
     const __handleSearch = (event) => {
@@ -30,7 +62,35 @@ function Students () {
 
     const __handleChangePage = (new_page) => {
         setPage(new_page);
-        setStudents(sliceData(all_students, new_page, 5));
+        setStudents(sliceData(students, new_page, 5));
+    }
+    const __handleRol = async (student) => {
+        const userToken = localStorage.getItem("user");
+        const tokenObj = JSON.parse(userToken);
+        const token = tokenObj.token;
+
+        const dataRol = {
+            "roleIds": [
+              2
+            ]
+        }
+        try {
+            const response = await fetch(`http://localhost:8080/v1/auth/${student.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(dataRol),
+            });
+            if (response.ok) {
+                alert(`${student.firstName} ahora es admin`);
+            } else {
+                alert('Error al asignar rol');
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
     }
 
     return(
@@ -39,7 +99,7 @@ function Students () {
 
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
-                    <h2>Estudiantes</h2>
+                    <h2>Usuarios</h2>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'
@@ -54,9 +114,7 @@ function Students () {
                     <thead>
                         <tr>
                             <th>Usuario</th>
-                            <th>Verificado</th>
-                            <th>Categoría</th>
-                            <th>C. Likes</th>
+                            <th>Habilitado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -66,10 +124,8 @@ function Students () {
                             {students.map((student, index) => (
                                 <tr key={index}>
                                     <td><span>{student.firstName} {student.lastName}</span></td>
-                                    <td><span>{student.identityVerified ? 'Yes' : 'No'}</span></td>
-                                    <td><span>{student.providerCategoryId}</span></td>
-                                    <td><span>{student.totalLikes}</span></td>
-                                    <td><span>Eliminar</span></td>
+                                    <td><span>{student.enabled ? 'Yes' : 'No'}</span></td>
+                                    <td>  <button onClick={() => __handleRol(student)}>Hacer admin</button></td>
                                 </tr>
                             ))}
                         </tbody>

@@ -5,7 +5,9 @@ import Teachers from './Teachers';
 import AddTeacher from './Teachers/AddTeacher';
 import Students from './Students';
 import Categories from './Categories';
-import Features from './Features';
+import AddCategory from './Categories/AddCategory';
+import Characteristics from './Characteristics';
+import AddCharacteristic from './Characteristics/AddCharacteristic';
 import SideBar from '../../Components/Admin/Sidebar';
 import sidebar_menu from '../../constants/sidebar-menu';
 
@@ -19,9 +21,12 @@ function AdminRoutes() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/profesores" element={<Teachers />} />
           <Route path="/agregar-profesor" element={<AddTeacher />} />
+          <Route path="/editar-profesor/:id" element={<AddTeacher />} />
           <Route path="/estudiantes" element={<Students />} />
           <Route path="/categorias" element={<Categories />} />
-          <Route path="/caracteristicas" element={<Features />} />
+          <Route path="/agregar-categoria" element={<AddCategory/>} />
+          <Route path="/caracteristicas" element={<Characteristics />} />
+          <Route path="/agregar-caracteristica" element={<AddCharacteristic />} />
         </Routes>
       </main>
     </div>

@@ -1,11 +1,14 @@
 import React, {useEffect, useState } from 'react';
-import './TeacherForm.scss'
+import { useParams } from 'react-router-dom'
+import './styles.scss'
 
 function TeacherForm() {
+    const params = useParams()
+    
     const [userData, setUserData] = useState({
+        id: '',
         firstName: '',
         lastName: '',
-        email: '',
         shortDescription: '',
         fullDescription: '',
         address: {
@@ -24,29 +27,86 @@ function TeacherForm() {
             FACE_TO_FACE: false,
             REMOTE: false,
         },
-        proficiencies: [
-            {
-                masteryLevel: '',
-                subject: '',
-            },
+        proficiencyIds: [
         ],
         weeklyWorkingSchedule: {
             checkIn: '',
             checkOut: '',
             sunday: false,
-            monday: false,
+            monday: true,
             tuesday: false,
-            wednesday: false,
-            thursday: false,
-            friday: false,
+            wednesday: true,
+            thursday: true,
+            friday: true,
             saturday: false,
         },
         scheduledAppointments: [],
+        totalLikes: 0,
         profilePictureUrl: '',
-        characteristicIds: []
+        characteristicIds: [],
     });
     const [subjects, setSubjects] = useState([]);
-    const [features, setFeatures] = useState([]);
+    const [characteristics, setCharacteristics] = useState([]);
+    
+    const fetchData = async () => {
+        try {
+          const response = await fetch(`http://localhost:8080/v1/categories/1/providers/${params.id}`);
+          const teacher = await response.json();
+          setUserData(prevUserData => ({
+            ...prevUserData,
+            id: teacher.id,
+            firstName: teacher.firstName,
+            lastName: teacher.lastName,
+            shortDescription: teacher.shortDescription,
+            fullDescription: teacher.fullDescription,
+            address: {
+              ...prevUserData.address,
+              country: teacher.address.country,
+              province: teacher.address.province,
+              city: teacher.address.city,
+              streetName: teacher.address.streetName,
+              streetNumber: teacher.address.streetNumber,
+              floorApt: teacher.address.floorApt,
+            },
+            hourlyRates: {
+              ARS: teacher.hourlyRates.ARS,
+            },
+            modalities: {
+              ...prevUserData.modalities,
+              FACE_TO_FACE: teacher.modalities.FACE_TO_FACE,
+            },
+            proficiencyIds: [1,2],
+            weeklyWorkingSchedule: {
+              ...prevUserData.weeklyWorkingSchedule,
+              checkIn: teacher.weeklyWorkingSchedule.checkIn,
+              checkOut: teacher.weeklyWorkingSchedule.checkOut,
+              sunday: teacher.weeklyWorkingSchedule.sunday,
+              monday: teacher.weeklyWorkingSchedule.monday,
+              tuesday: teacher.weeklyWorkingSchedule.tuesday,
+              wednesday: teacher.weeklyWorkingSchedule.wednesday,
+              thursday: teacher.weeklyWorkingSchedule.thursday,
+              friday: teacher.weeklyWorkingSchedule.friday,
+              saturday: teacher.weeklyWorkingSchedule.saturday,
+            },
+            scheduledAppointments: teacher.scheduledAppointments,
+            totalLikes: teacher.totalLikes,
+            profilePictureUrl: teacher.profilePictureUrl,
+            enabled: teacher.enabled,
+            characteristicIds: teacher.characteristics.map(characteristic => characteristic.id),
+          }));
+          console.log(teacher)
+        } catch (error) {
+          console.error('Error al obtener los datos:', error);
+        }
+    };
+
+    useEffect(() => {
+        getCategories();
+        getCharacteristics();
+        if (params.id) {
+            fetchData();
+        }
+    }, []);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -71,7 +131,7 @@ function TeacherForm() {
             ...prevData,
             hourlyRates: {
                 ...prevData.hourlyRates,
-                [name]: value,
+                [name]: toString(value),
             },
         }));
     };
@@ -85,13 +145,13 @@ function TeacherForm() {
             },
         }));
     };
-    const handleProficiencyChange = (field, value) => {
+    const handleProficiencyChange = (index, value) => {
         setUserData((prevData) => {
-            const updatedProficiencies = [...prevData.proficiencies];
-            updatedProficiencies[0][field] = value;
+            const updatedProficiencies = [...prevData.proficiencyIds];
+            updatedProficiencies[index] = parseInt(value);
             return {
                 ...prevData,
-                proficiencies: updatedProficiencies,
+                proficiencyIds: updatedProficiencies,
             };
         });
     };
@@ -106,6 +166,21 @@ function TeacherForm() {
             },
         }));
     };
+    const handleCharacteristicChange = (event) => {
+        const characteristicId = parseInt(event.target.value);
+        if (event.target.checked) {
+          setUserData(prevUserData => ({
+            ...prevUserData,
+            characteristicIds: [...prevUserData.characteristicIds, characteristicId],
+          }));
+        } else {
+          setUserData(prevUserData => ({
+            ...prevUserData,
+            characteristicIds: prevUserData.characteristicIds.filter(id => id !== characteristicId),
+          }));
+        }
+    };
+    
     const handleSuccessfulSubmit = () => {
         setUserData({
             firstName: '',
@@ -129,12 +204,7 @@ function TeacherForm() {
                 FACE_TO_FACE: false,
                 REMOTE: false,
             },
-            proficiencies: [
-                {
-                    masteryLevel: '',
-                    subject: '',
-                },
-            ],
+            proficiencyIds: [],
             weeklyWorkingSchedule: {
                 checkIn: '',
                 checkOut: '',
@@ -151,22 +221,31 @@ function TeacherForm() {
         });
     };
     const handleSubmit = async (event) => {
+        const userToken = localStorage.getItem("user");
+        const tokenObj = JSON.parse(userToken);
+        const token = tokenObj.token; 
+        
         event.preventDefault();
+        const apiUrl = params.id
+        ? `http://localhost:8080/v1/categories/1/providers/${params.id}`
+        : 'http://localhost:8080/v1/categories/1/providers/';
 
         try {
-            const response = await fetch('http://localhost:8080/v1/categories/1/providers/', {
-                method: 'POST',
+            const response = await fetch(apiUrl, {
+                method: params.id ? 'PUT' : 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(userData),
             });
             if (response.ok) {
-                alert('Usuario creado exitosamente');
+                alert('Usuario guardado exitosamente');
             } else {
+                console.log(response)
                 alert('Error al crear usuario');
             }
-            handleSuccessfulSubmit()
+            // handleSuccessfulSubmit()
         } catch (error) {
             console.error('Error de red:', error);
         }
@@ -191,7 +270,6 @@ function TeacherForm() {
             });
             if (response.ok) {
               const subjects = await response.json();
-              console.log(subjects.searchResults)
               setSubjects(subjects.searchResults);
             } else {
               console.log(response)
@@ -200,7 +278,7 @@ function TeacherForm() {
             console.error('Error de red:', error);
         }
     };
-    const getFeatures = async () => {
+    const getCharacteristics = async () => {
         const userToken = localStorage.getItem("user");
         const tokenObj = JSON.parse(userToken);
         const token = tokenObj.token;            
@@ -215,25 +293,19 @@ function TeacherForm() {
               body: JSON.stringify(postData),
             });
             if (response.ok) {
-              const features = await response.json();
-              console.log(features.searchResults)
-              setFeatures(features.searchResults);
-            } else {
-              console.log(response)
-            }
+              const characteristics  = await response.json();
+              setCharacteristics(characteristics.searchResults);
+            } 
         } catch (error) {
             console.error('Error de red:', error);
         }
     };
 
-    useEffect(() => {
-        getCategories();
-        getFeatures();
-    }, []);
-
     return (
         <div className="formAdd__container">
-            <h1 className='mb-5'>Alta de profesor</h1>
+             {params.id ? 
+             (<h1 className='mb-5'>Modificar profesor</h1>) : 
+             (<h1 className='mb-5'>Alta de profesor</h1>)}
             <form className="row g-3" onSubmit={handleSubmit}>
                 <div className="col-md-6">
                     <label htmlFor="firstName" className="form-label">Nombre</label>
@@ -258,18 +330,7 @@ function TeacherForm() {
                     />
                 </div>
                 <div className="col-12">
-                    <label htmlFor="email" className="form-label">Correo</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        id="email"
-                        name="email"
-                        value={userData.email}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className="col-12">
-                    <label htmlFor="shortDescription" className="form-label">Título</label>
+                    <label htmlFor="shortDescription" className="form-label">Descripción corta</label>
                     <input
                         type="text"
                         className="form-control"
@@ -427,15 +488,15 @@ function TeacherForm() {
                     <select
                         className="form-select"
                         id='masteryLevel'
-                        value={userData.proficiencies[0].masteryLevel}
+                        value={userData.proficiencyIds[0]}
                         onChange={(event) =>
-                            handleProficiencyChange('masteryLevel', event.target.value)
+                            handleProficiencyChange(0, event.target.value)
                         }
                     >
                         <option value="">--</option>
-                        <option value="MIDDLE_SCHOOL">Escuela Intermedia</option>
-                        <option value="HIGHSCHOOL">Escuela Secundaria</option>
-                        <option value="COLLEGE">Universidad</option>
+                        <option value="1">Escuela Intermedia</option>
+                        <option value="2">Escuela Secundaria</option>
+                        <option value="3">Universidad</option>
                     </select>
                 </div>
                 <div className="col-md-6">
@@ -445,9 +506,9 @@ function TeacherForm() {
                     <select
                         className="form-select"
                         id='subject'
-                        value={userData.proficiencies[0].subject.id}
+                        value={userData.proficiencyIds[1]}
                         onChange={(event) =>
-                            handleProficiencyChange('subject', event.target.value)
+                            handleProficiencyChange(1, event.target.value)
                         }
                     >
                         <option value="">--</option>
@@ -458,23 +519,23 @@ function TeacherForm() {
                         ))}
                     </select>
                 </div>
+                <h2>Carácteristicas</h2>
                 <div className="col-md-6">
-                    <label htmlFor='subject' className="form-label">
-                        Carácteristicas
-                    </label>
-                    <select
-                        className="form-select"
-                        id='features'
-                        multiple
-                        value={userData.characteristicIds}
-                    >
-                        <option value="">--</option>
-                        {features.map((feature) => (
-                            <option key={feature.id} value={feature.id}>
-                                {feature.name}
-                            </option>
+                    <div className="form-checkboxes">
+                        {characteristics.map((characteristic) => (
+                        <div key={characteristic.id} className="form-check">
+                            <input
+                             className="form-check-input"
+                            type="checkbox"
+                            id={`characteristic_${characteristic.id}`}
+                            value={characteristic.id}
+                            checked={userData.characteristicIds.includes(characteristic.id)}
+                            onChange={handleCharacteristicChange}
+                            />
+                            <label className="form-check-label" htmlFor={`characteristic_${characteristic.id}`}>{characteristic.name}</label>
+                        </div>
                         ))}
-                    </select>
+                    </div>
                 </div>
                 <h2>Horario Semanal</h2>
                 <div className="col-md-6">
@@ -607,7 +668,7 @@ function TeacherForm() {
                     />
                 </div>
                 <div className="col-12">
-                    <button type="submit" className="btn btn-primary">Agregar profesor</button>
+                    <button type="submit" className="btn btn-primary">Guardar</button>
                 </div>
             </form>
         </div>

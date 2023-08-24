@@ -1,19 +1,18 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container';
-import TeacherForm from '../../../../Components/Admin/TeacherForm'
-import './styles.scss'
+import CharacteristicForm from '../../../../Components/Admin/CharasteristicsForm'
 
-const AddTeacherPage = () => {
+const AddCharacteristic = () => {
 
   return (
     <main>
       <Container>
         <section className='dashboard__container'>
-          <TeacherForm />
+          <CharacteristicForm />
         </section>
       </Container>
     </main>
   )
 }
 
-export default AddTeacherPage
+export default AddCharacteristic

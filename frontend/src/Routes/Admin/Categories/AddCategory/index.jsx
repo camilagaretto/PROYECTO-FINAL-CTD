@@ -1,19 +1,18 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container';
-import TeacherForm from '../../../../Components/Admin/TeacherForm'
-import './styles.scss'
+import CategoryForm from '../../../../Components/Admin/CategoryForm'
 
-const AddTeacherPage = () => {
+const AddCategory = () => {
 
   return (
     <main>
       <Container>
         <section className='dashboard__container'>
-          <TeacherForm />
+          <CategoryForm />
         </section>
       </Container>
     </main>
   )
 }
 
-export default AddTeacherPage
+export default AddCategory
