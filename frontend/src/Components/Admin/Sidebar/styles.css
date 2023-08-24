@@ -29,22 +29,30 @@
 }
 
 .sidebar-item {
-    padding: 1.5em;
+    padding: 1.2em;
     padding-left: 2em;
     display: flex;
     color: #343434;
-    ;
     list-style: none;
     text-decoration: none;
     align-items: center;
     justify-content: flex-start;
     cursor: pointer;
+    border-radius: 10px;
+    width: 190px;
+    margin: 0 auto;
+    margin-bottom: 1rem;
 }
 .sidebar-item:hover {
-    background-color: #004B77;
+    background-color: #146C94;
+    color: #ffffff;
 }
 .sidebar-item-active {
-    padding: 1.5em;
+    width: 190px;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    padding: 1.2em;
     padding-left: 2em;
     display: flex;
     color: #FFFFFF;
@@ -52,7 +60,7 @@
     text-decoration: none;
     align-items: center;
     justify-content: flex-start;
-    background-color: #004B77;
+    background-color: #146C94;
     cursor: pointer;
 }
 .sidebar-item-icon {

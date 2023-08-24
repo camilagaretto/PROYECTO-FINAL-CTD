@@ -1,36 +1,35 @@
-import DashboardIcon from '../assets/icons/dashboard.svg';
-import ShippingIcon from '../assets/icons/shipping.svg';
-import ProductIcon from '../assets/icons/product.svg';
-import UserIcon from '../assets/icons/user.svg';
+import { PiUsers } from 'react-icons/pi';
+import { BiCategoryAlt, BiHomeAlt2 } from 'react-icons/bi';
+import { BsCardChecklist } from 'react-icons/bs';
 
 const sidebar_menu = [
     {
         id: 1,
-        icon: DashboardIcon,
+        icon: BiHomeAlt2,
         path: '/admin',
-        title: 'Dashboard',
+        title: 'General',
     },
     {
         id: 2,
-        icon: ProductIcon,
+        icon: PiUsers,
         path: '/admin/profesores',
         title: 'Profesores',
     },
     {
         id: 3,
-        icon: ShippingIcon,
+        icon: PiUsers,
         path: '/admin/estudiantes',
         title: 'Estudiantes',
     },
     {
         id: 4,
-        icon: ShippingIcon,
+        icon: BiCategoryAlt,
         path: '/admin/categorias',
         title: 'Categorías',
     },
     {
         id: 5,
-        icon: UserIcon,
+        icon: BsCardChecklist,
         path: '/admin/caracteristicas',
         title: 'Caracteristicas',
     }
