@@ -13,7 +13,7 @@ const CardDetail = ({fullName, hourlyRates, characteristics}) => {
                     {/* <p>+50 Estudiantes</p>
                     <p>+200 Clases dictadas</p> */}
                     {characteristics?.map(characteristic=>(
-                        <p key={characteristic.id}>{characteristic.name}</p>
+                        <p key={characteristic.id}>{characteristic.icon} {characteristic.name}</p>
                     ))}
                 </div>
                 <div>

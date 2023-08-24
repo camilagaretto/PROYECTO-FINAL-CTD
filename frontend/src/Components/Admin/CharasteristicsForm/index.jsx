@@ -91,16 +91,14 @@ function CharasteristicsForm() {
                 </div>
                 <div className="col-6">
                     <label htmlFor="icon" className="form-label">
-                        URL de icon
+                        Seleccione icono
                     </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="icon"
-                        name="icon"
-                        value={charasteristicData.icon}
-                        onChange={handleInputChange}
-                    />
+                    <select className="form-control" id='icon' name='icon' onChange={handleInputChange}>
+                        <option value="🌎">🌎</option>
+                        <option value="💻">💻</option>
+                        <option value="📚">📚</option>
+                        <option value="👩🏻‍🤝‍🧑🏼">👩🏻‍🤝‍🧑🏼</option>
+                    </select>
                 </div>
                 <div className="col-12">
                     <button type="submit" className="btn btn-primary">Guardar</button>
