@@ -37,10 +37,9 @@ main {
    gap:25px;
    overflow: auto;
 }
-.dashboard-content-header {
-
+table {
+   width: 90%;
 }
-
 .dashboard-content-header h2 {
    margin-top: auto;
    margin-bottom: 3rem;
@@ -87,9 +86,9 @@ main {
    padding: 0.625rem;
 }
 table {
-   width: 100%;
-   margin: auto;
+   width: 90%;
 }
+
 th {
    text-align: left;
    padding: 12px 24px;
@@ -104,7 +103,6 @@ th {
 }
 tbody {
    display: table-row-group;
-   box-shadow: 0px 0px 9px 1px #cacacaca;
    border-radius: 10px;
 
    .action-buttons{
@@ -125,10 +123,9 @@ tr, thead {
 }
 td {
    text-align: left;
-   padding: 12px 24px;
+   padding: 15px 24px;
    background: transparent;
    box-shadow: none;
-   border-bottom: 0.05rem solid rgb(240, 242, 245);
 }
 td div {
    display: flex;
