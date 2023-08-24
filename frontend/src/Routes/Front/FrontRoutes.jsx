@@ -7,6 +7,7 @@ import RegisterUser from './RegisterUser/RegisterUser';
 import Footer from "../../Components/Footer/Footer";
 import Login from './Login/Login';
 import UserDetail from './UserDetail/UserDetail';
+import Category from './Category';
 
 function FrontRoutes() {
   return (
@@ -18,6 +19,7 @@ function FrontRoutes() {
         <Route path="/user/:id" element={<UserDetail />} />
         <Route path="/register" element={<RegisterUser />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/category" element={<Category />} />
       </Routes>
       <Footer />
     </>

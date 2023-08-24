@@ -4,13 +4,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import Filter from '../../../Components/Filter/Filter';
 import CardProduct from '../../../Components/Card/Card';
-import Search from '../../../Components/Search/Search';
-import PaperPlane from '../../../assets/Paper-Plane.png'
-import BannerProfes from '../../../assets/banner-profes.svg'
-import './Home.css'
+import './styles.css'
 import { Link } from 'react-router-dom';
 
-const Home = () => {
+const Category = () => {
   const [popular, setPopular] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [activeFilter, setActiveFilter] = useState('');
@@ -22,7 +19,6 @@ const Home = () => {
     pageNumber: 1,
     pageSize: 30,
   });
-
   const shuffleArray = (array) => {
     function compareRandom(a, b) {
       return Math.random() - 0.5;
@@ -68,30 +64,19 @@ const Home = () => {
       console.error('Error de red:', error);
     }
   }
+
   useEffect(() => {
     fetchPopular();
   }, [activeFilter]);
 
   return (
-    <main id='home'>
+    <main>
       <Container>
-
-        <section className='container-main-banner'>
-          <div className='banner-description'>
-            <h1>Encuentra tu nueva pasión</h1>
-            <Search />
-          </div>
+        <section className=''>
+            <h1>Todos nuestros profesores</h1>
         </section>
 
         <section>
-          <div className='container-aprender'>
-            <div>
-              <h2>¿Qué te gustaría aprender hoy?</h2>
-              <p>Te dejamos los tags para que encuentres los profesores recomendados!</p>
-            </div>
-            <Link to="/" className='container-aprender-ver'>Ver Listado Completo</Link>
-          </div>
-
           <Filter
             popular={popular}
             setFiltered={setFiltered}
@@ -115,26 +100,10 @@ const Home = () => {
               ))}
             </AnimatePresence>
           </motion.div>
-          <div className='mostrar-container'>
-            <p>No encontraste a tu profe?</p>
-            <Link className='btn btn-primary' to={'/category'} >
-              <img className='paper-plane' src={PaperPlane} alt="Avion de papel" />
-              Mostrar Todos
-            </Link>
-          </div>
         </section>
-
-        <section className='container-profes'>
-          <img src={BannerProfes} alt="Appkademy banner profesores" />
-          <div>
-            <h3>Quieres unirte al equipo de profes?</h3>
-            <Link to='/' className='btn btn-profesores'>Llenar Formulario</Link>
-          </div>
-        </section>
-
       </Container>
     </main>
   )
 }
 
-export default Home
+export default Category
