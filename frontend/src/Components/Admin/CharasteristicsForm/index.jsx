@@ -94,6 +94,7 @@ function CharasteristicsForm() {
                         Seleccione icono
                     </label>
                     <select className="form-control" id='icon' name='icon' onChange={handleInputChange}>
+                        <option selected disabled defaultValue="">Selecciona una opcion</option>
                         <option value="🌎">🌎</option>
                         <option value="💻">💻</option>
                         <option value="📚">📚</option>
