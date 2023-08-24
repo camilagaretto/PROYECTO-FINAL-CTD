@@ -34,10 +34,15 @@ const UserForm = () => {
         createStudent(userId, values, token);
       } else {
         const res = await response.json()
-        const error = res.cause.split("_").join(" ")
-        setError(error)
+        const error = res.cause?.split("_").join(" ")
+        if(error){
+          setError(error)
+        }else{
+          setError('Error al crear usuario, revise todos los campos o intente mas tarde.')
+        }
       }
     } catch (error) {
+      alert('error al crear usuario')
       console.error('Error de red:', error);
       console.log(error)
     }
