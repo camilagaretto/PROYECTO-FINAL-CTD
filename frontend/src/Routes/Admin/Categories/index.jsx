@@ -32,7 +32,6 @@ function Categories() {
                 const categories = await response.json();
                 setCategories(categories.searchResults)
             } else {
-                console.log(response)
                 alert('Error al crear usuario');
             }
         } catch (error) {

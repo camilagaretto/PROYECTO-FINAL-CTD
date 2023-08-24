@@ -1,35 +1,12 @@
 import React, {useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'
 import './styles.scss'
 
 function CharasteristicsForm() {
-    const params = useParams()
     const [charasteristicData, setCharasteristicData] = useState({
         id: '',
         icon: '',
         name: '',
     });
-
-    const fetchData = async () => {
-        try {
-          const response = await fetch(`http://localhost:8080/v1/categories/1/providers/characteristics/${params.id}`);
-          const charasteristics = await response.json();
-          setCharasteristicData(prevcharasteristicData => ({
-            ...prevcharasteristicData,
-            id: charasteristics.id,
-            icon: charasteristics.icon,
-            name: charasteristics.name,
-          })); 
-        } catch (error) {
-          console.error('Error al obtener los datos:', error);
-        }
-    };
-
-    useEffect(() => {
-        if (params.id) {
-            fetchData();
-        }
-    }, []);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -50,13 +27,9 @@ function CharasteristicsForm() {
         const token = tokenObj.token; 
         
         event.preventDefault();
-        const apiUrl = params.id
-        ? `http://localhost:8080/v1/categories/1/providers/characteristics/${params.id}`
-        : 'http://localhost:8080/v1/categories/1/providers/characteristics';
-      
         try {
-            const response = await fetch(apiUrl, {
-                method: params.id ? 'PUT' : 'POST',
+            const response = await fetch('http://localhost:8080/v1/categories/1/providers/characteristics', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`

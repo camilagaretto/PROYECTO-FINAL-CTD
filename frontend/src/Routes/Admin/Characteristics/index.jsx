@@ -59,11 +59,35 @@ function Characteristics() {
             __handleChangePage(1);
         }
     };
-
     const __handleChangePage = (new_page) => {
         setPage(new_page);
         setCharacteristics(sliceData(characteristics, new_page, 5));
-    }
+    };
+    const __handleDelete = async (id) => {
+        const userToken = localStorage.getItem("user");
+        const tokenObj = JSON.parse(userToken);
+        const token = tokenObj.token;
+
+        if (window.confirm('¿Estás seguro que deseas eliminar?')) {
+            try {
+                const response =  await fetch(`http://localhost:8080/v1/categories/1/providers/characteristics/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                })
+                if (response.ok) {
+                    alert('Característica eliminada exitosamente');
+                    fetchData();
+                } else {
+                    alert('Error al eliminar característica');
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+            }
+        }
+    };
+
 
     return (
         <div className='dashboard-content'>
@@ -98,8 +122,7 @@ function Characteristics() {
                                     <td><span>{characteristic.id}</span></td>
                                     <td><span>{characteristic.name}</span></td>
                                     <td className='action-buttons'>
-                                        <Link key={characteristic.id} to={`/admin/editar-caracteristica/${characteristic.id}`}><BiPencil /></Link>
-                                        <button onClick={()=> {alert('agregar logica')}}><FaTrash /></button>
+                                        <button onClick={() => __handleDelete(characteristic.id)}><FaTrash/></button>
                                     </td>
                                 </tr>
                             ))}

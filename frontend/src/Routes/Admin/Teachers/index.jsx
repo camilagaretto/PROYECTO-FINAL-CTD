@@ -65,14 +65,14 @@ function Teachers() {
         setPage(new_page);
         setTeachers(sliceData(teachers, new_page, 5));
     };
-    const __handleDelete = (id) => {
+    const __handleDelete = async (id) => {
         const userToken = localStorage.getItem("user");
         const tokenObj = JSON.parse(userToken);
         const token = tokenObj.token;
 
         if (window.confirm('¿Estás seguro que deseas eliminar?')) {
             try {
-                const response = fetch(`http://localhost:8080/v1/categories/1/providers/${id}`, {
+                const response =  await fetch(`http://localhost:8080/v1/categories/1/providers/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -80,8 +80,8 @@ function Teachers() {
                 })
                 if (response.ok) {
                     alert('Usuario eliminado exitosamente');
+                    fetchData();
                 } else {
-                    console.log(response)
                     alert('Error al eliminar usuario');
                 }
             } catch (error) {

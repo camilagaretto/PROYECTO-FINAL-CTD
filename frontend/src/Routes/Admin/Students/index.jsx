@@ -30,7 +30,6 @@ function Students () {
             if (response.ok) {
                 const students = await response.json();
                 setStudents(students.searchResults)
-                console.log(students)
             } else {
                 console.log(response)
                 alert('Error al crear usuario');
@@ -68,14 +67,14 @@ function Students () {
         const userToken = localStorage.getItem("user");
         const tokenObj = JSON.parse(userToken);
         const token = tokenObj.token;
-
         const dataRol = {
-            "roleIds": [
+            roleIds: [
               2
             ]
         }
+
         try {
-            const response = await fetch(`http://localhost:8080/v1/auth/${student.id}`, {
+            const response = await fetch(`http://localhost:8080/v1/auth/${student.userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,6 +84,7 @@ function Students () {
             });
             if (response.ok) {
                 alert(`${student.firstName} ahora es admin`);
+                fetchData();
             } else {
                 alert('Error al asignar rol');
             }
@@ -99,7 +99,7 @@ function Students () {
 
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
-                    <h2>Usuarios</h2>
+                    <h2>Estudiantes</h2>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'

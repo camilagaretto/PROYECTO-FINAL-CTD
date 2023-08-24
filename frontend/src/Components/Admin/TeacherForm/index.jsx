@@ -27,7 +27,11 @@ function TeacherForm() {
             FACE_TO_FACE: false,
             REMOTE: false,
         },
-        proficiencyIds: [
+        proficiencies: [
+            {
+                masteryLevel: '',
+                subject: {},
+            }
         ],
         weeklyWorkingSchedule: {
             checkIn: '',
@@ -75,7 +79,12 @@ function TeacherForm() {
               ...prevUserData.modalities,
               FACE_TO_FACE: teacher.modalities.FACE_TO_FACE,
             },
-            proficiencyIds: [1,2],
+            proficiencies: [
+                {
+                    masteryLevel: teacher.proficiencies[0].masteryLevel,
+                    subject: teacher.proficiencies[0].subject,
+                },
+            ],
             weeklyWorkingSchedule: {
               ...prevUserData.weeklyWorkingSchedule,
               checkIn: teacher.weeklyWorkingSchedule.checkIn,
@@ -94,7 +103,6 @@ function TeacherForm() {
             enabled: teacher.enabled,
             characteristicIds: teacher.characteristics.map(characteristic => characteristic.id),
           }));
-          console.log(teacher)
         } catch (error) {
           console.error('Error al obtener los datos:', error);
         }
@@ -145,13 +153,14 @@ function TeacherForm() {
             },
         }));
     };
-    const handleProficiencyChange = (index, value) => {
+    const handleProficiencyChange = (field, value) => {
         setUserData((prevData) => {
-            const updatedProficiencies = [...prevData.proficiencyIds];
-            updatedProficiencies[index] = parseInt(value);
+            const updatedProficiencies = [...prevData.proficiencies];
+            updatedProficiencies[0][field] = value;
+
             return {
                 ...prevData,
-                proficiencyIds: updatedProficiencies,
+                proficiencies: updatedProficiencies,
             };
         });
     };
@@ -488,15 +497,15 @@ function TeacherForm() {
                     <select
                         className="form-select"
                         id='masteryLevel'
-                        value={userData.proficiencyIds[0]}
+                        value={userData.proficiencies[0].masteryLevel}
                         onChange={(event) =>
-                            handleProficiencyChange(0, event.target.value)
+                            handleProficiencyChange('masteryLevel', event.target.value)
                         }
                     >
                         <option value="">--</option>
-                        <option value="1">Escuela Intermedia</option>
-                        <option value="2">Escuela Secundaria</option>
-                        <option value="3">Universidad</option>
+                        <option value="COLLEGE">Escuela Intermedia</option>
+                        <option value="HIGHSCHOOL">Escuela Secundaria</option>
+                        <option value="MIDDLE_SCHOOL">Universidad</option>
                     </select>
                 </div>
                 <div className="col-md-6">
@@ -506,9 +515,9 @@ function TeacherForm() {
                     <select
                         className="form-select"
                         id='subject'
-                        value={userData.proficiencyIds[1]}
+                        value={userData.proficiencies[0].subject.id}
                         onChange={(event) =>
-                            handleProficiencyChange(1, event.target.value)
+                            handleProficiencyChange('subject', subjects.find(subject => subject.id === parseInt(event.target.value)))
                         }
                     >
                         <option value="">--</option>
@@ -519,7 +528,7 @@ function TeacherForm() {
                         ))}
                     </select>
                 </div>
-                <h2>Carácteristicas</h2>
+                <h2>Características</h2>
                 <div className="col-md-6">
                     <div className="form-checkboxes">
                         {characteristics.map((characteristic) => (
