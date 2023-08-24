@@ -41,7 +41,7 @@ public class TeachingSubjectController implements ITeachingSubjectController {
 
 
     @PostMapping("/search")
-    @PreAuthorize("hasAuthority('" + TEACHING_SUBJECT_READ + "')")
+    //@PreAuthorize("hasAuthority('" + TEACHING_SUBJECT_READ + "')")
     public ResponseEntity<TeachingSubjectSearchResponseDto> search(@RequestBody PageableFilter filter){
         TeachingSubjectSearchResponseDto searchResponseDto = teachingProficiencyService.search(filter);
         return ResponseEntity.ok(searchResponseDto);
