@@ -10,13 +10,9 @@ function Categories() {
     const [pagination, setPagination] = useState([]);
 
     const fetchData = async () => {
-        const userToken = localStorage.getItem("user");
-        const tokenObj = JSON.parse(userToken);
-        const token = tokenObj.token;
-
         const searchData = {
-            "pageNumber": 1,
-            "pageSize": 10,
+            pageNumber: 1,
+            pageSize: 10,
         }
 
         try {
@@ -24,7 +20,6 @@ function Categories() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(searchData),
             });
@@ -32,7 +27,7 @@ function Categories() {
                 const categories = await response.json();
                 setCategories(categories.searchResults)
             } else {
-                alert('Error al crear usuario');
+                alert('Error al obtener categorías');
             }
         } catch (error) {
             console.error('Error al obtener los datos:', error);

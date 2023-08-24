@@ -8,8 +8,8 @@ import './styles.css'
 import { Link } from 'react-router-dom';
 
 const Category = () => {
-  const [popular, setPopular] = useState([]);
   const [filtered, setFiltered] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const [activeFilter, setActiveFilter] = useState('');
   const [teachingProficiency, setTeachingProficiency] = useState({
     subject: '',
@@ -17,15 +17,9 @@ const Category = () => {
   });
   const [searchData, setSearchData] = useState({
     pageNumber: 1,
-    pageSize: 30,
+    pageSize: 100,
   });
-  const shuffleArray = (array) => {
-    function compareRandom(a, b) {
-      return Math.random() - 0.5;
-    }
-    return array.sort(compareRandom);
-  }
-  const fetchPopular = async () => {
+  const fetchData = async () => {
 
     const postData = {
       pageNumber: searchData.pageNumber,
@@ -54,8 +48,10 @@ const Category = () => {
       });
       if (response.ok) {
         const teachers = await response.json();
-        const shuffledItems = shuffleArray(teachers.searchResults).slice(0,9);
-        setPopular(shuffledItems);
+        let shuffledItems = []
+        if(teachers.searchResults) {
+          shuffledItems = teachers.searchResults;
+        }
         setFiltered(shuffledItems);
       } else {
         console.log(response)
@@ -64,9 +60,35 @@ const Category = () => {
       console.error('Error de red:', error);
     }
   }
+  const getCategories = async () => {
+    const postData = {
+      pageNumber: 1,
+      pageSize: 100,
+    }      
+
+    try {
+        const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(postData),
+        });
+        if (response.ok) {
+          const subjects = await response.json();
+          setSubjects(subjects.searchResults);
+        } else {
+          console.log(response)
+        }
+    } catch (error) {
+        console.error('Error de red:', error);
+    }
+  };
+
 
   useEffect(() => {
-    fetchPopular();
+    getCategories();
+    fetchData();
   }, [activeFilter]);
 
   return (
@@ -77,9 +99,8 @@ const Category = () => {
         </section>
 
         <section>
-          <Filter
-            popular={popular}
-            setFiltered={setFiltered}
+        <Filter
+            categories={subjects}
             setSearchData={setSearchData}
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}
@@ -90,14 +111,18 @@ const Category = () => {
             className="grid-container"
           >
             <AnimatePresence>
-              {filtered.map(teacher => (
-                <Link className='card-link' key={teacher.id} to={`/teacher/${teacher.id}`} >
-                  <CardProduct
-                    key={teacher.id}
-                    teacher={teacher}
-                  />
-                </Link>
-              ))}
+            {filtered.length > 0 ? (
+                  filtered.map(teacher => (
+                      <Link className='card-link' key={teacher.id} to={`/teacher/${teacher.id}`} >
+                          <CardProduct
+                              key={teacher.id}
+                              teacher={teacher}
+                          />
+                      </Link>
+                  ))
+              ) : (
+                  <p>No se encontraron resultados.</p>
+            )}
             </AnimatePresence>
           </motion.div>
         </section>

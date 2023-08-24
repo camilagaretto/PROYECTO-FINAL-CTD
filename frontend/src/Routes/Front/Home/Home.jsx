@@ -11,25 +11,23 @@ import './Home.css'
 import { Link } from 'react-router-dom';
 
 const Home = () => {
-  const [popular, setPopular] = useState([]);
   const [filtered, setFiltered] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const [activeFilter, setActiveFilter] = useState('');
   const [teachingProficiency, setTeachingProficiency] = useState({
     subject: '',
-    masteryLevel: ''
   });
   const [searchData, setSearchData] = useState({
     pageNumber: 1,
     pageSize: 30,
   });
-
   const shuffleArray = (array) => {
     function compareRandom(a, b) {
       return Math.random() - 0.5;
     }
     return array.sort(compareRandom);
   }
-  const fetchPopular = async () => {
+  const fetchData = async () => {
 
     const postData = {
       pageNumber: searchData.pageNumber,
@@ -41,13 +39,6 @@ const Home = () => {
         subject: teachingProficiency.subject,
       };
     }
-
-    if (teachingProficiency.masteryLevel !== '') {
-      postData.teachingProficiency = {
-        masteryLevel: teachingProficiency.masteryLevel,
-      };
-    }
-
     try {
       const response = await fetch('http://localhost:8080/v1/categories/1/providers/search', {
         method: 'POST',
@@ -58,8 +49,10 @@ const Home = () => {
       });
       if (response.ok) {
         const teachers = await response.json();
-        const shuffledItems = shuffleArray(teachers.searchResults).slice(0,9);
-        setPopular(shuffledItems);
+        let shuffledItems = []
+        if(teachers.searchResults) {
+          shuffledItems = shuffleArray(teachers.searchResults).slice(0,9);
+        }
         setFiltered(shuffledItems);
       } else {
         console.log(response)
@@ -68,14 +61,42 @@ const Home = () => {
       console.error('Error de red:', error);
     }
   }
+  const getCategories = async () => {
+    const postData = {
+      pageNumber: 1,
+      pageSize: 10,
+    }
+    const userToken = localStorage.getItem("user");
+    const tokenObj = JSON.parse(userToken);
+    const token = tokenObj.token;            
+
+    try {
+        const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(postData),
+        });
+        if (response.ok) {
+          const subjects = await response.json();
+          setSubjects(subjects.searchResults);
+        } else {
+          console.log(response)
+        }
+    } catch (error) {
+        console.error('Error de red:', error);
+    }
+  };
+
   useEffect(() => {
-    fetchPopular();
+    getCategories();
+    fetchData();
   }, [activeFilter]);
 
   return (
     <main id='home'>
       <Container>
-
         <section className='container-main-banner'>
           <div className='banner-description'>
             <h1>Encuentra tu nueva pasión</h1>
@@ -93,8 +114,7 @@ const Home = () => {
           </div>
 
           <Filter
-            popular={popular}
-            setFiltered={setFiltered}
+            categories={subjects}
             setSearchData={setSearchData}
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}
@@ -105,14 +125,18 @@ const Home = () => {
             className="grid-container"
           >
             <AnimatePresence>
-              {filtered.map(teacher => (
-                <Link className='card-link' key={teacher.id} to={`/teacher/${teacher.id}`} >
-                  <CardProduct
-                    key={teacher.id}
-                    teacher={teacher}
-                  />
-                </Link>
-              ))}
+            {filtered.length > 0 ? (
+                  filtered.map(teacher => (
+                      <Link className='card-link' key={teacher.id} to={`/teacher/${teacher.id}`} >
+                          <CardProduct
+                              key={teacher.id}
+                              teacher={teacher}
+                          />
+                      </Link>
+                  ))
+              ) : (
+                  <p>No se encontraron resultados.</p>
+            )}
             </AnimatePresence>
           </motion.div>
           <div className='mostrar-container'>
