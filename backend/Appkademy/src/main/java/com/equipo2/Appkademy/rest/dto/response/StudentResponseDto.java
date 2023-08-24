@@ -18,6 +18,8 @@ public class StudentResponseDto implements Serializable {
 
     private Long id;
 
+    private Long userId;
+
     private String firstName;
 
     private String lastName;

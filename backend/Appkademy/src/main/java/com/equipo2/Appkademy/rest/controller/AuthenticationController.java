@@ -37,7 +37,7 @@ public class AuthenticationController implements IAuthenticationContoller {
     @Override
     @PutMapping("/{userId}")
     @PreAuthorize("hasAuthority('" + PermissionConstants.ROLE_UPDATE + "')")
-    public ResponseEntity<AuthenticationResponseDto> updateRoles(Long userId, @RequestBody RoleRequestDto request){
+    public ResponseEntity<AuthenticationResponseDto> updateRoles(@PathVariable Long userId, @RequestBody RoleRequestDto request){
         return ResponseEntity.ok(authenticationService.updateRoles(userId, request));
     }
 }
