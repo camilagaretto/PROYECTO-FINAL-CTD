@@ -17,8 +17,8 @@ const CardDetail = ({fullName, hourlyRates, characteristics}) => {
                     ))}
                 </div>
                 <div>
-                    <h2>$25</h2>
-                    <h3>Hora</h3>
+                    <h3>${hourlyRates[0]?.value}</h3>
+                    <h4>Hora</h4>
                 </div>
             </div>
         </div>
