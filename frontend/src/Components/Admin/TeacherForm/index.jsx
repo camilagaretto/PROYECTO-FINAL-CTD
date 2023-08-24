@@ -27,11 +27,7 @@ function TeacherForm() {
             FACE_TO_FACE: false,
             REMOTE: false,
         },
-        proficiencies: [
-            {
-                masteryLevel: '',
-                subject: {},
-            }
+        proficiencyIds: [
         ],
         weeklyWorkingSchedule: {
             checkIn: '',
@@ -79,12 +75,7 @@ function TeacherForm() {
               ...prevUserData.modalities,
               FACE_TO_FACE: teacher.modalities.FACE_TO_FACE,
             },
-            proficiencies: [
-                {
-                    masteryLevel: teacher.proficiencies[0].masteryLevel,
-                    subject: teacher.proficiencies[0].subject,
-                },
-            ],
+            proficiencyIds: [1,2],
             weeklyWorkingSchedule: {
               ...prevUserData.weeklyWorkingSchedule,
               checkIn: teacher.weeklyWorkingSchedule.checkIn,
@@ -155,12 +146,12 @@ function TeacherForm() {
     };
     const handleProficiencyChange = (field, value) => {
         setUserData((prevData) => {
-            const updatedProficiencies = [...prevData.proficiencies];
-            updatedProficiencies[0][field] = value;
+            const updatedProficiencies = [...prevData.proficiencyIds];
+            updatedProficiencies[field] = value;
 
             return {
                 ...prevData,
-                proficiencies: updatedProficiencies,
+                proficiencyIds: updatedProficiencies,
             };
         });
     };
@@ -497,15 +488,15 @@ function TeacherForm() {
                     <select
                         className="form-select"
                         id='masteryLevel'
-                        value={userData.proficiencies[0].masteryLevel}
+                        value={userData.proficiencyIds[0]}
                         onChange={(event) =>
-                            handleProficiencyChange('masteryLevel', event.target.value)
+                            handleProficiencyChange(0, event.target.value)
                         }
                     >
                         <option value="">--</option>
-                        <option value="COLLEGE">Escuela Intermedia</option>
-                        <option value="HIGHSCHOOL">Escuela Secundaria</option>
-                        <option value="MIDDLE_SCHOOL">Universidad</option>
+                        <option value="1">Escuela Intermedia</option>
+                        <option value="2">Escuela Secundaria</option>
+                        <option value="3">Universidad</option>
                     </select>
                 </div>
                 <div className="col-md-6">
@@ -515,9 +506,9 @@ function TeacherForm() {
                     <select
                         className="form-select"
                         id='subject'
-                        value={userData.proficiencies[0].subject.id}
+                        value={userData.proficiencyIds[1]}
                         onChange={(event) =>
-                            handleProficiencyChange('subject', subjects.find(subject => subject.id === parseInt(event.target.value)))
+                            handleProficiencyChange(1, event.target.value)
                         }
                     >
                         <option value="">--</option>
