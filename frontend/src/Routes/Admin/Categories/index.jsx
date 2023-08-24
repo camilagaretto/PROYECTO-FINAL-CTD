@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DashboardHeader from '../../../Components/Admin/DashboardHeader';
 import { calculateRange, sliceData } from '../../../utils/table-pagination';
 import { Link } from 'react-router-dom';
+import { BiMessageSquareAdd } from 'react-icons/bi';
 
 function Categories() {
     const [search, setSearch] = useState('');
@@ -64,7 +65,6 @@ function Categories() {
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
                     <h2>Categorías</h2>
-                    <Link className='btn btn-dark' to="/admin/agregar-categoria">Nueva categoría</Link>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'
@@ -72,6 +72,9 @@ function Categories() {
                             placeholder='Search..'
                             className='dashboard-content-input'
                             onChange={e => __handleSearch(e)} />
+                    </div>
+                    <div className='mt-3'>
+                        <Link className='btn btn-dark' to="/admin/agregar-categoria">Nueva categoría <BiMessageSquareAdd/></Link>
                     </div>
                 </div>
 

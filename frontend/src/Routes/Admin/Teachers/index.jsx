@@ -3,7 +3,8 @@ import DashboardHeader from '../../../Components/Admin/DashboardHeader';
 import { calculateRange, sliceData } from '../../../utils/table-pagination';
 import { Link } from 'react-router-dom';
 import { FaTrash } from 'react-icons/fa'
-import { BiPencil } from 'react-icons/bi';
+import { BiPencil, BiMessageSquareAdd } from 'react-icons/bi';
+
 
 function Teachers() {
     const [search, setSearch] = useState('');
@@ -96,7 +97,6 @@ function Teachers() {
             <div className='dashboard-content-container'>
                 <div className='dashboard-content-header'>
                     <h2>Profesores</h2>
-                    <Link className='btn btn-dark' to="/admin/agregar-profesor">Nuevo profesor</Link>
                     <div className='dashboard-content-search'>
                         <input
                             type='text'
@@ -104,6 +104,9 @@ function Teachers() {
                             placeholder='Search..'
                             className='dashboard-content-input'
                             onChange={e => __handleSearch(e)} />
+                    </div>
+                    <div className='mt-3'>
+                        <Link className='btn btn-dark' to="/admin/agregar-profesor">Nuevo profesor <BiMessageSquareAdd/></Link>
                     </div>
                 </div>
 
