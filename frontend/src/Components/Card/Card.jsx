@@ -11,7 +11,7 @@ const Card = ({teacher}) => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
         >
-        <div className='card__container'>
+        <div className='card__container' style={{backgroundImage : `url(${teacher.profilePictureUrl})`}}>
             <p><span>{teacher.shortDescription}</span></p>
             <p>{teacher.firstName} {teacher.lastName}</p>
         </div>
