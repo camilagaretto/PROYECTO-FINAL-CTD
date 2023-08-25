@@ -109,7 +109,7 @@ public class StudentServiceImpl implements StudentService {
         user.setUserTypeId(entity.getId());
         userRepository.save(user);
 
-        notificationService.sendEmailNotification("bordet.julian@gmail.com");
+        notificationService.sendEmailNotification(student.getFirstName() + " " + student.getLastName(), user.getEmail());
 
         return entity;
     }
