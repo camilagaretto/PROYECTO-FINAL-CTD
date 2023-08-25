@@ -7,6 +7,7 @@ import com.equipo2.Appkademy.core.model.repository.StudentRepository;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.security.model.User;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
+import com.equipo2.Appkademy.core.service.NotificationService;
 import com.equipo2.Appkademy.core.service.StudentService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
@@ -36,6 +37,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     private AppkademyMapper mapper;
@@ -104,6 +108,8 @@ public class StudentServiceImpl implements StudentService {
         user.setType(UserType.STUDENT);
         user.setUserTypeId(entity.getId());
         userRepository.save(user);
+
+        notificationService.sendEmailNotification(student.getFirstName() + " " + student.getLastName(), user.getEmail());
 
         return entity;
     }
