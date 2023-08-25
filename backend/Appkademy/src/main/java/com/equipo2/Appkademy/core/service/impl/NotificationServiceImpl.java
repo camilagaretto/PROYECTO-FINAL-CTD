@@ -24,21 +24,24 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendEmailNotification(String fullName, String email) {
-
-        try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            message.setSubject("Bienvenido a Appkademy!");
-            MimeMessageHelper helper= new MimeMessageHelper(message, true);
-            helper.setTo(email);
-            helper.setFrom(sender_user); // "appkademy38@gmail.com");
-            helper.setText("Hola " + fullName + ", bienvenido a Appkademy!! ");
-            javaMailSender.send(message);
-        }
-        catch (MessagingException e) {
-            throw new RuntimeException(e); // TODO: manejar este error.. loguearlo, etc
-        }
-        catch (Exception ex) {
-            // throw new RuntimeException(ex); // TODO: manejar este error.. loguearlo, etc
-        }
+        Thread thread = new Thread(() -> {
+            // Asynchronous task
+            System.out.println("Async send email task started");
+            try {
+                MimeMessage message = javaMailSender.createMimeMessage();
+                message.setSubject("Bienvenido a Appkademy!");
+                MimeMessageHelper helper= new MimeMessageHelper(message, true);
+                helper.setTo(email);
+                helper.setFrom(sender_user); // "appkademy38@gmail.com");
+                helper.setText("Hola " + fullName + ", bienvenido a Appkademy!! ");
+                javaMailSender.send(message);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e); // TODO: manejar este error.. loguearlo, etc
+            } catch (Exception ex) {
+                // throw new RuntimeException(ex); // TODO: manejar este error.. loguearlo, etc
+            }
+            System.out.println("Send email async task completed");
+        });
+        thread.start();
     }
 }
