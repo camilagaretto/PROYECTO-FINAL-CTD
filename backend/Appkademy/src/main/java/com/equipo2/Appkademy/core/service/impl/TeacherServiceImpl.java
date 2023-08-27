@@ -15,6 +15,7 @@ import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherCompactResponseDto;
+import com.equipo2.Appkademy.rest.dto.response.TeacherResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
@@ -55,12 +56,14 @@ public class TeacherServiceImpl implements TeacherService {
     EntityManager entityManager;
 
     @Override
-    public Teacher getById(Long id) {
-        return teacherRepository.findById(id).orElseThrow(() -> new NotFoundException("No Teacher found for id: " + id));
+    public TeacherResponseDto getById(Long id) {
+        Teacher entity = teacherRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("No Teacher found for id: " + id));
+        return mapper.teacherToTeacherResponseDto(entity);
     }
 
     @Override
-    public Teacher save(TeacherCreateRequestDto createRequestDto) {
+    public TeacherResponseDto save(TeacherCreateRequestDto createRequestDto) {
         teacherValidationService.assertUserDoesNotAlreadyExist(createRequestDto.getUserId());
         //teacherValidationService.assertTeacherDoesNotAlreadyExist(createRequestDto.getEmail());
         //teacherValidationService.assertEmailIsValid(createRequestDto.getEmail());
@@ -103,7 +106,7 @@ public class TeacherServiceImpl implements TeacherService {
         user.setUserTypeId(entity.getId());
         userRepository.save(user);
 
-        return entity;
+        return mapper.teacherToTeacherResponseDto(entity);
     }
 
     @Override
@@ -146,7 +149,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Teacher update(Long id, TeacherUpdateRequestDto updateRequestDto) {
+    public TeacherResponseDto update(Long id, TeacherUpdateRequestDto updateRequestDto) {
         Teacher entity = teacherRepository.findById(id).orElseThrow(() -> new NotFoundException(
                 ErrorCodes.TEACHER_NOT_FOUND));
 
@@ -176,7 +179,7 @@ public class TeacherServiceImpl implements TeacherService {
         entity.setTotalLikes(updateRequestDto.getTotalLikes());
         entity.setCharacteristics(characteristicEntities);
 
-        return teacherRepository.save(entity);
+        return mapper.teacherToTeacherResponseDto(teacherRepository.save(entity));
     }
 
     private Specification<Teacher> getCompleteSpec(TeacherFilterDto filter) {

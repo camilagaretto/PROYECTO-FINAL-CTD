@@ -10,6 +10,7 @@ import com.equipo2.Appkademy.core.model.repository.StudentRepository;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.service.ScheduledAppointmentService;
 import com.equipo2.Appkademy.rest.dto.request.ScheduledAppointmentCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.response.ScheduledAppointmentResponseDto;
 import com.equipo2.Appkademy.rest.error.BusinessException;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
@@ -38,7 +39,7 @@ public class ScheduledAppointmentServiceImpl implements ScheduledAppointmentServ
     private TeacherRepository teacherRepository;
 
     @Override
-    public ScheduledAppointment save(ScheduledAppointmentCreateRequestDto createRequestDto) {
+    public ScheduledAppointmentResponseDto save(ScheduledAppointmentCreateRequestDto createRequestDto) {
             Teacher teacher = assertTeacherExists(createRequestDto.getTeacherId());
             assertStudentExists(createRequestDto.getStudentId());
             assertStartAndEndDateAreInTheFuture(createRequestDto);
@@ -52,7 +53,8 @@ public class ScheduledAppointmentServiceImpl implements ScheduledAppointmentServ
             newAppointment.setStudentId(createRequestDto.getStudentId());
             newAppointment.setTeacherId(createRequestDto.getTeacherId());
 
-            return scheduledAppointmentRepository.save(newAppointment);
+            return mapper.scheduledAppointmenttoToScheduledAppointmentResponseDto(
+                    scheduledAppointmentRepository.save(newAppointment));
     }
 
     @Override
