@@ -115,62 +115,11 @@ public class TeacherServiceImpl implements TeacherService {
             filter.setPageSize(10);
         }
 
-        Specification<Teacher> combinedSpecs = Specification.allOf(getSpecForTeacher(filter));
-        Page<Teacher> teacherPage = teacherRepository.findAll(combinedSpecs,
+        Specification<Teacher> completeSpec = getCompleteSpec(filter);
+        Page<Teacher> teacherPage = teacherRepository.findAll(getCompleteSpec(filter),
                 PageRequest.of(filter.getPageNumber()-1, filter.getPageSize()));
 
-        TeacherSearchResponseDto searchResponseDto = new TeacherSearchResponseDto();
-        if(!teacherPage.isEmpty()){
-            searchResponseDto.setPageNumberSelected(filter.getPageNumber());
-            searchResponseDto.setPageSizeSelected(filter.getPageSize());
-            searchResponseDto.setTotalPagesFound(teacherPage.getTotalPages());
-            searchResponseDto.setTotalItemsFound(teacherPage.getTotalElements());
-            List<TeacherCompactResponseDto> compactTeacherList = teacherPage
-                    .stream()
-                    .map(teacher -> {
-                        TeacherCompactResponseDto compactResponseDto = new TeacherCompactResponseDto();
-                        compactResponseDto.setId(teacher.getId());
-                        compactResponseDto.setFirstName(teacher.getFirstName());
-                        compactResponseDto.setLastName(teacher.getLastName());
-                        compactResponseDto.setProviderCategoryId(teacher.getProviderCategoryId());
-                        compactResponseDto.setIdentityVerified(teacher.isIdentityVerified());
-                        compactResponseDto.setAddress(mapper.addressToAddressResponseDto(teacher.getAddress()));
-                        compactResponseDto.setProfilePictureUrl(teacher.getProfilePictureUrl());
-                        compactResponseDto.setShortDescription(teacher.getShortDescription());
-                        compactResponseDto.setTotalLikes(teacher.getTotalLikes());
-                        compactResponseDto.setProficiencies(mapper.
-                                teachingProficiencyListToTeachingProficiencyResponseDtoList(teacher.getProficiencies()));
-                        return compactResponseDto;
-                    })
-                    .toList();
-            searchResponseDto.setSearchResults(compactTeacherList);
-        }
-        return searchResponseDto;
-    }
-
-    private Specification<Teacher> getSpecForTeacher(TeacherFilterDto filter) {
-        List<Specification<Teacher>> specList = new ArrayList<>();
-        if(CollectionUtils.isNotEmpty(filter.getTeacherIds())){
-            specList.add(TeacherSpec.teacherIdsIn(filter.getTeacherIds()));
-        }
-        if(Objects.nonNull(filter.getCountry())){
-            specList.add(TeacherSpec.countryEquals(filter.getCountry()));
-        }
-        if(Objects.nonNull(filter.getProvince())){
-            specList.add(TeacherSpec.provinceEquals(filter.getProvince()));
-        }
-        if(Objects.nonNull(filter.getCity())){
-            specList.add(TeacherSpec.cityEquals(filter.getCity()));
-        }
-        if(Objects.nonNull(filter.getTeachingProficiency())){
-            if(Objects.nonNull(filter.getTeachingProficiency().getSubject())){
-                specList.add(TeacherSpec.proficiencySubject(filter.getTeachingProficiency().getSubject().getName()));
-            }
-            if(Objects.nonNull(filter.getTeachingProficiency().getMasteryLevel())){
-                specList.add(TeacherSpec.proficiencyMasteryLevel(filter.getTeachingProficiency().getMasteryLevel()));
-            }
-        }
-        return Specification.allOf(specList);
+        return getSearchResponseDto(teacherPage, filter);
     }
 
     /* TODO TO BE IMPLEMENTED
@@ -201,7 +150,6 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher entity = teacherRepository.findById(id).orElseThrow(() -> new NotFoundException(
                 ErrorCodes.TEACHER_NOT_FOUND));
 
-        //teacherValidationService.assertEmailIsValid(updateRequestDto.getEmail());
         teacherValidationService.assertHourlyRatesAreValid(updateRequestDto.getHourlyRates());
 
         List<TeachingProficiency> teachingProficiencyEntities = teacherValidationService.assertTeachingProficienciesExist(
@@ -231,5 +179,40 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherRepository.save(entity);
     }
 
+    private Specification<Teacher> getCompleteSpec(TeacherFilterDto filter) {
+        List<Specification<Teacher>> specList = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(filter.getTeacherIds())){
+            specList.add(TeacherSpec.teacherIdsIn(filter.getTeacherIds()));
+        }
+        if(Objects.nonNull(filter.getCountry())){
+            specList.add(TeacherSpec.countryEquals(filter.getCountry()));
+        }
+        if(Objects.nonNull(filter.getProvince())){
+            specList.add(TeacherSpec.provinceEquals(filter.getProvince()));
+        }
+        if(Objects.nonNull(filter.getCity())){
+            specList.add(TeacherSpec.cityEquals(filter.getCity()));
+        }
+        if(Objects.nonNull(filter.getTeachingProficiency())){
+            if(Objects.nonNull(filter.getTeachingProficiency().getSubject())){
+                specList.add(TeacherSpec.proficiencySubject(filter.getTeachingProficiency().getSubject().getName()));
+            }
+            if(Objects.nonNull(filter.getTeachingProficiency().getMasteryLevel())){
+                specList.add(TeacherSpec.proficiencyMasteryLevel(filter.getTeachingProficiency().getMasteryLevel()));
+            }
+        }
+        return Specification.allOf(specList);
+    }
+
+    private TeacherSearchResponseDto getSearchResponseDto(Page<Teacher> teacherPage, TeacherFilterDto filter) {
+        List<TeacherCompactResponseDto> compactResponseDtoList = mapper.teacherPageToTeacherCompactResponseDto(teacherPage);
+        TeacherSearchResponseDto searchResponseDto = new TeacherSearchResponseDto();
+        searchResponseDto.setPageNumberSelected(filter.getPageNumber());
+        searchResponseDto.setPageSizeSelected(filter.getPageSize());
+        searchResponseDto.setTotalPagesFound(teacherPage.getTotalPages());
+        searchResponseDto.setTotalItemsFound(teacherPage.getTotalElements());
+        searchResponseDto.setSearchResults(compactResponseDtoList);
+        return searchResponseDto;
+    }
 
 }

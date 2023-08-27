@@ -4,6 +4,7 @@ import com.equipo2.Appkademy.core.model.entity.*;
 import com.equipo2.Appkademy.rest.dto.request.*;
 import com.equipo2.Appkademy.rest.dto.response.*;
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -45,4 +46,6 @@ public interface AppkademyMapper {
     List<CharacteristicResponseDto> characteristicListToCharacteristicResponseDtoList(List<Characteristic> resultList);
 
     List<StudentResponseDto> studentListToStudentResponseList(List<Student> resultList);
+
+    List<TeacherCompactResponseDto> teacherPageToTeacherCompactResponseDto(Page<Teacher> teacherPage);
 }
