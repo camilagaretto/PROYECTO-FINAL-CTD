@@ -116,7 +116,7 @@ public class TeacherServiceImpl implements TeacherService {
         }
 
         Specification<Teacher> completeSpec = getCompleteSpec(filter);
-        Page<Teacher> teacherPage = teacherRepository.findAll(getCompleteSpec(filter),
+        Page<Teacher> teacherPage = teacherRepository.findAll(completeSpec,
                 PageRequest.of(filter.getPageNumber()-1, filter.getPageSize()));
 
         return getSearchResponseDto(teacherPage, filter);
