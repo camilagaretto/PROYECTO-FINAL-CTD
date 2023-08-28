@@ -1,9 +1,7 @@
 package com.equipo2.Appkademy.core.service.impl;
 
 import com.equipo2.Appkademy.core.mapper.AppkademyMapperImpl;
-import com.equipo2.Appkademy.core.model.entity.Teacher;
-import com.equipo2.Appkademy.core.model.entity.TeachingProficiency;
-import com.equipo2.Appkademy.core.model.entity.TeachingSubject;
+import com.equipo2.Appkademy.core.model.entity.*;
 import com.equipo2.Appkademy.core.model.enums.Currency;
 import com.equipo2.Appkademy.core.model.enums.*;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
@@ -21,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -105,7 +104,6 @@ class TeacherServiceImplTest {
 
         doNothing().when(teacherValidationService).assertUserDoesNotAlreadyExist(eq(userId));
         doNothing().when(teacherValidationService).assertHourlyRatesAreValid(anyMap());
-        //doNothing().when(teacherValidationService).assertTeachingSubjectsExist(anyList());
 
         Teacher entity = Teacher.builder()
                 .userId(createRequestDto.getUserId())
@@ -159,6 +157,96 @@ class TeacherServiceImplTest {
         assertFalse(responseDto.isSignupApprovedByAdmin());
 
         verify(teacherRepository, times(1)).save(any(Teacher.class));
+    }
+
+    @Test
+    public void shouldGetTeacherById(){
+        Long userId = 1L;
+        String firstName = "Bilbo";
+        String lastName = "Bolson";
+        String email = "mountainthief@gmail.com";
+        String streetName = "Av. Cabildo";
+        String streetNumber = "222";
+
+        String shortDescription = "Los atajos cortos traen retrasos largos, pero las posadas los alargan todavía más";
+        String fullDescription = "No todo lo que es oro, reluce, ni toda la gente errante anda perdida; a las raíces" +
+                " profundas no llega la escarcha, el viejo vigoroso no se marchita. De las cenizas subirá un fuego," +
+                " y una luz asomará en las sombras; el descoronado será de nuevo rey, forjarán otra vez la espada rota";
+
+        Map<Currency, BigDecimal> hourlyRates = new HashMap<>();
+        hourlyRates.put(Currency.ARS, BigDecimal.valueOf(500));
+
+        Map<Modality, Boolean> modalities = new HashMap<>();
+        modalities.put(Modality.FACE_TO_FACE, true);
+
+        List<TeachingProficiency> proficiencies = new ArrayList<>();
+        TeachingProficiency proficiency = new TeachingProficiency();
+        proficiency.setMasteryLevel(TeachingMasteryLevel.COLLEGE);
+        proficiency.setSubject(new TeachingSubject("LITERATURE"));
+        proficiencies.add(proficiency);
+
+        WeeklyWorkingSchedule workingSchedule= new WeeklyWorkingSchedule();
+        workingSchedule.setCheckIn(LocalTime.of(9, 0, 0));
+        workingSchedule.setCheckOut(LocalTime.of(18, 0, 0));
+        workingSchedule.setMonday(true);
+        workingSchedule.setTuesday(true);
+
+
+        Address address= new Address();
+        address.setCountry(Country.ARGENTINA);
+        address.setProvince(Province.BUENOS_AIRES);
+        address.setStreetName(streetName);
+        address.setStreetNumber(streetNumber);
+
+        String profilePictureUrl = "www.ereborpic.com/me_in_the_vault.jpg";
+
+        Teacher teacher = Teacher.builder()
+                .userId(1L)
+                .firstName(firstName)
+                .lastName(lastName)
+                .hourlyRates(hourlyRates)
+                .modalities(modalities)
+                .proficiencies(proficiencies)
+                .weeklyWorkingSchedule(workingSchedule)
+                .providerCategoryId(1L)
+                .profilePictureUrl(profilePictureUrl)
+                .shortDescription(shortDescription)
+                .fullDescription(fullDescription)
+                .address(address)
+                .enabled(true)
+                .createdOn(LocalDateTime.now())
+                .lastModifiedOn(LocalDateTime.now())
+                .totalLikes(0L)
+                .signupApprovedByAdmin(true)
+                .build();
+        ReflectionTestUtils.setField(teacher, "id", 10L);
+
+        doReturn(Optional.of(teacher)).when(teacherRepository).findById(10L);
+
+        TeacherResponseDto responseDto = teacherService.getById(10L);
+
+        assertNotNull(responseDto);
+        assertEquals(firstName, responseDto.getFirstName());
+        assertEquals(lastName, responseDto.getLastName());
+        assertEquals(hourlyRates, responseDto.getHourlyRates());
+        assertEquals(modalities, responseDto.getModalities());
+        assertEquals(TeachingMasteryLevel.COLLEGE, responseDto.getProficiencies().get(0).getMasteryLevel());
+        assertEquals("LITERATURE", responseDto.getProficiencies().get(0).getSubject().getName());
+        assertEquals(workingSchedule.getCheckIn(), responseDto.getWeeklyWorkingSchedule().getCheckIn());
+        assertEquals(workingSchedule.getCheckOut(), responseDto.getWeeklyWorkingSchedule().getCheckOut());
+        assertEquals(1L, responseDto.getProviderCategoryId());
+        assertEquals(profilePictureUrl, responseDto.getProfilePictureUrl());
+        assertEquals(shortDescription, responseDto.getShortDescription());
+        assertEquals(fullDescription, responseDto.getFullDescription());
+        assertEquals(address.getCountry().name(), responseDto.getAddress().getCountry());
+        assertEquals(address.getProvince().name(), responseDto.getAddress().getProvince());
+        assertEquals(address.getStreetName(), responseDto.getAddress().getStreetName());
+        assertEquals(address.getStreetNumber(), responseDto.getAddress().getStreetNumber());
+        assertTrue(responseDto.isEnabled());
+        assertEquals(0L, responseDto.getTotalLikes());
+        assertFalse(responseDto.isSignupApprovedByAdmin());
+
+        verify(teacherRepository, times(1)).findById(10L);
     }
 
 
