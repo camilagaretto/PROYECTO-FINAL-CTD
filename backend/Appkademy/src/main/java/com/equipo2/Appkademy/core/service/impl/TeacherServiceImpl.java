@@ -14,7 +14,6 @@ import com.equipo2.Appkademy.core.validation.service.TeacherValidationServiceImp
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherUpdateRequestDto;
-import com.equipo2.Appkademy.rest.dto.response.TeacherCompactResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
@@ -65,8 +64,6 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public TeacherResponseDto save(TeacherCreateRequestDto createRequestDto) {
         teacherValidationService.assertUserDoesNotAlreadyExist(createRequestDto.getUserId());
-        //teacherValidationService.assertTeacherDoesNotAlreadyExist(createRequestDto.getEmail());
-        //teacherValidationService.assertEmailIsValid(createRequestDto.getEmail());
         teacherValidationService.assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
 
         List<TeachingProficiency> teachingProficiencyEntities = teacherValidationService.assertTeachingProficienciesExist(
@@ -118,11 +115,14 @@ public class TeacherServiceImpl implements TeacherService {
             filter.setPageSize(10);
         }
 
-        Specification<Teacher> completeSpec = getCompleteSpec(filter);
-        Page<Teacher> teacherPage = teacherRepository.findAll(completeSpec,
+        Specification<Teacher> searchSpec = generateSearchSpecFromFilter(filter);
+        Page<Teacher> teacherPage = teacherRepository.findAll(searchSpec,
                 PageRequest.of(filter.getPageNumber()-1, filter.getPageSize()));
 
-        return getSearchResponseDto(teacherPage, filter);
+        TeacherSearchResponseDto searchResponseDto = mapper.teacherPageToTeacherSearchResponseDto(teacherPage, filter);
+        searchResponseDto.setSearchResults(mapper.teacherListToTeacherCompactResponseDtoList(teacherPage.getContent()));
+        
+        return searchResponseDto;
     }
 
     /* TODO TO BE IMPLEMENTED
@@ -182,7 +182,7 @@ public class TeacherServiceImpl implements TeacherService {
         return mapper.teacherToTeacherResponseDto(teacherRepository.save(entity));
     }
 
-    private Specification<Teacher> getCompleteSpec(TeacherFilterDto filter) {
+    private Specification<Teacher> generateSearchSpecFromFilter(TeacherFilterDto filter) {
         List<Specification<Teacher>> specList = new ArrayList<>();
         if(CollectionUtils.isNotEmpty(filter.getTeacherIds())){
             specList.add(TeacherSpec.teacherIdsIn(filter.getTeacherIds()));
@@ -205,17 +205,6 @@ public class TeacherServiceImpl implements TeacherService {
             }
         }
         return Specification.allOf(specList);
-    }
-
-    private TeacherSearchResponseDto getSearchResponseDto(Page<Teacher> teacherPage, TeacherFilterDto filter) {
-        List<TeacherCompactResponseDto> compactResponseDtoList = mapper.teacherPageToTeacherCompactResponseDto(teacherPage);
-        TeacherSearchResponseDto searchResponseDto = new TeacherSearchResponseDto();
-        searchResponseDto.setPageNumberSelected(filter.getPageNumber());
-        searchResponseDto.setPageSizeSelected(filter.getPageSize());
-        searchResponseDto.setTotalPagesFound(teacherPage.getTotalPages());
-        searchResponseDto.setTotalItemsFound(teacherPage.getTotalElements());
-        searchResponseDto.setSearchResults(compactResponseDtoList);
-        return searchResponseDto;
     }
 
 }
