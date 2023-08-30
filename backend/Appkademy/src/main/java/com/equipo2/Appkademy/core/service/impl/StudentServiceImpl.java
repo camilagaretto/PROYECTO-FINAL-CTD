@@ -132,6 +132,12 @@ public class StudentServiceImpl implements StudentService {
 
             teacher.setTotalLikes(teacher.getTotalLikes() + 1);
             teacherRepository.save(teacher);
+        }else{
+            likedProviderIds.remove(teacherId);
+            studentRepository.save(student);
+
+            teacher.setTotalLikes(teacher.getTotalLikes() - 1); // Restar 1 like
+            teacherRepository.save(teacher);
         }
     }
 
