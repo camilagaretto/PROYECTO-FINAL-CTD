@@ -2,12 +2,14 @@ package com.equipo2.Appkademy.core.service.impl;
 
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.Student;
+import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.model.enums.UserType;
 import com.equipo2.Appkademy.core.model.repository.StudentRepository;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.security.model.User;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
 import com.equipo2.Appkademy.core.service.StudentService;
+import com.equipo2.Appkademy.core.service.TeacherService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
@@ -39,6 +41,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private AppkademyMapper mapper;
+
+    @Autowired
+    private TeacherService teacherService;
 
     @Override
     public Student getById(Long id) {
@@ -112,6 +117,22 @@ public class StudentServiceImpl implements StudentService {
         if(!EmailValidator.getInstance().isValid(email)){
             throw new BadRequestException("email", email);
         };
+    }
+
+    private void markFavoriteTeacher(Long id, Long teacherId) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("No Student found for id: " + id));
+
+        Teacher teacher = teacherService.getById(teacherId);
+
+        List<Long> likedProviderIds = student.getLikedProviderIds();
+        if (!likedProviderIds.contains(teacherId)) {
+            likedProviderIds.add(teacherId);
+            studentRepository.save(student);
+
+            teacher.setTotalLikes(teacher.getTotalLikes() + 1);
+            teacherRepository.save(teacher);
+        }
     }
 
 }
