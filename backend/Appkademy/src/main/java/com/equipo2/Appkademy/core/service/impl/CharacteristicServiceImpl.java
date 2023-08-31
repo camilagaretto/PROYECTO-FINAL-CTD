@@ -8,6 +8,7 @@ import com.equipo2.Appkademy.core.security.model.repository.CharacteristicRespos
 import com.equipo2.Appkademy.core.service.CharacteristicService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.CharacteristicRequestDto;
+import com.equipo2.Appkademy.rest.dto.response.CharacteristicResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.CharacteristicSearchResponseDto;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
@@ -31,19 +32,19 @@ public class CharacteristicServiceImpl implements CharacteristicService {
     private AppkademyMapper mapper;
 
     @Override
-    public Characteristic create(CharacteristicRequestDto createRequestDto) {
+    public CharacteristicResponseDto create(CharacteristicRequestDto createRequestDto) {
 
         Optional<Characteristic> characteristicOptional = characteristicRespository.findByName(createRequestDto.getName());
 
         if(characteristicOptional.isPresent()){
-            return characteristicOptional.get();
+            return mapper.characteristicToCharacteristicResponseDto(characteristicOptional.get());
         }
 
         Characteristic entity = new Characteristic();
         entity.setName(createRequestDto.getName());
         entity.setIcon(createRequestDto.getIcon());
 
-        return characteristicRespository.save(entity);
+        return mapper.characteristicToCharacteristicResponseDto(characteristicRespository.save(entity));
     }
 
     @Override
@@ -74,13 +75,13 @@ public class CharacteristicServiceImpl implements CharacteristicService {
     }
 
     @Override
-    public Characteristic update(Long id, CharacteristicRequestDto updateRequestDto) {
+    public CharacteristicResponseDto update(Long id, CharacteristicRequestDto updateRequestDto) {
         Characteristic entity = characteristicRespository.findById(id).orElseThrow(() -> new NotFoundException(
                 ErrorCodes.CHARACTERISTIC_NOT_FOUND));
 
         entity.setIcon(updateRequestDto.getIcon());
         entity.setName(updateRequestDto.getName());
-        return characteristicRespository.save(entity);
+        return mapper.characteristicToCharacteristicResponseDto(characteristicRespository.save(entity));
     }
 
     @Override

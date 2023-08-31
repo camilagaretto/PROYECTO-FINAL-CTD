@@ -1,7 +1,5 @@
 package com.equipo2.Appkademy.rest.controller;
 
-import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
-import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.service.TeacherService;
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
@@ -21,19 +19,15 @@ import static com.equipo2.Appkademy.core.security.model.PermissionConstants.*;
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "/v1/categories/1/providers/")
-public class TeacherProviderController implements ITeacherProviderController {
+public class TeacherController implements ITeacherProviderController {
 
     @Autowired
     private TeacherService teacherService;
 
-    @Autowired
-    private AppkademyMapper mapper;
-
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<TeacherResponseDto> get(@PathVariable Long id){
-        Teacher entity = teacherService.getById(id);
-        TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(entity);
+        TeacherResponseDto responseDto = teacherService.getById(id);
         return ResponseEntity.ok(responseDto);
     }
 
@@ -41,8 +35,7 @@ public class TeacherProviderController implements ITeacherProviderController {
     @PostMapping
     @PreAuthorize("hasAuthority('" + TEACHER_CREATE + "')")
     public ResponseEntity<TeacherResponseDto> create(@Valid @RequestBody TeacherCreateRequestDto TeacherCreateRequestDto){
-        Teacher entity = teacherService.save(TeacherCreateRequestDto);
-        TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(entity);
+        TeacherResponseDto responseDto = teacherService.save(TeacherCreateRequestDto);
         return new ResponseEntity<TeacherResponseDto>(responseDto, HttpStatus.CREATED);
     }
 
@@ -57,8 +50,7 @@ public class TeacherProviderController implements ITeacherProviderController {
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('" + TEACHER_UPDATE + "')")
     public ResponseEntity<TeacherResponseDto> update(@PathVariable Long id, @RequestBody @Valid TeacherUpdateRequestDto updateRequestDto){
-        Teacher teacher = teacherService.update(id, updateRequestDto);
-        TeacherResponseDto responseDto = mapper.teacherToTeacherResponseDto(teacher);
+        TeacherResponseDto responseDto = teacherService.update(id, updateRequestDto);
         return ResponseEntity.ok(responseDto);
     }
 

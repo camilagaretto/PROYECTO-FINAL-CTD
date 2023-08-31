@@ -9,6 +9,7 @@ import com.equipo2.Appkademy.core.model.repository.TeachingSubjectRepository;
 import com.equipo2.Appkademy.core.service.TeachingProficiencyService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.TeachingSubjectDto;
+import com.equipo2.Appkademy.rest.dto.response.TeachingSubjectResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeachingSubjectSearchResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class TeachingSubjectServiceImpl implements TeachingProficiencyService {
@@ -31,9 +33,10 @@ public class TeachingSubjectServiceImpl implements TeachingProficiencyService {
     private AppkademyMapper mapper;
 
     @Override
-    public TeachingSubject create(TeachingSubjectDto createDto){
-        if(subjectRepository.findByName(createDto.getName()).isPresent()){
-            return subjectRepository.findByName(createDto.getName()).get();
+    public TeachingSubjectResponseDto create(TeachingSubjectDto createDto){
+        Optional<TeachingSubject> optionalEntity = subjectRepository.findByName(createDto.getName());
+        if(optionalEntity.isPresent()){
+            return mapper.teachingSubjectToTeachingSubjectResponseDto(optionalEntity.get());
         }
         TeachingSubject entity = subjectRepository.save(new TeachingSubject(createDto.getName()));
 
@@ -42,7 +45,7 @@ public class TeachingSubjectServiceImpl implements TeachingProficiencyService {
         teachingProficiencyRepository.save(new TeachingProficiency(TeachingMasteryLevel.HIGHSCHOOL, entity));
         teachingProficiencyRepository.save(new TeachingProficiency(TeachingMasteryLevel.MIDDLE_SCHOOL, entity));
 
-        return entity;
+        return mapper.teachingSubjectToTeachingSubjectResponseDto(entity);
     }
 
     @Override
