@@ -204,6 +204,9 @@ public class TeacherServiceImpl implements TeacherService {
                 specList.add(TeacherSpec.proficiencyMasteryLevel(filter.getTeachingProficiency().getMasteryLevel()));
             }
         }
+        if(Objects.nonNull(filter.getFreeOn())){
+           specList.add(TeacherSpec.teacherWithoutScheduledAppointmentAtStartTime(filter.getFreeOn()));
+        }
         return Specification.allOf(specList);
     }
 
