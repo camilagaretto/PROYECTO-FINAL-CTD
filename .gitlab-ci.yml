@@ -41,7 +41,7 @@ build_frontend:
 
 build_backend:
   stage: build_backend
-  image: docker:stable
+  image: docker/compose:1.29.2
   dependencies:
     - before_script_backend
   script:
