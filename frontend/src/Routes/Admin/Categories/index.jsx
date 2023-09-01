@@ -17,7 +17,7 @@ function Categories() {
         }
 
         try {
-            const response = await fetch('ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/teaching_subject/search', {
+            const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/teaching_subject/search', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

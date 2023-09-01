@@ -17,7 +17,7 @@ import static com.equipo2.Appkademy.core.security.model.PermissionConstants.*;
 
 @RestController
 @CrossOrigin(
-        origins = "ec2-107-21-139-55.compute-1.amazonaws.com",
+        origins = "http://ec2-107-21-139-55.compute-1.amazonaws.com",
         allowedHeaders = "*",
         exposedHeaders = "*",
         methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
