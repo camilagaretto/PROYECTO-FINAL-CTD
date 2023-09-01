@@ -1,7 +1,6 @@
 package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
-import com.equipo2.Appkademy.core.model.entity.Characteristic;
 import com.equipo2.Appkademy.core.service.CharacteristicService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.CharacteristicRequestDto;
@@ -32,8 +31,7 @@ public class CharacteristicController implements ICharacteristicController {
     @PostMapping
     @PreAuthorize("hasAuthority('" + CHARACTERISTIC_CREATE + "')")
     public ResponseEntity<CharacteristicResponseDto> create(@RequestBody CharacteristicRequestDto createRequestDto){
-        Characteristic entity = characteristicService.create(createRequestDto);
-        CharacteristicResponseDto responseDto = mapper.characteristicToCharacteristicResponseDto(entity);
+        CharacteristicResponseDto responseDto = characteristicService.create(createRequestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
@@ -50,8 +48,7 @@ public class CharacteristicController implements ICharacteristicController {
     @PreAuthorize("hasAuthority('" + CHARACTERISTIC_UPDATE + "')")
     public ResponseEntity<CharacteristicResponseDto> update(@PathVariable Long id, @RequestBody @Valid CharacteristicRequestDto
             updateRequestDto){
-        Characteristic entity = characteristicService.update(id, updateRequestDto);
-        CharacteristicResponseDto responseDto = mapper.characteristicToCharacteristicResponseDto(entity);
+        CharacteristicResponseDto responseDto = characteristicService.update(id, updateRequestDto);
         return ResponseEntity.ok(responseDto);
     }
 

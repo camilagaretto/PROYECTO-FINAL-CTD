@@ -9,22 +9,22 @@ import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.security.model.User;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
 import com.equipo2.Appkademy.core.service.TeacherService;
+import com.equipo2.Appkademy.core.specs.TeacherSpec;
 import com.equipo2.Appkademy.core.validation.service.TeacherValidationServiceImpl;
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherUpdateRequestDto;
-import com.equipo2.Appkademy.rest.dto.response.TeacherCompactResponseDto;
+import com.equipo2.Appkademy.rest.dto.response.ScheduledAppointmentResponseDto;
+import com.equipo2.Appkademy.rest.dto.response.TeacherResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -56,15 +56,15 @@ public class TeacherServiceImpl implements TeacherService {
     EntityManager entityManager;
 
     @Override
-    public Teacher getById(Long id) {
-        return teacherRepository.findById(id).orElseThrow(() -> new NotFoundException("No Teacher found for id: " + id));
+    public TeacherResponseDto getById(Long id) {
+        Teacher entity = teacherRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("No Teacher found for id: " + id));
+        return removeExpiredAppointmentsFromResponse(mapper.teacherToTeacherResponseDto(entity));
     }
 
     @Override
-    public Teacher save(TeacherCreateRequestDto createRequestDto) {
+    public TeacherResponseDto save(TeacherCreateRequestDto createRequestDto) {
         teacherValidationService.assertUserDoesNotAlreadyExist(createRequestDto.getUserId());
-        //teacherValidationService.assertTeacherDoesNotAlreadyExist(createRequestDto.getEmail());
-        //teacherValidationService.assertEmailIsValid(createRequestDto.getEmail());
         teacherValidationService.assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
 
         List<TeachingProficiency> teachingProficiencyEntities = teacherValidationService.assertTeachingProficienciesExist(
@@ -104,7 +104,7 @@ public class TeacherServiceImpl implements TeacherService {
         user.setUserTypeId(entity.getId());
         userRepository.save(user);
 
-        return entity;
+        return mapper.teacherToTeacherResponseDto(entity);
     }
 
     @Override
@@ -116,108 +116,13 @@ public class TeacherServiceImpl implements TeacherService {
             filter.setPageSize(10);
         }
 
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        Specification<Teacher> searchSpec = generateSearchSpecFromFilter(filter);
+        Page<Teacher> teacherPage = teacherRepository.findAll(searchSpec,
+                PageRequest.of(filter.getPageNumber()-1, filter.getPageSize()));
 
-        CriteriaQuery<Teacher> criteriaQuery = criteriaBuilder.createQuery(Teacher.class);
-        Root<Teacher> root = criteriaQuery.from(Teacher.class);
-
-        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-        Root<Teacher> countRoot = countQuery.from(Teacher.class);
-
-        List<Predicate> predicateListTeacher = new ArrayList<>();
-        List<Predicate> predicateListCount = new ArrayList<>();
-
-
-        if(CollectionUtils.isNotEmpty(filter.getTeacherIds())){
-            Predicate condition = criteriaBuilder.and(root.get("id").in(filter.getTeacherIds()));
-            predicateListTeacher.add(condition);
-            predicateListCount.add(criteriaBuilder.and(countRoot.get("id").in(filter.getTeacherIds())));
-        }
-        if(Objects.nonNull(filter.getCountry())){
-            Predicate condition = criteriaBuilder.equal(root.get("address").get("country"), filter.getCountry());
-            predicateListTeacher.add(condition);
-            predicateListCount.add(criteriaBuilder.equal(countRoot.get("address").get("country"), filter.getCountry()));
-        }
-        if(Objects.nonNull(filter.getProvince())){
-            Predicate condition = criteriaBuilder.equal(root.get("address").get("province"), filter.getProvince());
-            predicateListTeacher.add(condition);
-            predicateListCount.add(criteriaBuilder.equal(countRoot.get("address").get("province"), filter.getProvince()));
-        }
-        if(Objects.nonNull(filter.getCity())){
-            Predicate condition = criteriaBuilder.equal(root.get("address").get("city"), filter.getCity());
-            predicateListTeacher.add(condition);
-            predicateListCount.add(criteriaBuilder.equal(countRoot.get("address").get("city"), filter.getCity()));
-        }
-        if(Objects.nonNull(filter.getTeachingProficiency())){
-            root.join("proficiencies");
-            countRoot.join("proficiencies");
-            if(Objects.nonNull(filter.getTeachingProficiency().getSubject())){
-                Predicate condition = criteriaBuilder.equal(
-                        root.join("proficiencies").get("subject").get("name"), filter.getTeachingProficiency().getSubject().getName());
-                predicateListTeacher.add(condition);
-                predicateListCount.add(criteriaBuilder.equal(
-                        countRoot.join("proficiencies").get("subject").get("name"), filter.getTeachingProficiency().getSubject().getName()));
-            }
-            if(Objects.nonNull(filter.getTeachingProficiency().getMasteryLevel())){
-                Predicate condition = criteriaBuilder.equal(
-                        root.join("proficiencies").get("masteryLevel"), filter.getTeachingProficiency().getMasteryLevel());
-                predicateListTeacher.add(condition);
-                predicateListCount.add(criteriaBuilder.equal(
-                        countRoot.join("proficiencies").get("masteryLevel"), filter.getTeachingProficiency().getMasteryLevel()));
-            }
-        }
-
-        Predicate[] predicateArrayTeacher = predicateListTeacher.toArray(new Predicate[predicateListTeacher.size()]);
-        Predicate[] predicateArrayCount = predicateListCount.toArray(new Predicate[predicateListCount.size()]);
-
-        criteriaQuery.select(root).where(predicateArrayTeacher);
-        countQuery.select(criteriaBuilder.count(countRoot)).where(predicateArrayCount);
-
-        TypedQuery<Teacher> typedQuery = entityManager.createQuery(criteriaQuery);
-        TypedQuery<Long> typedCountQuery = entityManager.createQuery(countQuery);
-
-
-        // Implement pagination
-        int pageNumber = filter.getPageNumber(); // Page number (starting from 1)
-        int pageSize = filter.getPageSize();  // Number of results per page
-        int startIndex = (pageNumber - 1) * pageSize;
-
-        typedQuery.setFirstResult(startIndex);
-        typedQuery.setMaxResults(pageSize);
-
-        List<Teacher> resultList = typedQuery.getResultList();
-        Long totalCount = typedCountQuery.getSingleResult();
-
-        int totalPagesFound = (int) Math.ceil((double)totalCount / filter.getPageSize());
-
-
-        TeacherSearchResponseDto searchResponseDto = new TeacherSearchResponseDto();
-        if(CollectionUtils.isNotEmpty(resultList)){
-            searchResponseDto.setPageNumberSelected(filter.getPageNumber());
-            searchResponseDto.setPageSizeSelected(filter.getPageSize());
-            searchResponseDto.setTotalPagesFound(totalPagesFound);
-            searchResponseDto.setTotalItemsFound(totalCount);
-            List<TeacherCompactResponseDto> compactTeacherList = resultList
-                    .stream()
-                    .map(teacher -> {
-                        TeacherCompactResponseDto compactResponseDto = new TeacherCompactResponseDto();
-                        compactResponseDto.setId(teacher.getId());
-                        compactResponseDto.setFirstName(teacher.getFirstName());
-                        compactResponseDto.setLastName(teacher.getLastName());
-                        compactResponseDto.setProviderCategoryId(teacher.getProviderCategoryId());
-                        compactResponseDto.setIdentityVerified(teacher.isIdentityVerified());
-                        compactResponseDto.setAddress(mapper.addressToAddressResponseDto(teacher.getAddress()));
-                        compactResponseDto.setProfilePictureUrl(teacher.getProfilePictureUrl());
-                        compactResponseDto.setShortDescription(teacher.getShortDescription());
-                        compactResponseDto.setTotalLikes(teacher.getTotalLikes());
-                        compactResponseDto.setProficiencies(mapper.
-                                teachingProficiencyListToTeachingProficiencyResponseDtoList(teacher.getProficiencies()));
-                        return compactResponseDto;
-                    })
-                    .toList();
-
-            searchResponseDto.setSearchResults(compactTeacherList);
-        }
+        TeacherSearchResponseDto searchResponseDto = mapper.teacherPageToTeacherSearchResponseDto(teacherPage, filter);
+        searchResponseDto.setSearchResults(mapper.teacherListToTeacherCompactResponseDtoList(teacherPage.getContent()));
+        
         return searchResponseDto;
     }
 
@@ -245,11 +150,10 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Teacher update(Long id, TeacherUpdateRequestDto updateRequestDto) {
+    public TeacherResponseDto update(Long id, TeacherUpdateRequestDto updateRequestDto) {
         Teacher entity = teacherRepository.findById(id).orElseThrow(() -> new NotFoundException(
                 ErrorCodes.TEACHER_NOT_FOUND));
 
-        //teacherValidationService.assertEmailIsValid(updateRequestDto.getEmail());
         teacherValidationService.assertHourlyRatesAreValid(updateRequestDto.getHourlyRates());
 
         List<TeachingProficiency> teachingProficiencyEntities = teacherValidationService.assertTeachingProficienciesExist(
@@ -276,8 +180,46 @@ public class TeacherServiceImpl implements TeacherService {
         entity.setTotalLikes(updateRequestDto.getTotalLikes());
         entity.setCharacteristics(characteristicEntities);
 
-        return teacherRepository.save(entity);
+        return mapper.teacherToTeacherResponseDto(teacherRepository.save(entity));
     }
 
+    private Specification<Teacher> generateSearchSpecFromFilter(TeacherFilterDto filter) {
+        List<Specification<Teacher>> specList = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(filter.getTeacherIds())){
+            specList.add(TeacherSpec.teacherIdsIn(filter.getTeacherIds()));
+        }
+        if(Objects.nonNull(filter.getCountry())){
+            specList.add(TeacherSpec.countryEquals(filter.getCountry()));
+        }
+        if(Objects.nonNull(filter.getProvince())){
+            specList.add(TeacherSpec.provinceEquals(filter.getProvince()));
+        }
+        if(Objects.nonNull(filter.getCity())){
+            specList.add(TeacherSpec.cityEquals(filter.getCity()));
+        }
+        if(Objects.nonNull(filter.getTeachingProficiency())){
+            if(Objects.nonNull(filter.getTeachingProficiency().getSubject())){
+                specList.add(TeacherSpec.proficiencySubject(filter.getTeachingProficiency().getSubject().getName()));
+            }
+            if(Objects.nonNull(filter.getTeachingProficiency().getMasteryLevel())){
+                specList.add(TeacherSpec.proficiencyMasteryLevel(filter.getTeachingProficiency().getMasteryLevel()));
+            }
+        }
+        if(Objects.nonNull(filter.getFreeOn())){
+           specList.add(TeacherSpec.teacherWithoutScheduledAppointmentAtStartTime(filter.getFreeOn()));
+        }
+        return Specification.allOf(specList);
+    }
+
+    private TeacherResponseDto removeExpiredAppointmentsFromResponse(TeacherResponseDto teacherResponseDto) {
+        List<ScheduledAppointmentResponseDto> appointments = teacherResponseDto.getScheduledAppointments();
+
+        List<ScheduledAppointmentResponseDto> filteredAppointments = appointments.stream().filter(appt ->
+                LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0)
+                        .isBefore(appt.getStartsOn())).toList();
+
+        teacherResponseDto.setScheduledAppointments(filteredAppointments);
+        return teacherResponseDto;
+    }
 
 }

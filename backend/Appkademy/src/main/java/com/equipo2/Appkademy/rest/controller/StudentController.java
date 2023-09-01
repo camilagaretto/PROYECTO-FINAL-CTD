@@ -1,7 +1,6 @@
 package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
-import com.equipo2.Appkademy.core.model.entity.Student;
 import com.equipo2.Appkademy.core.service.StudentService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
@@ -34,16 +33,16 @@ public class StudentController implements IStudentController {
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<StudentResponseDto> getById(@PathVariable Long id){
-        Student entity = studentService.getById(id);
-        return ResponseEntity.ok(mapper.studentToStudentResponseDto(entity));
+        StudentResponseDto responseDto = studentService.getById(id);
+        return ResponseEntity.ok(responseDto);
     }
 
     @Override
     @PostMapping
     @PreAuthorize("hasAuthority('" + STUDENT_CREATE + "')")
     public ResponseEntity<StudentResponseDto> create(@RequestBody StudentCreateRequestDto createRequestDto){
-        Student entity = studentService.save(createRequestDto);
-        return new ResponseEntity<StudentResponseDto>(mapper.studentToStudentResponseDto(entity), HttpStatus.CREATED);
+        StudentResponseDto responseDto = studentService.save(createRequestDto);
+        return new ResponseEntity<StudentResponseDto>(responseDto, HttpStatus.CREATED);
     }
 
     @Override
@@ -58,8 +57,8 @@ public class StudentController implements IStudentController {
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('" + STUDENT_UPDATE + "')")
     public ResponseEntity<StudentResponseDto> update(Long id, @RequestBody StudentUpdateRequestDto updateRequestDto){
-        Student entity = studentService.update(id, updateRequestDto);
-        return new ResponseEntity<StudentResponseDto>(mapper.studentToStudentResponseDto(entity), HttpStatus.CREATED);
+        StudentResponseDto responseDto = studentService.update(id, updateRequestDto);
+        return new ResponseEntity<StudentResponseDto>(responseDto, HttpStatus.CREATED);
     }
 
 }

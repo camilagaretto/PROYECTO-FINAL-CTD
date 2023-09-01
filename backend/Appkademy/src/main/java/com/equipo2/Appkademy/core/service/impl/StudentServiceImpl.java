@@ -7,10 +7,12 @@ import com.equipo2.Appkademy.core.model.repository.StudentRepository;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.security.model.User;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
+import com.equipo2.Appkademy.core.service.NotificationService;
 import com.equipo2.Appkademy.core.service.StudentService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
+import com.equipo2.Appkademy.rest.dto.response.StudentResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentSearchResponseDto;
 import com.equipo2.Appkademy.rest.error.BadRequestException;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
@@ -38,15 +40,19 @@ public class StudentServiceImpl implements StudentService {
     private UserRepository userRepository;
 
     @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
     private AppkademyMapper mapper;
 
     @Override
-    public Student getById(Long id) {
-        return studentRepository.findById(id).orElseThrow(() -> new NotFoundException("No Student found for id: " + id));
+    public StudentResponseDto getById(Long id) {
+        Student entity =  studentRepository.findById(id).orElseThrow(() -> new NotFoundException("No Student found for id: " + id));
+        return mapper.studentToStudentResponseDto(entity);
     }
 
     @Override
-    public Student update(Long id, StudentUpdateRequestDto updateRequestDto) {
+    public StudentResponseDto update(Long id, StudentUpdateRequestDto updateRequestDto) {
         Student entity = studentRepository.findById(id).orElseThrow(() -> new NotFoundException("No Student found for id: " + id));
 
         entity.setFirstName(updateRequestDto.getFirstName());
@@ -54,7 +60,7 @@ public class StudentServiceImpl implements StudentService {
         entity.setScheduledAppointments(mapper.scheduledAppointmentCreateRequestDtoListToScheduledAppointmentList(updateRequestDto.getScheduledAppointments()));
         entity.setLastModifiedOn(LocalDateTime.now());
 
-        return studentRepository.save(entity);
+        return mapper.studentToStudentResponseDto(studentRepository.save(entity));
     }
 
     @Override
@@ -85,7 +91,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student save(StudentCreateRequestDto createRequestDto) {
+    public StudentResponseDto save(StudentCreateRequestDto createRequestDto) {
         User user = userRepository.findById(createRequestDto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorCodes.USER_NOT_FOUND));
 
         Student student = Student.builder()
@@ -105,7 +111,9 @@ public class StudentServiceImpl implements StudentService {
         user.setUserTypeId(entity.getId());
         userRepository.save(user);
 
-        return entity;
+        notificationService.sendEmailNotification(student.getFirstName() + " " + student.getLastName(), user.getEmail());
+
+        return mapper.studentToStudentResponseDto(entity);
     }
 
     private void assertEmailIsValid(String email) {

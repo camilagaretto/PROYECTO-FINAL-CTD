@@ -1,7 +1,5 @@
 package com.equipo2.Appkademy.rest.controller;
 
-import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
-import com.equipo2.Appkademy.core.model.entity.ScheduledAppointment;
 import com.equipo2.Appkademy.core.service.ScheduledAppointmentService;
 import com.equipo2.Appkademy.rest.dto.request.ScheduledAppointmentCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.ScheduledAppointmentResponseDto;
@@ -20,18 +18,13 @@ import static com.equipo2.Appkademy.core.security.model.PermissionConstants.SCHE
 public class ScheduledAppointmentController implements IScheduledAppointmentController {
 
     @Autowired
-    private AppkademyMapper mapper;
-
-    @Autowired
     private ScheduledAppointmentService scheduledAppointmentService;
 
     @PostMapping
     @PreAuthorize("hasAuthority('" + SCHEDULED_APPOINTMENT_CREATE + "')")
-    public ResponseEntity<ScheduledAppointmentResponseDto> create(@RequestBody ScheduledAppointmentCreateRequestDto
-                                                                              createRequestDto){
-        ScheduledAppointment appointment = scheduledAppointmentService.save(createRequestDto);
-        return new ResponseEntity<ScheduledAppointmentResponseDto>(mapper
-                .scheduledAppointmenttoToScheduledAppointmentResponseDto(appointment), HttpStatus.CREATED);
+    public ResponseEntity<ScheduledAppointmentResponseDto> create(@RequestBody ScheduledAppointmentCreateRequestDto createRequestDto){
+        ScheduledAppointmentResponseDto responseDto = scheduledAppointmentService.save(createRequestDto);
+        return new ResponseEntity<ScheduledAppointmentResponseDto>(responseDto, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -40,5 +41,8 @@ public class TeacherFilterDto extends PageableFilter implements Serializable {
 
     @Schema(title = "Results should be randomized", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private boolean randomOrder;
+
+    @Schema(title = "Teacher should have an available timeslot on this specific date time", example = "2023-09-04T16:30:00.000Z", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private LocalDateTime freeOn;
 
 }
