@@ -14,6 +14,7 @@ import com.equipo2.Appkademy.core.validation.service.TeacherValidationServiceImp
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherUpdateRequestDto;
+import com.equipo2.Appkademy.rest.dto.response.ScheduledAppointmentResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
@@ -58,7 +59,7 @@ public class TeacherServiceImpl implements TeacherService {
     public TeacherResponseDto getById(Long id) {
         Teacher entity = teacherRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("No Teacher found for id: " + id));
-        return mapper.teacherToTeacherResponseDto(entity);
+        return removeExpiredAppointmentsFromResponse(mapper.teacherToTeacherResponseDto(entity));
     }
 
     @Override
@@ -208,6 +209,17 @@ public class TeacherServiceImpl implements TeacherService {
            specList.add(TeacherSpec.teacherWithoutScheduledAppointmentAtStartTime(filter.getFreeOn()));
         }
         return Specification.allOf(specList);
+    }
+
+    private TeacherResponseDto removeExpiredAppointmentsFromResponse(TeacherResponseDto teacherResponseDto) {
+        List<ScheduledAppointmentResponseDto> appointments = teacherResponseDto.getScheduledAppointments();
+
+        List<ScheduledAppointmentResponseDto> filteredAppointments = appointments.stream().filter(appt ->
+                LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0)
+                        .isBefore(appt.getStartsOn())).toList();
+
+        teacherResponseDto.setScheduledAppointments(filteredAppointments);
+        return teacherResponseDto;
     }
 
 }
