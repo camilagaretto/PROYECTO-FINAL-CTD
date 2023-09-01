@@ -42,8 +42,6 @@ build_frontend:
 build_backend:
   stage: build_backend
   image: docker:stable
-  services:
-    - docker:dind
   dependencies:
     - before_script_backend
   script:
