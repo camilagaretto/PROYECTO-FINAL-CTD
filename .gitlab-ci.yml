@@ -1,9 +1,6 @@
 stages:
   - build_frontend
-  - before_script_backend
-  - build_backend
   - deploy_frontend
-  - deploy_backend
 
 cache:
   paths:
@@ -19,16 +16,6 @@ before_script_frontend:
     paths:
       - frontend/node_modules/
 
-before_script_backend:
-  stage: before_script_backend
-  image: maven:latest
-  script:
-    - cd backend/Appkademy
-    - mvn clean install
-  artifacts:
-    paths:
-      - backend/Appkademy/target/Appkademy-0.0.1-SNAPSHOT.jar
-
 build_frontend:
   stage: build_frontend
   image: node:14
@@ -38,19 +25,6 @@ build_frontend:
   artifacts:
     paths:
       - frontend/dist/
-
-build_backend:
-  stage: build_backend
-  image: docker/compose:1.29.2
-  dependencies:
-    - before_script_backend
-  script:
-    - cp backend/Appkademy/target/Appkademy-0.0.1-SNAPSHOT.jar .
-    - cd backend/Appkademy
-    - docker build -t proyecto:1.0 .
-    - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-    - docker tag proyecto:1.0 $DOCKERHUB_USERNAME/proyecto:1.0
-    - docker push $DOCKERHUB_USERNAME/proyecto:1.0
 
 deploy_frontend:
   stage: deploy_frontend
@@ -62,17 +36,3 @@ deploy_frontend:
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws s3 sync frontend/dist/ s3://appkademy/
 
-deploy_backend:
-  stage: deploy_backend
-  image: docker:stable
-  services:
-    - docker:dind
-  script:
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | ssh-add -
-    - mkdir -p ~/.ssh
-    - echo "$KNOWN_HOSTS_CONTENT" > ~/.ssh/known_hosts
-    - export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=~/.ssh/known_hosts"
-    - ssh -o StrictHostKeyChecking=no ubuntu@54.173.249.124 "docker stop proyecto_back || true && docker rm proyecto_back || true"
-    - ssh -o StrictHostKeyChecking=no ubuntu@54.173.249.124 "docker pull $DOCKERHUB_USERNAME/proyecto:1.0"
-    - ssh -o StrictHostKeyChecking=no ubuntu@54.173.249.124 "docker run -d -p 80:8080 --name proyecto_back $DOCKERHUB_USERNAME/proyecto:1.0"
