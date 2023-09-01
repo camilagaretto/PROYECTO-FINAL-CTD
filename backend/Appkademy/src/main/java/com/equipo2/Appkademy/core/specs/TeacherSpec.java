@@ -1,13 +1,18 @@
 
 package com.equipo2.Appkademy.core.specs;
 
+import com.equipo2.Appkademy.core.model.entity.ScheduledAppointment;
+import com.equipo2.Appkademy.core.model.entity.ScheduledAppointment_;
 import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.model.enums.City;
 import com.equipo2.Appkademy.core.model.enums.Country;
 import com.equipo2.Appkademy.core.model.enums.Province;
 import com.equipo2.Appkademy.core.model.enums.TeachingMasteryLevel;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class TeacherSpec {
@@ -46,6 +51,19 @@ public class TeacherSpec {
             return cb.equal(root.join("proficiencies").get("masteryLevel"), masteryLevel);
         };
     }
+
+    public static Specification<Teacher> teacherWithoutScheduledAppointmentAtStartTime(LocalDateTime specificStartTime) {
+        return (root, query, criteriaBuilder) -> {
+            Subquery<Long> subquery = query.subquery(Long.class);
+            Root<ScheduledAppointment> subqueryRoot = subquery.from(ScheduledAppointment.class);
+            subquery.select(subqueryRoot.get(ScheduledAppointment_.teacherId))
+                    .where(criteriaBuilder.equal(subqueryRoot.get(ScheduledAppointment_.startsOn), specificStartTime));
+            return criteriaBuilder.not(root.get("id").in(subquery));
+        };
+    }
+
+
+
 
 }
 
