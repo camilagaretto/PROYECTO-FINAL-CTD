@@ -66,9 +66,9 @@ const Home = () => {
       pageNumber: 1,
       pageSize: 10,
     }
-    const userToken = localStorage.getItem("user");
-    const tokenObj = JSON.parse(userToken);
-    const token = tokenObj.token;            
+    // const userToken = localStorage.getItem("user");
+    // const tokenObj = JSON.parse(userToken);
+    // const token = tokenObj?.token;
 
     try {
         const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
@@ -141,7 +141,7 @@ const Home = () => {
           </motion.div>
           <div className='mostrar-container'>
             <p>No encontraste a tu profe?</p>
-            <Link className='btn btn-primary' to={'/category'} >
+            <Link className='btn btn-primary' to={`/search/${activeFilter}/null`} >
               <img className='paper-plane' src={PaperPlane} alt="Avion de papel" />
               Mostrar Todos
             </Link>
