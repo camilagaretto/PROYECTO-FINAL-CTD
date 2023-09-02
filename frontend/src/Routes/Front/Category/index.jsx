@@ -1,134 +1,63 @@
-import React from 'react'
-import Container from 'react-bootstrap/Container';
+import React, { useEffect, useState } from 'react'
+import { Container } from 'react-bootstrap'
+import { Link, useParams } from 'react-router-dom'
+import Axios from 'axios'
+import CardProduct from '../../../Components/Card/Card'
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import Filter from '../../../Components/Filter/Filter';
-import CardProduct from '../../../Components/Card/Card';
 import './styles.css'
-import { Link } from 'react-router-dom';
+import Search from '../../../Components/Search/Search'
 
-const Category = () => {
-  const [filtered, setFiltered] = useState([]);
-  const [subjects, setSubjects] = useState([]);
-  const [activeFilter, setActiveFilter] = useState('');
-  const [teachingProficiency, setTeachingProficiency] = useState({
-    subject: '',
-    masteryLevel: ''
-  });
-  const [searchData, setSearchData] = useState({
-    pageNumber: 1,
-    pageSize: 100,
-  });
-  const fetchData = async () => {
+const index = () => {
 
-    const postData = {
-      pageNumber: searchData.pageNumber,
-      pageSize: searchData.pageSize,
-    };
-  
-    if (teachingProficiency.subject !== '') {
-      postData.teachingProficiency = {
-        subject: teachingProficiency.subject,
-      };
-    }
-
-    if (teachingProficiency.masteryLevel !== '') {
-      postData.teachingProficiency = {
-        masteryLevel: teachingProficiency.masteryLevel,
-      };
-    }
-
-    try {
-      const response = await fetch('http://localhost:8080/v1/categories/1/providers/search', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(postData),
-      });
-      if (response.ok) {
-        const teachers = await response.json();
-        let shuffledItems = []
-        if(teachers.searchResults) {
-          shuffledItems = teachers.searchResults;
-        }
-        setFiltered(shuffledItems);
-      } else {
-        console.log(response)
-      }
-    } catch (error) {
-      console.error('Error de red:', error);
-    }
-  }
-  const getCategories = async () => {
-    const postData = {
-      pageNumber: 1,
-      pageSize: 100,
-    }      
-
-    try {
-        const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(postData),
-        });
-        if (response.ok) {
-          const subjects = await response.json();
-          setSubjects(subjects.searchResults);
-        } else {
-          console.log(response)
-        }
-    } catch (error) {
-        console.error('Error de red:', error);
-    }
-  };
-
+  const { subject, dateTime } = useParams()
+  const [teachers, setTeachers] = useState([])
 
   useEffect(() => {
-    getCategories();
-    fetchData();
-  }, [activeFilter]);
+
+    const newObject = {
+      pageNumber: 1,
+      pageSize: 10,
+      teachingProficiency: {
+        subject: {
+          name: subject.toUpperCase()
+        },
+      },
+      freeOn: dateTime,
+      randomOrder: true
+    }
+
+    Axios.post('http://localhost:8080/v1/categories/1/providers/search', newObject)
+      .then(res => setTeachers(res.data.searchResults))
+
+  }, [subject, dateTime])
 
   return (
-    <main>
-      <Container>
-        <section className=''>
-            <h1>Todos nuestros profesores</h1>
-        </section>
-
-        <section>
-        <Filter
-            categories={subjects}
-            setSearchData={setSearchData}
-            activeFilter={activeFilter}
-            setActiveFilter={setActiveFilter}
-            setTeachingProficiency={setTeachingProficiency}
-          />
-          <motion.div
-            layout
-            className="grid-container"
-          >
-            <AnimatePresence>
-            {filtered.length > 0 ? (
-                  filtered.map(teacher => (
-                      <Link className='card-link' key={teacher.id} to={`/teacher/${teacher.id}`} >
-                          <CardProduct
-                              key={teacher.id}
-                              teacher={teacher}
-                          />
-                      </Link>
-                  ))
-              ) : (
-                  <p>No se encontraron resultados.</p>
+    <main id='search'>
+      <section className='search-container'>
+      <Search subject={subject} time={dateTime}/>
+      <h1 className='search-title'>Todos Nuestros <br /> <span>Profesores</span></h1>
+        <motion.div
+          layout
+          className="grid-container"
+        >
+          <AnimatePresence>
+            {teachers && teachers.length > 0 ? (
+              teachers.map(teacher => (
+                <Link className='card-link' key={teacher.id} to={`/teacher/${teacher.id}`} >
+                  <CardProduct
+                    key={teacher.id}
+                    teacher={teacher}
+                  />
+                </Link>
+              ))
+            ) : (
+              <p>No se encontraron resultados.</p>
             )}
-            </AnimatePresence>
-          </motion.div>
-        </section>
-      </Container>
+          </AnimatePresence>
+        </motion.div>
+      </section>
     </main>
   )
 }
 
-export default Category
+export default index

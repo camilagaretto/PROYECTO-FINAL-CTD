@@ -19,7 +19,7 @@ function FrontRoutes() {
         <Route path="/user/:id" element={<UserDetail />} />
         <Route path="/register" element={<RegisterUser />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/category" element={<Category />} />
+        <Route path="/search/:subject/:dateTime" element={<Category />} />
       </Routes>
       <Footer />
     </>
