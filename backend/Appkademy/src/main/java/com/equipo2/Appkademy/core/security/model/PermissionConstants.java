@@ -32,7 +32,6 @@ public class PermissionConstants {
     public static final String ROLE_UPDATE = "ROLE_UPDATE";
     public static final String ROLE_DELETE = "ROLE_DELETE";
 
-
-
+    public static final String FILE_UPLOAD = "FILE_UPLOAD";
 
 }
