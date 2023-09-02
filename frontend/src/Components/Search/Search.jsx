@@ -27,9 +27,7 @@ const Search = ({ subject, dateTime }) => {
             navigate(`/`)
         }else{
             navigate(`/search/${searchData.subject}/null`)
-
         }
-
     }
 
     return (
