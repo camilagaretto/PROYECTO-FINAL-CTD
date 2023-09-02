@@ -22,6 +22,18 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private StudentRepository studentRepository;
 
+    private String htmlTemplate = "<html>\n" +
+            "  <head>\n" +
+            "    <link rel=\"stylesheet\" href=\"styles.css\">\n" +
+            "  </head>\n" +
+            "  <body>\n" +
+            "    <h1>¡Te damos la bienvenida!</h1>\n" +
+            "    <p>Por favor, haz clic en el siguiente botón para iniciar sesión:</p>\n" +
+            "    <a href=\"URL_DE_INICIO_DE_SESION\" class=\"button\">Iniciar Sesión</a>\n" +
+            "    <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos.</p>\n" +
+            "  </body>\n" +
+            "  </html>";
+
     @Override
     public void sendEmailNotification(String fullName, String email) {
         Thread thread = new Thread(() -> {
@@ -33,7 +45,7 @@ public class NotificationServiceImpl implements NotificationService {
                 MimeMessageHelper helper= new MimeMessageHelper(message, true);
                 helper.setTo(email);
                 helper.setFrom(sender_user); // "appkademy38@gmail.com");
-                helper.setText("Hola " + fullName + ", bienvenido a Appkademy!! ");
+                helper.setText("Hola " + fullName + "!", htmlTemplate);
                 javaMailSender.send(message);
             } catch (MessagingException e) {
                 throw new RuntimeException(e); // TODO: manejar este error.. loguearlo, etc
