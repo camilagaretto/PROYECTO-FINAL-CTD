@@ -113,6 +113,7 @@ function Teachers() {
                 <table>
                     <thead>
                         <tr>
+                            <th>Foto</th>
                             <th>Usuario</th>
                             <th>Verificado</th>
                             <th>Categoría</th>
@@ -125,6 +126,7 @@ function Teachers() {
                         <tbody>
                             {teachers.map((teacher, index) => (
                                 <tr key={index}>
+                                    <td><img className='profile-img' src={teacher.profilePictureUrl} alt="" /></td>
                                     <td><span>{teacher.firstName} {teacher.lastName}</span></td>
                                     <td><span>{teacher.identityVerified ? 'Yes' : 'No'}</span></td>
                                     <td><span>{teacher.providerCategoryId}</span></td>
