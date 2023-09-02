@@ -9,6 +9,8 @@ import PaperPlane from '../../../assets/Paper-Plane.png'
 import BannerProfes from '../../../assets/banner-profes.svg'
 import './Home.css'
 import { Link } from 'react-router-dom';
+import { terms } from '../../../terms';
+import TermCard from '../../../Components/Terms/TermCard';
 
 const Home = () => {
   const [filtered, setFiltered] = useState([]);
@@ -33,7 +35,7 @@ const Home = () => {
       pageNumber: searchData.pageNumber,
       pageSize: searchData.pageSize,
     };
-  
+
     if (teachingProficiency.subject !== '') {
       postData.teachingProficiency = {
         subject: teachingProficiency.subject,
@@ -50,8 +52,8 @@ const Home = () => {
       if (response.ok) {
         const teachers = await response.json();
         let shuffledItems = []
-        if(teachers.searchResults) {
-          shuffledItems = shuffleArray(teachers.searchResults).slice(0,9);
+        if (teachers.searchResults) {
+          shuffledItems = shuffleArray(teachers.searchResults).slice(0, 9);
         }
         setFiltered(shuffledItems);
       } else {
@@ -71,21 +73,21 @@ const Home = () => {
     // const token = tokenObj?.token;
 
     try {
-        const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(postData),
-        });
-        if (response.ok) {
-          const subjects = await response.json();
-          setSubjects(subjects.searchResults);
-        } else {
-          console.log(response)
-        }
+      const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      });
+      if (response.ok) {
+        const subjects = await response.json();
+        setSubjects(subjects.searchResults);
+      } else {
+        console.log(response)
+      }
     } catch (error) {
-        console.error('Error de red:', error);
+      console.error('Error de red:', error);
     }
   };
 
@@ -125,18 +127,18 @@ const Home = () => {
             className="grid-container"
           >
             <AnimatePresence>
-            {filtered.length > 0 ? (
-                  filtered.map(teacher => (
-                      <Link className='card-link' key={teacher.id} to={`/teacher/${teacher.id}`} >
-                          <CardProduct
-                              key={teacher.id}
-                              teacher={teacher}
-                          />
-                      </Link>
-                  ))
+              {filtered.length > 0 ? (
+                filtered.map(teacher => (
+                  <Link className='card-link' key={teacher.id} to={`/teacher/${teacher.id}`} >
+                    <CardProduct
+                      key={teacher.id}
+                      teacher={teacher}
+                    />
+                  </Link>
+                ))
               ) : (
-                  <p>No se encontraron resultados.</p>
-            )}
+                <p>No se encontraron resultados.</p>
+              )}
             </AnimatePresence>
           </motion.div>
           <div className='mostrar-container'>
@@ -153,6 +155,17 @@ const Home = () => {
           <div>
             <h3>Quieres unirte al equipo de profes?</h3>
             <Link to='/' className='btn btn-profesores'>Llenar Formulario</Link>
+          </div>
+        </section>
+
+        <section className='terms'>
+          <h2>Nuestras Politicas</h2>
+          <div className='terms-container'>
+            {
+              terms.map(term => (
+                <TermCard key={term.id} image={term.image} title={term.title} description={term.description} />
+              ))
+            }
           </div>
         </section>
 
