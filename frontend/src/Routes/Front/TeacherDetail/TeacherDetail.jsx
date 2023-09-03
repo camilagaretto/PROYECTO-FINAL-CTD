@@ -8,6 +8,8 @@ import Reserva from '../../../assets/Reserva.png'
 import Galery from '../../../assets/Detail-photos.svg'
 import Itinerario from '../../../assets/Itinerario.svg'
 import Certificado from '../../../assets/certificado.svg'
+import PropTypes from 'prop-types';
+import Appointments from '../../../Components/Appointments';
 
 const TeacherDetail = () => {
     const params = useParams()
@@ -63,8 +65,8 @@ const TeacherDetail = () => {
                         <p>Te presentamos algunas opciones de encuentro, tanto virtual como presencial.</p>
                         <div>
                             <img src={Galery} alt="Appkademy teacher gallery" />
-                            <img className='itinerario' src={Itinerario} alt="Appkademy itinerario" />
                         </div>
+                        <Appointments events={teacherData.scheduledAppointments} weeklyWorkingSchedule={teacherData.weeklyWorkingSchedule} />
                         <div className='more-information'>
                             <h1>Mas sobre {teacherData.firstName} {teacherData.lastName}</h1>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius faucibus massa sollicitudin amet augue. Nibh metus a semper purus mauris duis. Lorem eu neque, tristique quis duis. Nibh scelerisque ac adipiscing velit non nulla in amet pellentesque.Sit turpis pretium eget maecenas. Vestibulum dolor mattis consectetur eget commodo vitae. Amet pellentesque sit pulvinar lorem mi a, euismod risus r.</p>
@@ -73,7 +75,6 @@ const TeacherDetail = () => {
                             </div>
                         </div>
                     </div>
-
                 </section>
             </Container>
         </main>

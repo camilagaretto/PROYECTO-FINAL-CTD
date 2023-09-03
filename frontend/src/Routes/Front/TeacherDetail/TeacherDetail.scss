@@ -77,9 +77,6 @@
     }
 
     div {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
 
         hr {
             color: var(--azul-oscuro);
@@ -96,14 +93,6 @@
         margin: 2rem 0 0;
         display: block;
         color: var(--azul-oscuro);
-
-        div {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 30px;
-        }
 
         img {
             width: 400px;
@@ -126,13 +115,6 @@
                 text-align: justify;
                 max-width: 550px;
             }
-
-            // div{
-            //     width: 100%;
-            //     display: flex;
-            //     justify-content: center;
-            //     align-items: center ;
-            // }
         }
     }
 

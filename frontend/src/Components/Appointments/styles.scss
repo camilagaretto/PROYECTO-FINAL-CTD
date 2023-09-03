@@ -1,0 +1,10 @@
+@import 'react-big-calendar/lib/sass/styles';
+
+.calendarAppointment {
+  width: 100%;
+  height: 500px;
+}
+
+.rbc-today {
+  background-color: transparent !important;
+}
