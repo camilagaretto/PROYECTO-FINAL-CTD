@@ -84,6 +84,18 @@
     width: 421px;
 }
 
+.terms h2{
+    font-size: 40px !important;
+}
+
+.terms-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
 
 @media only screen and (min-width: 577px) and (max-width: 768px) {
     /* #home {
