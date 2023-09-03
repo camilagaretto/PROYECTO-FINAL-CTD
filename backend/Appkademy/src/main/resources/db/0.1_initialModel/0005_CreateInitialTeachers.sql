@@ -31,7 +31,7 @@ INSERT INTO appkademy.teacher
     weekly_working_schedule_id)
 VALUES(1, 'CIUDAD_DE_BUENOS_AIRES', 'ARGENTINA', '4A', 'CIUDAD_DE_BUENOS_AIRES', 'Av. Cabildo', '4450',
  '2023-08-21 20:07:22.124154', 1, 'Juan Martin', 0, '2023-08-21 20:07:22.124154',
-  'Rodriguez', -49, 'string', 1, 0, 0, '¡Bienvenidos a mi perfil de profesor de matemáticas en línea! Soy un apasionado de las matemáticas con una amplia experiencia en la enseñanza. Mi enfoque principal es hacer que las matemáticas sean accesibles y comprensibles para todos mis estudiantes, sin importar su nivel de habilidad.', 'Aprendamos juntos!', 51);
+  'Rodriguez', -49, 'https://g2c1-img.s3.amazonaws.com/AKIAY3PLHSUJB3S24GIE_1693779739271', 1, 0, 0, '¡Bienvenidos a mi perfil de profesor de matemáticas en línea! Soy un apasionado de las matemáticas con una amplia experiencia en la enseñanza. Mi enfoque principal es hacer que las matemáticas sean accesibles y comprensibles para todos mis estudiantes, sin importar su nivel de habilidad.', 'Aprendamos juntos!', 51);
 
 --hourly rate
 INSERT INTO appkademy.teacher_hourly_rate
@@ -86,7 +86,7 @@ INSERT INTO appkademy.teacher
     weekly_working_schedule_id)
 VALUES(2, 'CIUDAD_DE_BUENOS_AIRES', 'ARGENTINA', '2B', 'CIUDAD_DE_BUENOS_AIRES', 'Libertad', '2023',
  '2023-08-21 20:07:22.124154', 1, 'Pedro', 0, '2023-08-21 20:07:22.124154',
-  'Sanchez', -50, 'string', 1, 0, 0, '¡Saludos! Soy un profesor de matemáticas en línea con una pasión innegable por hacer que las matemáticas sean emocionantes y accesibles para todos. Mi misión es desmitificar las matemáticas y transformarlas en una experiencia de aprendizaje inspiradora y atractiva.', 'Aprendamos matematica y literatura', 52);
+  'Sanchez', -50, 'https://g2c1-img.s3.amazonaws.com/AKIAY3PLHSUJB3S24GIE_1693779798836', 1, 0, 0, '¡Saludos! Soy un profesor de matemáticas en línea con una pasión innegable por hacer que las matemáticas sean emocionantes y accesibles para todos. Mi misión es desmitificar las matemáticas y transformarlas en una experiencia de aprendizaje inspiradora y atractiva.', 'Aprendamos matematica y literatura', 52);
 
 --hourly rate
 INSERT INTO appkademy.teacher_hourly_rate
@@ -145,7 +145,7 @@ INSERT INTO appkademy.teacher
     weekly_working_schedule_id)
 VALUES(3, 'ROSARIO', 'ARGENTINA', '2B', 'SANTA_FE', 'Av. de los libres', '4513',
  '2023-08-21 20:07:22.124154', 1, 'Sergio', 0, '2023-08-21 20:07:22.124154',
-  'Celuloso', -51, 'string', 1, 0, 0, 'Saludos, soy un dedicado profesor de biología con un ferviente amor por la ciencia y el aprendizaje. Mi objetivo es hacer que la biología cobre vida y sea comprensible para ti. Mis clases están diseñadas para explorar el fascinante mundo de la vida, desde la célula más pequeña hasta los ecosistemas más grandes, de una manera clara y apasionante.', 'Aprendamos juntos!', 53);
+  'Celuloso', -51, 'https://g2c1-img.s3.amazonaws.com/AKIAY3PLHSUJB3S24GIE_1693779841695', 1, 0, 0, 'Saludos, soy un dedicado profesor de biología con un ferviente amor por la ciencia y el aprendizaje. Mi objetivo es hacer que la biología cobre vida y sea comprensible para ti. Mis clases están diseñadas para explorar el fascinante mundo de la vida, desde la célula más pequeña hasta los ecosistemas más grandes, de una manera clara y apasionante.', 'Aprendamos juntos!', 53);
 
 --hourly rate
 INSERT INTO appkademy.teacher_hourly_rate
@@ -203,7 +203,7 @@ INSERT INTO appkademy.teacher
     weekly_working_schedule_id)
 VALUES(4, 'LA_PLATA', 'ARGENTINA', '2B', 'BUENOS_AIRES', 'Luthadel', '2541',
  '2023-08-21 20:07:22.124154', 1, 'Brandon', 0, '2023-08-21 20:07:22.124154',
-  'Sanderson', -52, 'string', 1, 0, 0, '¡Saludos! Soy un profesor de literatura con una pasión inquebrantable por las palabras y las historias que dan forma a nuestra cultura. Mi objetivo es llevarte a un viaje a través de la literatura, explorando clásicos y obras contemporáneas con un enfoque crítico y apreciativo. En mis clases, analizaremos la estructura, el simbolismo y el contexto cultural de las obras literarias para profundizar en su significado y relevancia.', 'Aprender literatura nunca fue tan fácil', 54);
+  'Sanderson', -52, 'https://g2c1-img.s3.amazonaws.com/AKIAY3PLHSUJB3S24GIE_1693779881968', 1, 0, 0, '¡Saludos! Soy un profesor de literatura con una pasión inquebrantable por las palabras y las historias que dan forma a nuestra cultura. Mi objetivo es llevarte a un viaje a través de la literatura, explorando clásicos y obras contemporáneas con un enfoque crítico y apreciativo. En mis clases, analizaremos la estructura, el simbolismo y el contexto cultural de las obras literarias para profundizar en su significado y relevancia.', 'Aprender literatura nunca fue tan fácil', 54);
 
 --hourly rate
 INSERT INTO appkademy.teacher_hourly_rate
@@ -266,7 +266,7 @@ INSERT INTO appkademy.teacher
     weekly_working_schedule_id)
 VALUES(5, 'CIUDAD_DE_BUENOS_AIRES', 'ARGENTINA', '1B', 'CIUDAD_DE_BUENOS_AIRES', 'Riobamba', '1521',
  '2023-08-21 20:07:22.124154', 1, 'Funes', 0, '2023-08-21 20:07:22.124154',
-  'Memorioso', -53, 'string', 1, 0, 0, 'Saludos, soy un apasionado profesor de historia con un entusiasmo contagioso por el pasado y su impacto en nuestro presente. Mi objetivo es llevar la historia a la vida de una manera fascinante y significativa. A través de mis clases, te invito a explorar épocas pasadas, eventos cruciales y figuras históricas que han moldeado nuestro mundo actual. ', 'Los que no aprenden historia estan condenados a repetirla ;)', 55);
+  'Memorioso', -53, 'https://g2c1-img.s3.amazonaws.com/AKIAY3PLHSUJB3S24GIE_1693779921029', 1, 0, 0, 'Saludos, soy un apasionado profesor de historia con un entusiasmo contagioso por el pasado y su impacto en nuestro presente. Mi objetivo es llevar la historia a la vida de una manera fascinante y significativa. A través de mis clases, te invito a explorar épocas pasadas, eventos cruciales y figuras históricas que han moldeado nuestro mundo actual. ', 'Los que no aprenden historia estan condenados a repetirla ;)', 55);
 
 --hourly rate
 INSERT INTO appkademy.teacher_hourly_rate
@@ -328,7 +328,7 @@ INSERT INTO appkademy.teacher
     weekly_working_schedule_id)
 VALUES(6, 'CIUDAD_DE_BUENOS_AIRES', 'ARGENTINA', '1B', 'CIUDAD_DE_BUENOS_AIRES', 'Riobamba', '1521',
  '2023-08-21 20:07:22.124154', 1, 'Maria', 0, '2023-08-21 20:07:22.124154',
-  'York', -54, 'string', 1, 0, 0, '¡Hola! Soy un apasionado profesor de inglés con un enfoque dinámico y amigable para ayudarte a alcanzar tus metas en el aprendizaje de este idioma. Con años de experiencia en la enseñanza, he perfeccionado métodos efectivos que hacen que el inglés sea accesible y atractivo. Mis clases son interactivas y personalizadas, diseñadas para mejorar tus habilidades de conversación, comprensión auditiva, lectura y escritura.', 'Sin inglés no hay hello world', 56);
+  'York', -54, 'https://g2c1-img.s3.amazonaws.com/AKIAY3PLHSUJB3S24GIE_1693779944038', 1, 0, 0, '¡Hola! Soy un apasionado profesor de inglés con un enfoque dinámico y amigable para ayudarte a alcanzar tus metas en el aprendizaje de este idioma. Con años de experiencia en la enseñanza, he perfeccionado métodos efectivos que hacen que el inglés sea accesible y atractivo. Mis clases son interactivas y personalizadas, diseñadas para mejorar tus habilidades de conversación, comprensión auditiva, lectura y escritura.', 'Sin inglés no hay hello world', 56);
 
 --hourly rate
 INSERT INTO appkademy.teacher_hourly_rate

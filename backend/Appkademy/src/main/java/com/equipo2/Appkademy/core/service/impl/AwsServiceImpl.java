@@ -41,9 +41,10 @@ public class AwsServiceImpl implements AwsService {
             assertFileExtension(file.getContentType());
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(file.getContentType());
-            PutObjectResult result = s3client.putObject(new PutObjectRequest(bucketName, accessKey, file.getInputStream(), metadata));
+            String uniqueKey = accessKey + "_" + System.currentTimeMillis();
+            PutObjectResult result = s3client.putObject(new PutObjectRequest(bucketName, uniqueKey, file.getInputStream(), metadata));
             FileUploadResponseDto responseDto = new FileUploadResponseDto();
-            responseDto.setUrl("https://" + bucketName + ".s3.amazonaws.com/" + accessKey);
+            responseDto.setUrl("https://" + bucketName + ".s3.amazonaws.com/" + uniqueKey);
             return responseDto;
         } catch (Exception e) {
             e.printStackTrace();
