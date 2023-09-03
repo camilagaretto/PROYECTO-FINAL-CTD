@@ -2,6 +2,7 @@ package com.equipo2.Appkademy.core.service.impl;
 
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.model.entity.Student;
+import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.model.enums.UserType;
 import com.equipo2.Appkademy.core.model.repository.StudentRepository;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
@@ -11,6 +12,7 @@ import com.equipo2.Appkademy.core.service.NotificationService;
 import com.equipo2.Appkademy.core.service.StudentService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.StudentPatchRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentSearchResponseDto;
@@ -63,6 +65,8 @@ public class StudentServiceImpl implements StudentService {
         return mapper.studentToStudentResponseDto(studentRepository.save(entity));
     }
 
+
+
     @Override
     public StudentSearchResponseDto search(PageableFilter filter) {
         if(Objects.isNull(filter.getPageNumber())){
@@ -88,6 +92,36 @@ public class StudentServiceImpl implements StudentService {
         searchResponseDto.setSearchResults(mapper.studentListToStudentResponseList(resultList));
 
         return searchResponseDto;
+    }
+
+    @Override
+    public StudentResponseDto patch(Long id, StudentPatchRequestDto patchRequestDto) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("No Student found for id: " + id));
+
+        Teacher teacher = teacherRepository.findById(patchRequestDto.getLikedTeacherId())
+                .orElseThrow(() -> new NotFoundException("No Teacher found for id: " + patchRequestDto.getLikedTeacherId()));
+
+        List<Long> likedProviderIds = student.getLikedProviderIds();
+
+        if (!likedProviderIds.contains(patchRequestDto.getLikedTeacherId())) {
+            likedProviderIds.add(patchRequestDto.getLikedTeacherId());
+            Student updatedEntity = studentRepository.save(student);
+
+            // Increment totalLikes for the teacher
+            teacher.setTotalLikes(teacher.getTotalLikes() + 1);
+            teacherRepository.save(teacher);
+
+            return mapper.studentToStudentResponseDto(updatedEntity);
+        } else {
+            likedProviderIds.remove(patchRequestDto.getLikedTeacherId());
+            Student updatedEntity = studentRepository.save(student);
+
+            teacher.setTotalLikes(teacher.getTotalLikes() - 1);
+            teacherRepository.save(teacher);
+
+            return mapper.studentToStudentResponseDto(updatedEntity);
+        }
     }
 
     @Override
@@ -121,5 +155,7 @@ public class StudentServiceImpl implements StudentService {
             throw new BadRequestException("email", email);
         };
     }
+
+
 
 }

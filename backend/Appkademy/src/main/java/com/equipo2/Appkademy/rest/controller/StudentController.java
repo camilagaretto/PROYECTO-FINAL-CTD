@@ -4,6 +4,7 @@ import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.service.StudentService;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.StudentPatchRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentSearchResponseDto;
@@ -56,9 +57,17 @@ public class StudentController implements IStudentController {
     @Override
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('" + STUDENT_UPDATE + "')")
-    public ResponseEntity<StudentResponseDto> update(Long id, @RequestBody StudentUpdateRequestDto updateRequestDto){
+    public ResponseEntity<StudentResponseDto> update(@PathVariable Long id, @RequestBody StudentUpdateRequestDto updateRequestDto){
         StudentResponseDto responseDto = studentService.update(id, updateRequestDto);
         return new ResponseEntity<StudentResponseDto>(responseDto, HttpStatus.CREATED);
+    }
+
+    @Override
+    @PatchMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + STUDENT_UPDATE + "')")
+    public ResponseEntity<StudentResponseDto> patch(@PathVariable Long id, StudentPatchRequestDto patchRequestDto){
+        StudentResponseDto responseDto = studentService.patch(id, patchRequestDto);
+        return ResponseEntity.ok(responseDto);
     }
 
 }

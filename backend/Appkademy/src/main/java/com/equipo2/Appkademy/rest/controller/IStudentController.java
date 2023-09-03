@@ -2,6 +2,7 @@ package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.StudentPatchRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentSearchResponseDto;
@@ -55,4 +56,12 @@ public interface IStudentController {
                             schema = @Schema(implementation = StudentSearchResponseDto.class)) })})
     ResponseEntity<StudentSearchResponseDto> search(@RequestBody PageableFilter filter);
 
+    @Operation(summary = "Patch a Student")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Patched Student",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = StudentResponseDto.class)) }),
+            @ApiResponse(responseCode = "404", description = "Student not found",
+                    content = @Content) })
+    ResponseEntity<StudentResponseDto> patch(@PathVariable Long id, StudentPatchRequestDto patchRequestDto);
 }
