@@ -59,7 +59,10 @@ public class TeacherServiceImpl implements TeacherService {
     public TeacherResponseDto getById(Long id) {
         Teacher entity = teacherRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("No Teacher found for id: " + id));
-        return removeExpiredAppointmentsFromResponse(mapper.teacherToTeacherResponseDto(entity));
+        if(CollectionUtils.isNotEmpty(entity.getScheduledAppointments())){
+            return removeExpiredAppointmentsFromResponse(mapper.teacherToTeacherResponseDto(entity));
+        }
+        return mapper.teacherToTeacherResponseDto(entity);
     }
 
     @Override

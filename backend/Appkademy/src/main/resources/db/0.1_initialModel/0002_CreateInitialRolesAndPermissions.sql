@@ -39,6 +39,8 @@ INSERT INTO appkademy.permission VALUES(26, "CHARACTERISTIC_CREATE");
 INSERT INTO appkademy.permission VALUES(27, "CHARACTERISTIC_UPDATE");
 INSERT INTO appkademy.permission VALUES(28, "CHARACTERISTIC_DELETE");
 
+INSERT INTO appkademy.permission VALUES(29, "FILE_UPLOAD");
+
 
 --ROLES
 INSERT INTO appkademy.`role` VALUES(1, "USER");
@@ -52,6 +54,7 @@ INSERT INTO appkademy.role_permission VALUES(1, 6);
 INSERT INTO appkademy.role_permission VALUES(1, 10);
 INSERT INTO appkademy.role_permission VALUES(1, 11);
 INSERT INTO appkademy.role_permission VALUES(1, 14);
+INSERT INTO appkademy.role_permission VALUES(1, 29);
 
 
 --ADMIN ROLE PERMISSIONS
@@ -84,6 +87,8 @@ INSERT INTO appkademy.role_permission VALUES(2, 25);
 INSERT INTO appkademy.role_permission VALUES(2, 26);
 INSERT INTO appkademy.role_permission VALUES(2, 27);
 INSERT INTO appkademy.role_permission VALUES(2, 28);
+
+INSERT INTO appkademy.role_permission VALUES(2, 29);
 
 
 
@@ -122,3 +127,6 @@ INSERT INTO appkademy.role_permission VALUES(3, 25);
 INSERT INTO appkademy.role_permission VALUES(3, 26);
 INSERT INTO appkademy.role_permission VALUES(3, 27);
 INSERT INTO appkademy.role_permission VALUES(3, 28);
+
+INSERT INTO appkademy.role_permission VALUES(3, 29);
+
