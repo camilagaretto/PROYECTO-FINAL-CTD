@@ -10,4 +10,7 @@ public interface TeachingProficiencyService {
     TeachingSubjectResponseDto create(TeachingSubjectDto createDto);
 
     TeachingSubjectSearchResponseDto search(PageableFilter filter);
+
+    void delete(Long id);
+
 }

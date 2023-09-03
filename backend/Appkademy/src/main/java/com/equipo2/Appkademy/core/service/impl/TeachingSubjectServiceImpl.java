@@ -11,6 +11,7 @@ import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.TeachingSubjectDto;
 import com.equipo2.Appkademy.rest.dto.response.TeachingSubjectResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.TeachingSubjectSearchResponseDto;
+import com.equipo2.Appkademy.rest.error.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -75,4 +76,14 @@ public class TeachingSubjectServiceImpl implements TeachingProficiencyService {
         return searchResponseDto;
     }
 
+    @Override
+    public void delete(Long id) {
+        TeachingSubject subjectToDelete = subjectRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("TeachingSubject not found with ID: " + id));
+
+        teachingProficiencyRepository.deleteByTeachingSubject(subjectToDelete);
+
+        subjectRepository.delete(subjectToDelete);
+    }
 }
+
