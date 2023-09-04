@@ -10,7 +10,7 @@ const Card = ({ teacher }) => {
     const { isLoggedIn } = useAuth()
 
     const handleAddFavourite = async () => {
-        
+
         const userDataJSON = localStorage.getItem('user');
         if (userDataJSON) {
             const userData = JSON.parse(userDataJSON);
@@ -21,6 +21,7 @@ const Card = ({ teacher }) => {
             try {
                 const response = await fetch(`http://localhost:8080/v1/categories/1/customers/${userTypeId}`, {
                     method: 'PATCH',
+                    mode : 'cors',
                     headers: {
                         'accept': 'application/json',
                         'Authorization': `Bearer ${token}`,

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import CardDetail from '../../../Components/CardDetail/CardDetail'
 import './TeacherDetail.scss'
@@ -10,6 +10,8 @@ import Itinerario from '../../../assets/Itinerario.svg'
 import Certificado from '../../../assets/certificado.svg'
 import PropTypes from 'prop-types';
 import Appointments from '../../../Components/Appointments';
+import { terms } from '../../../terms'
+import TermCard from '../../../Components/Terms/TermCard'
 
 const TeacherDetail = () => {
     const params = useParams()
@@ -17,20 +19,20 @@ const TeacherDetail = () => {
     const [hourlyRatesArray, setHourlyRatesArray] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const response = await fetch(`http://localhost:8080/v1/categories/1/providers/${params.id}`);
-            const data = await response.json();
-            const hourlyRatesArray = Object.entries(data.hourlyRates).map(([currency, value]) => ({
-                currency,
-                value,
-            }));
-            setHourlyRatesArray(hourlyRatesArray)
-            setTeacherData(data);
-          } catch (error) {
-            console.error('Error al obtener los datos:', error);
-          }
+            try {
+                const response = await fetch(`http://localhost:8080/v1/categories/1/providers/${params.id}`);
+                const data = await response.json();
+                const hourlyRatesArray = Object.entries(data.hourlyRates).map(([currency, value]) => ({
+                    currency,
+                    value,
+                }));
+                setHourlyRatesArray(hourlyRatesArray)
+                setTeacherData(data);
+            } catch (error) {
+                console.error('Error al obtener los datos:', error);
+            }
         };
-    
+
         fetchData();
     }, []);
     return (
@@ -38,11 +40,11 @@ const TeacherDetail = () => {
             <Container className='detail-container'>
                 <section className='detail-left'>
                     <div className='sticky'>
-                        <CardDetail 
-                        fullName={teacherData.firstName + ' ' + teacherData.lastName}
-                        hourlyRates={hourlyRatesArray}
-                        characteristics={teacherData.characteristics}
-                        profileImg={teacherData.profilePictureUrl}
+                        <CardDetail
+                            fullName={teacherData.firstName + ' ' + teacherData.lastName}
+                            hourlyRates={hourlyRatesArray}
+                            characteristics={teacherData.characteristics}
+                            profileImg={teacherData.profilePictureUrl}
                         />
                         <div className='descripcion'>
                             <h2>Descripción</h2>
@@ -77,6 +79,16 @@ const TeacherDetail = () => {
                     </div>
                 </section>
             </Container>
+            <section className='terms'>
+                <h2>Nuestras Politicas</h2>
+                <div className='terms-container'>
+                    {
+                        terms.map(term => (
+                            <TermCard key={term.id} image={term.image} title={term.title} description={term.description} />
+                        ))
+                    }
+                </div>
+            </section>
         </main>
     )
 }

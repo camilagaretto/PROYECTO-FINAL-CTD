@@ -157,7 +157,7 @@ const Home = () => {
           </div>
         </section>
 
-        <section className='terms'>
+        {/* <section className='terms'>
           <h2>Nuestras Politicas</h2>
           <div className='terms-container'>
             {
@@ -166,7 +166,7 @@ const Home = () => {
               ))
             }
           </div>
-        </section>
+        </section> */}
 
       </Container>
     </main>
