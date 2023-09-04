@@ -65,7 +65,7 @@ public class StudentController implements IStudentController {
     @Override
     @PatchMapping("/{id}")
     @PreAuthorize("hasAuthority('" + STUDENT_UPDATE + "')")
-    public ResponseEntity<StudentResponseDto> patch(@PathVariable Long id, StudentPatchRequestDto patchRequestDto){
+    public ResponseEntity<StudentResponseDto> patch(@PathVariable Long id, @RequestBody StudentPatchRequestDto patchRequestDto){
         StudentResponseDto responseDto = studentService.patch(id, patchRequestDto);
         return ResponseEntity.ok(responseDto);
     }
