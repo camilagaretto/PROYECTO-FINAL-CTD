@@ -1,8 +1,8 @@
 .card__container {
+    position: relative;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-
     max-width: 500px;
     height: 250px;
     border-radius: 25px;
@@ -11,19 +11,37 @@
     justify-content: flex-end;
     color: white;
     padding-bottom: 10px;
-}
 
-.card__container span {
-    font-weight: 700;
-    font-size: 20px;
-    margin: 0;
-    text-decoration: none;
-}
+    .fav {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 10px;
+        right: 20px;
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        background-color: #000000;
+        cursor: pointer;
+    }
 
-.card__container p {
-    font-size: 18px !important;
-    margin: 0;
-    padding-left: 15px;
-    text-decoration: none;
-}
+    span {
+        font-weight: 700;
+        font-size: 20px;
+        margin: 0;
+        text-decoration: none;
+    }
 
+    p {
+        font-size: 18px !important;
+        margin: 0;
+        padding-left: 15px;
+        text-decoration: none;
+    }
+
+    .card-link {
+        text-decoration: none;
+        color: white;
+    }
+}

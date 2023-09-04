@@ -102,7 +102,7 @@ const Home = () => {
         <section className='container-main-banner'>
           <div className='banner-description'>
             <h1>Encuentra tu nueva pasión</h1>
-            <Search />
+            <Search categories={subjects}/>
           </div>
         </section>
 
@@ -129,12 +129,11 @@ const Home = () => {
             <AnimatePresence>
               {filtered.length > 0 ? (
                 filtered.map(teacher => (
-                  <Link className='card-link' key={teacher.id} to={`/teacher/${teacher.id}`} >
+                  <div key={teacher.id}>
                     <CardProduct
-                      key={teacher.id}
                       teacher={teacher}
                     />
-                  </Link>
+                  </div>
                 ))
               ) : (
                 <p>No se encontraron resultados.</p>
