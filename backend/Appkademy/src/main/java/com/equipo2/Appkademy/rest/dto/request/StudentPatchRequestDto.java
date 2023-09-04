@@ -16,7 +16,7 @@ public class StudentPatchRequestDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 4605607746502129824L;
 
-    @Schema(title = "Liked teacher id", example = "[1, 2]", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(title = "Liked teacher id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long likedTeacherId;
 
 }
