@@ -88,12 +88,21 @@
     font-size: 40px !important;
 }
 
-.terms-container{
+.terms{
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.terms-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 60px;
 }
 
 
