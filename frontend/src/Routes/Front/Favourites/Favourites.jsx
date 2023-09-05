@@ -6,6 +6,8 @@ import CardProduct from '../../../Components/Card/Card'
 
 const Favourites = () => {
 
+    const [likedTeacherId, setLikedTeacherId] = useState([])
+
     const { id } = useParams()
     const [likedTeachers, setLikedTeachers] = useState([])
 
@@ -42,6 +44,7 @@ const Favourites = () => {
         if (response.ok) {
             const data = await response.json()
             const likedTeachers = data.likedProviderIds;
+            setLikedTeacherId(likedTeachers)
             if(likedTeachers.length > 0) {
                 const teacherObj = {
                     pageNumber: 1,
@@ -94,6 +97,7 @@ const Favourites = () => {
                                     <CardProduct
                                         teacher={teacher}
                                         onToggleFavourite={toggleFavourite}
+                                        ids={likedTeacherId}
                                     />
                                 </div>
                             ))

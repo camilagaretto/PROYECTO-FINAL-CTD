@@ -4,11 +4,11 @@ import { motion } from "framer-motion"
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../Context/AuthContext'
 
-const Card = ({ teacher, onToggleFavourite }) => {
+const Card = ({ teacher, onToggleFavourite, ids }) => {
     const { isLoggedIn } = useAuth()
 
     const [isFavourite, setIsFavourite] = useState(false);
-
+    const [isTeacherIdInArray, setIsTeacherIdInArray] = useState(ids.includes(teacher.id));
     
     const handleAddFavourite = async () => {
         const userDataJSON = localStorage.getItem('user');
@@ -58,7 +58,7 @@ const Card = ({ teacher, onToggleFavourite }) => {
             transition={{ duration: 0.5 }}
         >
             <div className='card__container' style={{ backgroundImage: `url(${teacher.profilePictureUrl})` }}>
-                {isLoggedIn && <h4 onClick={handleAddFavourite} className='fav' style={{ color: isFavourite ? 'red' : 'white' }}>♥</h4>}
+                {isLoggedIn && <h4 onClick={handleAddFavourite} className='fav' style={{ color: isTeacherIdInArray || isFavourite ? 'red' : 'white' }}>♥</h4>}
                 <Link className='card-link' to={`/teacher/${teacher.id}`} >
                     <div >
                         <p><span>{teacher.shortDescription}</span></p>
