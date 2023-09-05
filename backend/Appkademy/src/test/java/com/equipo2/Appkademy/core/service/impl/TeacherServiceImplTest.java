@@ -5,20 +5,26 @@ import com.equipo2.Appkademy.core.model.entity.*;
 import com.equipo2.Appkademy.core.model.enums.Currency;
 import com.equipo2.Appkademy.core.model.enums.*;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
+import com.equipo2.Appkademy.core.model.repository.TeachingProficiencyRepository;
 import com.equipo2.Appkademy.core.security.model.User;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
 import com.equipo2.Appkademy.core.validation.service.TeacherValidationServiceImpl;
+import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.AddressRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.TeacherUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.WeeklyWorkingScheduleCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherResponseDto;
+import com.equipo2.Appkademy.rest.dto.response.TeacherSearchResponseDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.math.BigDecimal;
@@ -48,6 +54,9 @@ class TeacherServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private TeachingProficiencyRepository teachingProficiencyRepository;
 
     @Test
     public void shouldSaveTeacher(){
@@ -248,6 +257,145 @@ class TeacherServiceImplTest {
 
         verify(teacherRepository, times(1)).findById(10L);
     }
+
+    @Test
+    public void shouldSearchTeacherByCity(){
+        TeacherFilterDto filterDto = new TeacherFilterDto();
+        filterDto.setPageSize(10);
+        filterDto.setPageNumber(1);
+        filterDto.setTeacherIds(Arrays.asList(1L));
+
+        Teacher teacher = Mockito.mock(Teacher.class);
+        doReturn(1L).when(teacher).getId();
+
+        Page<Teacher> teacherPage = new PageImpl<>(Arrays.asList(teacher), PageRequest.of(0, 10), Arrays.asList(teacher).size());
+
+        doReturn(teacherPage).when(teacherRepository).findAll(any(Specification.class), any(Pageable.class));
+
+        TeacherSearchResponseDto searchResponseDto = teacherService.search(filterDto);
+
+        assertNotNull(searchResponseDto);
+        assertEquals(1L, searchResponseDto.getSearchResults().get(0).getId());
+
+        verify(teacherRepository, times(1)).findAll(any(Specification.class), any(Pageable.class));
+    }
+
+    @Test
+    public void shouldDeleteTeacher(){
+        Long id = 1L;
+        Teacher teacher = Mockito.mock(Teacher.class);
+
+        doReturn(Optional.of(teacher)).when(teacherRepository).findById(id);
+        doNothing().when(teacherRepository).deleteById(id);
+
+        teacherService.delete(id);
+
+        verify(teacherRepository, times(1)).findById(id);
+        verify(teacherRepository, times(1)).deleteById(id);
+    }
+
+    @Test
+    public void shouldUpdateTeacher(){
+        Long id = 10L;
+
+        Long userId = 1L;
+        String firstName = "Bilbo";
+        String lastName = "Bolson";
+        String email = "mountainthief@gmail.com";
+        String streetName = "Av. Cabildo";
+        String streetNumber = "222";
+
+        List<TeachingProficiency> proficiencies = new ArrayList<>();
+        TeachingProficiency proficiency = new TeachingProficiency();
+        proficiency.setMasteryLevel(TeachingMasteryLevel.COLLEGE);
+        proficiency.setSubject(new TeachingSubject("LITERATURE"));
+        proficiencies.add(proficiency);
+
+        String updatedFirstName = "updatedName";
+        String updatedLastName = "updatedLastName";
+
+        Map<Currency, BigDecimal> updatedHourlyRates = new HashMap<>();
+        updatedHourlyRates.put(Currency.ARS, BigDecimal.valueOf(500));
+
+        Map<Modality, Boolean> updatedModalities = new HashMap<>();
+        updatedModalities.put(Modality.FACE_TO_FACE, true);
+
+        WeeklyWorkingScheduleCreateRequestDto updatedWorkingScheduleCreateRequestDto = new WeeklyWorkingScheduleCreateRequestDto();
+        updatedWorkingScheduleCreateRequestDto.setCheckIn(LocalTime.of(9, 0, 0));
+        updatedWorkingScheduleCreateRequestDto.setCheckOut(LocalTime.of(18, 0, 0));
+        updatedWorkingScheduleCreateRequestDto.setMonday(true);
+        updatedWorkingScheduleCreateRequestDto.setTuesday(true);
+
+        String updatedProfilePictureUrl = "www.ereborpic.com/me_in_the_vault.jpg";
+
+        AddressRequestDto addressRequestDto = new AddressRequestDto();
+        addressRequestDto.setCountry(Country.ARGENTINA.name());
+        addressRequestDto.setProvince(Province.BUENOS_AIRES.name());
+        addressRequestDto.setStreetName(streetName);
+        addressRequestDto.setStreetNumber(streetNumber);
+
+        String updatedShortDescription = "Los atajos cortos traen retrasos largos, pero las posadas los alargan todavía más";
+        String updatedFullDescription = "No todo lo que es oro, reluce, ni toda la gente errante anda perdida; a las raíces" +
+                " profundas no llega la escarcha, el viejo vigoroso no se marchita. De las cenizas subirá un fuego," +
+                " y una luz asomará en las sombras; el descoronado será de nuevo rey, forjarán otra vez la espada rota";
+
+        Teacher teacher = new Teacher();
+        ReflectionTestUtils.setField(teacher, "id", id);
+
+        doReturn(Optional.of(teacher)).when(teacherRepository).findById(id);
+        doNothing().when(teacherValidationService).assertHourlyRatesAreValid(anyMap());
+
+        List<TeachingProficiency> teachingProficiencies = new ArrayList<>();
+        doReturn(teachingProficiencies).when(teachingProficiencyRepository).findAllById(anyList());
+
+        doNothing().when(teacherValidationService).assertAllTeachingProficienciesExist(anyList(), anyList());
+
+        TeacherUpdateRequestDto updateRequestDto = new TeacherUpdateRequestDto();
+        updateRequestDto.setFirstName(updatedFirstName);
+        updateRequestDto.setLastName(updatedLastName);
+        updateRequestDto.setHourlyRates(updatedHourlyRates);
+        updateRequestDto.setModalities(updatedModalities);
+        updateRequestDto.setProficiencyIds(Arrays.asList(1L));
+        updateRequestDto.setWeeklyWorkingSchedule(updatedWorkingScheduleCreateRequestDto);
+        updateRequestDto.setProfilePictureUrl(updatedProfilePictureUrl);
+        updateRequestDto.setAddress(addressRequestDto);
+        updateRequestDto.setShortDescription(updatedShortDescription);
+        updateRequestDto.setFullDescription(updatedFullDescription);
+        updateRequestDto.setEnabled(true);
+
+        doReturn(teacher).when(teacherRepository).save(any(Teacher.class));
+
+        TeacherResponseDto responseDto = teacherService.update(id, updateRequestDto);
+
+        ArgumentCaptor<Teacher> captor = ArgumentCaptor.forClass(Teacher.class);
+        verify(teacherRepository, times(1)).save(captor.capture());
+
+        Teacher capturedValue = captor.getValue();
+
+        assertNotNull(capturedValue);
+        assertEquals(updatedFirstName, capturedValue.getFirstName());
+        assertEquals(updatedLastName, capturedValue.getLastName());
+        assertTrue(capturedValue.getHourlyRates().containsKey(Currency.ARS));
+        assertEquals(BigDecimal.valueOf(500), capturedValue.getHourlyRates().get(Currency.ARS));
+        assertTrue(capturedValue.getModalities().containsKey(Modality.FACE_TO_FACE));
+        assertEquals(true, capturedValue.getModalities().get(Modality.FACE_TO_FACE));
+        //assertEquals(1L, capturedValue.getProficiencies().size());
+        //assertEquals(1L, capturedValue.getProficiencies().get(0).getId());
+        assertEquals(updatedWorkingScheduleCreateRequestDto.getCheckIn(), capturedValue.getWeeklyWorkingSchedule().getCheckIn());
+        assertEquals(updatedWorkingScheduleCreateRequestDto.getCheckOut(), capturedValue.getWeeklyWorkingSchedule().getCheckOut());
+        assertEquals(updatedWorkingScheduleCreateRequestDto.isMonday(), capturedValue.getWeeklyWorkingSchedule().isMonday());
+        assertEquals(updatedWorkingScheduleCreateRequestDto.isTuesday(), capturedValue.getWeeklyWorkingSchedule().isTuesday());
+        assertEquals(updateRequestDto.getProfilePictureUrl(), capturedValue.getProfilePictureUrl());
+        assertEquals(updateRequestDto.getAddress().getCountry(), capturedValue.getAddress().getCountry().name());
+        assertEquals(updateRequestDto.getAddress().getProvince(), capturedValue.getAddress().getProvince().name());
+        assertEquals(updateRequestDto.getAddress().getStreetName(), capturedValue.getAddress().getStreetName());
+        assertEquals(updateRequestDto.getAddress().getStreetNumber(), capturedValue.getAddress().getStreetNumber());
+        assertEquals(updateRequestDto.getShortDescription(), capturedValue.getShortDescription());
+        assertEquals(updateRequestDto.getFullDescription(), capturedValue.getFullDescription());
+        assertTrue(capturedValue.isEnabled());
+    }
+
+
 
 
 }
