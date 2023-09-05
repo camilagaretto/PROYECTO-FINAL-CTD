@@ -8,6 +8,7 @@ import Footer from "../../Components/Footer/Footer";
 import Login from './Login/Login';
 import UserDetail from './UserDetail/UserDetail';
 import Category from './Category';
+import Favourites from './Favourites/Favourites';
 
 function FrontRoutes() {
   return (
@@ -20,6 +21,7 @@ function FrontRoutes() {
         <Route path="/register" element={<RegisterUser />} />
         <Route path="/login" element={<Login />} />
         <Route path="/search/:subject/:dateTime" element={<Category />} />
+        <Route path="/user/:id/favourites" element={<Favourites/>} />
       </Routes>
       <Footer />
     </>

@@ -60,6 +60,7 @@ function NavScrollExample() {
                         <Nav className="d-flex navbar__links__flex">
                             {isLoggedIn ? (
                                 <>
+                                    <Link className='navbar__link-secondary' to={`user/${id}/favourites`}>Favoritos</Link>
                                     {!isAdmin &&
                                      <Link className='user-name' to={`/user/${id}`}>
                                         <div className='user-logo'><p>{initials}</p></div>

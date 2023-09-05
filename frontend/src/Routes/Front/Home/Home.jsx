@@ -11,8 +11,11 @@ import './Home.css'
 import { Link } from 'react-router-dom';
 import { terms } from '../../../terms';
 import TermCard from '../../../Components/Terms/TermCard';
+import { useAuth } from '../../../Context/AuthContext';
 
 const Home = () => {
+  const { isLoggedIn } = useAuth()
+  const [likedTeachers, setLikedTeachers] = useState([])
   const [filtered, setFiltered] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [activeFilter, setActiveFilter] = useState('');
@@ -68,10 +71,6 @@ const Home = () => {
       pageNumber: 1,
       pageSize: 10,
     }
-    // const userToken = localStorage.getItem("user");
-    // const tokenObj = JSON.parse(userToken);
-    // const token = tokenObj?.token;
-
     try {
       const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
         method: 'POST',
@@ -96,13 +95,41 @@ const Home = () => {
     fetchData();
   }, [activeFilter]);
 
+
+  const getTeacherIds = async () => {
+    if (isLoggedIn) {
+      const userDataJSON = localStorage.getItem('user');
+      const userData = JSON.parse(userDataJSON);
+      const { token, userTypeId } = userData;
+      const response = await fetch(`http://localhost:8080/v1/categories/1/customers/${userTypeId}`, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      if(response.ok){
+        const data = await response.json();
+        const likedTeachers = data.likedProviderIds;
+        setLikedTeachers(likedTeachers)
+      }
+    } else {
+      console.log('No se puede buscar ids de profes porque no esta logeado')
+    }
+  }
+
+  useEffect(() => {
+    getTeacherIds()
+  }, [isLoggedIn])
+
   return (
     <main id='home'>
       <Container>
         <section className='container-main-banner'>
           <div className='banner-description'>
             <h1>Encuentra tu nueva pasión</h1>
-            <Search categories={subjects}/>
+            <Search categories={subjects} />
           </div>
         </section>
 
@@ -132,6 +159,7 @@ const Home = () => {
                   <div key={teacher.id}>
                     <CardProduct
                       teacher={teacher}
+                      ids={likedTeachers}
                     />
                   </div>
                 ))
@@ -156,18 +184,6 @@ const Home = () => {
             <Link to='/' className='btn btn-profesores'>Llenar Formulario</Link>
           </div>
         </section>
-
-        {/* <section className='terms'>
-          <h2>Nuestras Politicas</h2>
-          <div className='terms-container'>
-            {
-              terms.map(term => (
-                <TermCard key={term.id} image={term.image} title={term.title} description={term.description} />
-              ))
-            }
-          </div>
-        </section> */}
-
       </Container>
     </main>
   )
