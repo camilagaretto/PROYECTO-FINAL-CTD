@@ -4,42 +4,50 @@ import { motion } from "framer-motion"
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../Context/AuthContext'
 
-const Card = ({ teacher }) => {
-
-    const [isFavourite, setIsFavourite] = useState(false);
+const Card = ({ teacher, onToggleFavourite }) => {
     const { isLoggedIn } = useAuth()
 
-    const handleAddFavourite = async () => {
+    const [isFavourite, setIsFavourite] = useState(false);
 
+    
+    const handleAddFavourite = async () => {
         const userDataJSON = localStorage.getItem('user');
+
         if (userDataJSON) {
             const userData = JSON.parse(userDataJSON);
-            const { token, userTypeId } = userData
+            const { token, userTypeId } = userData;
             const requestBody = {
-                likedTeacherId : teacher.id
-            }
+                likedTeacherId: teacher.id,
+            };
+
             try {
                 const response = await fetch(`http://localhost:8080/v1/categories/1/customers/${userTypeId}`, {
                     method: 'PATCH',
-                    mode : 'cors',
+                    mode: 'cors',
                     headers: {
-                        'accept': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
+                        accept: 'application/json',
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
                     },
-                    body : JSON.stringify(requestBody)
-                })
-                if(response.ok){
-                    alert('Profesor agregado a favorito!');
+                    body: JSON.stringify(requestBody),
+                });
+
+                if (response.ok) {
+                    // Actualiza el estado local de "isFavourite"
                     setIsFavourite(!isFavourite);
+                    
+                    if(onToggleFavourite){
+                        onToggleFavourite(teacher.id)
+                    }
                 } else {
-                    alert('Error al guardar en favorito')
+                    alert('Error al guardar en favorito');
                 }
             } catch (error) {
                 console.error('Error de red:', error);
             }
         }
-    }
+    };
+
 
     return (
         <motion.div

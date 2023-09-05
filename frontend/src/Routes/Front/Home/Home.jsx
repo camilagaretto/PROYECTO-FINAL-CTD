@@ -156,18 +156,6 @@ const Home = () => {
             <Link to='/' className='btn btn-profesores'>Llenar Formulario</Link>
           </div>
         </section>
-
-        {/* <section className='terms'>
-          <h2>Nuestras Politicas</h2>
-          <div className='terms-container'>
-            {
-              terms.map(term => (
-                <TermCard key={term.id} image={term.image} title={term.title} description={term.description} />
-              ))
-            }
-          </div>
-        </section> */}
-
       </Container>
     </main>
   )

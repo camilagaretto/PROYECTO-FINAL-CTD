@@ -43,5 +43,8 @@
     .card-link {
         text-decoration: none;
         color: white;
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
     }
 }
