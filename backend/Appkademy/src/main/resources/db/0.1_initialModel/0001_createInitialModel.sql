@@ -2,10 +2,10 @@
 
 --changeset jbordet:01
 
-DROP DATABASE IF EXISTS appkademy;
-CREATE DATABASE appkademy;
+DROP DATABASE IF EXISTS 0723TDPRON1C01LAED0222PT_GRUPO2;
+CREATE DATABASE 0723TDPRON1C01LAED0222PT_GRUPO2;
 
-USE appkademy;
+USE 0723TDPRON1C01LAED0222PT_GRUPO2;
 
 CREATE TABLE `DATABASECHANGELOG` (
   `ID` varchar(255) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE `DATABASECHANGELOG` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.DATABASECHANGELOGLOCK definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.DATABASECHANGELOGLOCK definition
 
 CREATE TABLE `DATABASECHANGELOGLOCK` (
   `ID` int NOT NULL,
@@ -35,10 +35,10 @@ CREATE TABLE `DATABASECHANGELOGLOCK` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO appkademy.DATABASECHANGELOGLOCK VALUES(1,0,null,null);
+INSERT INTO 0723TDPRON1C01LAED0222PT_GRUPO2.DATABASECHANGELOGLOCK VALUES(1,0,null,null);
 
 
--- appkademy.`_user` definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.`_user` definition
 
 CREATE TABLE `_user` (
   `user_id` bigint NOT NULL AUTO_INCREMENT,
@@ -51,7 +51,7 @@ CREATE TABLE `_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.characteristic definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.characteristic definition
 
 CREATE TABLE `characteristic` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -61,7 +61,7 @@ CREATE TABLE `characteristic` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.permission definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.permission definition
 
 CREATE TABLE `permission` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -70,7 +70,7 @@ CREATE TABLE `permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.`role` definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.`role` definition
 
 CREATE TABLE `role` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -79,7 +79,7 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.student definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.student definition
 
 CREATE TABLE `student` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -101,7 +101,7 @@ CREATE TABLE `student` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.teaching_subject definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.teaching_subject definition
 
 CREATE TABLE `teaching_subject` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -110,7 +110,7 @@ CREATE TABLE `teaching_subject` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.weekly_working_schedule definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.weekly_working_schedule definition
 
 CREATE TABLE `weekly_working_schedule` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -127,7 +127,7 @@ CREATE TABLE `weekly_working_schedule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.`_user_role` definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.`_user_role` definition
 
 CREATE TABLE `_user_role` (
   `user_id` bigint NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE `_user_role` (
 
 
 
--- appkademy.liked_provider_id definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.liked_provider_id definition
 
 CREATE TABLE `liked_provider_id` (
   `natural_person_customer_id` bigint NOT NULL,
@@ -149,7 +149,7 @@ CREATE TABLE `liked_provider_id` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.role_permission definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.role_permission definition
 
 CREATE TABLE `role_permission` (
   `role_id` bigint NOT NULL,
@@ -161,7 +161,7 @@ CREATE TABLE `role_permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.teacher definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.teacher definition
 
 CREATE TABLE `teacher` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -192,7 +192,7 @@ CREATE TABLE `teacher` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.teacher_characteristics definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.teacher_characteristics definition
 
 CREATE TABLE `teacher_characteristics` (
   `teacher_id` bigint NOT NULL,
@@ -204,7 +204,7 @@ CREATE TABLE `teacher_characteristics` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.teacher_hourly_rate definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.teacher_hourly_rate definition
 
 CREATE TABLE `teacher_hourly_rate` (
   `teacher_id` bigint NOT NULL,
@@ -215,7 +215,7 @@ CREATE TABLE `teacher_hourly_rate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.teacher_modality definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.teacher_modality definition
 
 CREATE TABLE `teacher_modality` (
   `teacher_id` bigint NOT NULL,
@@ -227,7 +227,7 @@ CREATE TABLE `teacher_modality` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.teacher_signup_request definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.teacher_signup_request definition
 
 CREATE TABLE `teacher_signup_request` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -241,7 +241,7 @@ CREATE TABLE `teacher_signup_request` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.teacher_termination_request definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.teacher_termination_request definition
 
 CREATE TABLE `teacher_termination_request` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -253,7 +253,7 @@ CREATE TABLE `teacher_termination_request` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.teaching_proficiency definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.teaching_proficiency definition
 
 CREATE TABLE `teaching_proficiency` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -265,7 +265,7 @@ CREATE TABLE `teaching_proficiency` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.scheduled_appointment definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.scheduled_appointment definition
 
 CREATE TABLE `scheduled_appointment` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -281,7 +281,7 @@ CREATE TABLE `scheduled_appointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- appkademy.teacher_proficiencies definition
+-- 0723TDPRON1C01LAED0222PT_GRUPO2.teacher_proficiencies definition
 
 CREATE TABLE `teacher_proficiencies` (
   `teacher_id` bigint NOT NULL,

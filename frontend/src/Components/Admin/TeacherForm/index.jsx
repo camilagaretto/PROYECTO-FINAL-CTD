@@ -50,7 +50,7 @@ function TeacherForm() {
     
     const fetchData = async () => {
         try {
-          const response = await fetch(`http://localhost:8080/v1/categories/1/providers/${params.id}`);
+          const response = await fetch(`http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/${params.id}`);
           const teacher = await response.json();
           setUserData(prevUserData => ({
             ...prevUserData,
@@ -227,8 +227,8 @@ function TeacherForm() {
         
         event.preventDefault();
         const apiUrl = params.id
-        ? `http://localhost:8080/v1/categories/1/providers/${params.id}`
-        : 'http://localhost:8080/v1/categories/1/providers/';
+        ? `http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/${params.id}`
+        : 'http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/';
 
         try {
             const response = await fetch(apiUrl, {
@@ -260,7 +260,7 @@ function TeacherForm() {
         const token = tokenObj.token;            
 
         try {
-            const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
+            const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/teaching_subject/search', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -284,7 +284,7 @@ function TeacherForm() {
         const token = tokenObj.token;            
 
         try {
-            const response = await fetch('http://localhost:8080/v1/categories/1/providers/characteristics/search', {
+            const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/characteristics/search', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
