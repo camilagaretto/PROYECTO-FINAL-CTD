@@ -6,6 +6,7 @@ import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.model.entity.TeachingProficiency;
 import com.equipo2.Appkademy.core.model.enums.UserType;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
+import com.equipo2.Appkademy.core.model.repository.TeachingProficiencyRepository;
 import com.equipo2.Appkademy.core.security.model.User;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
 import com.equipo2.Appkademy.core.service.TeacherService;
@@ -42,6 +43,9 @@ public class TeacherServiceImpl implements TeacherService {
     private UserRepository userRepository;
 
     @Autowired
+    private TeachingProficiencyRepository teachingProficiencyRepository;
+
+    @Autowired
     private AppkademyMapper mapper;
 
     @Autowired
@@ -70,8 +74,9 @@ public class TeacherServiceImpl implements TeacherService {
         teacherValidationService.assertUserDoesNotAlreadyExist(createRequestDto.getUserId());
         teacherValidationService.assertHourlyRatesAreValid(createRequestDto.getHourlyRates());
 
-        List<TeachingProficiency> teachingProficiencyEntities = teacherValidationService.assertTeachingProficienciesExist(
-                createRequestDto.getProficiencyIds());
+        List<TeachingProficiency> teachingProficiencyEntities = teachingProficiencyRepository.findAllById(createRequestDto.getProficiencyIds());
+
+        teacherValidationService.assertAllTeachingProficienciesExist(teachingProficiencyEntities, createRequestDto.getProficiencyIds());
 
         List<Characteristic> characteristicEntities = null;
         if(CollectionUtils.isNotEmpty(createRequestDto.getCharacteristicIds())){
@@ -159,8 +164,9 @@ public class TeacherServiceImpl implements TeacherService {
 
         teacherValidationService.assertHourlyRatesAreValid(updateRequestDto.getHourlyRates());
 
-        List<TeachingProficiency> teachingProficiencyEntities = teacherValidationService.assertTeachingProficienciesExist(
-                updateRequestDto.getProficiencyIds());
+        List<TeachingProficiency> teachingProficiencyEntities = teachingProficiencyRepository.findAllById(updateRequestDto.getProficiencyIds());
+
+        teacherValidationService.assertAllTeachingProficienciesExist(teachingProficiencyEntities, updateRequestDto.getProficiencyIds());
 
         List<Characteristic> characteristicEntities = null;
         if(CollectionUtils.isNotEmpty(updateRequestDto.getCharacteristicIds())){

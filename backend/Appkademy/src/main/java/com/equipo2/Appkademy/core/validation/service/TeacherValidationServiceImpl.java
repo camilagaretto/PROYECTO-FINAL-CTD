@@ -55,14 +55,10 @@ public class TeacherValidationServiceImpl {
         }
     }
 
-    public List<TeachingProficiency> assertTeachingProficienciesExist(List<Long> createDtoProficiencyIds){
-        List<TeachingProficiency> teachingProficiencyEntities = teachingProficiencyRepository.findAllById(createDtoProficiencyIds);
-
-        if(teachingProficiencyEntities.size() != createDtoProficiencyIds.size()){
+    public void assertAllTeachingProficienciesExist(List<TeachingProficiency> proficiencies, List<Long> dtoProficiencyIds){
+        if(proficiencies.size() != dtoProficiencyIds.size()){
             throw new NotFoundException(ErrorCodes.AT_LEAST_ONE_PROFICIENCY_DOESNT_EXIST);
         }
-
-        return teachingProficiencyEntities;
     }
 
     public List<Characteristic> assertCharacteristicsExists(List<Long> createRequestCharacteristicIds) {
