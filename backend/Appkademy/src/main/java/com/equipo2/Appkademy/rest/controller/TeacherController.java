@@ -1,6 +1,7 @@
 package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.core.service.TeacherService;
+import com.equipo2.Appkademy.rest.controller.documentation.ITeacherProviderController;
 import com.equipo2.Appkademy.rest.dto.filter.TeacherFilterDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.TeacherUpdateRequestDto;

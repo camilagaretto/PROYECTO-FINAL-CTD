@@ -1,6 +1,7 @@
 package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.core.service.AwsService;
+import com.equipo2.Appkademy.rest.controller.documentation.IFileUploadController;
 import com.equipo2.Appkademy.rest.dto.response.FileUploadResponseDto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

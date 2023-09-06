@@ -2,14 +2,18 @@ package com.equipo2.Appkademy.core.service.impl;
 
 import com.equipo2.Appkademy.core.mapper.AppkademyMapperImpl;
 import com.equipo2.Appkademy.core.model.entity.Student;
+import com.equipo2.Appkademy.core.model.entity.Teacher;
 import com.equipo2.Appkademy.core.model.repository.StudentRepository;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
 import com.equipo2.Appkademy.core.security.model.User;
 import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
 import com.equipo2.Appkademy.core.service.NotificationService;
+import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
+import com.equipo2.Appkademy.rest.dto.request.StudentPatchRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentResponseDto;
+import com.equipo2.Appkademy.rest.dto.response.StudentSearchResponseDto;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +21,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -159,8 +171,94 @@ class StudentServiceImplTest {
         assertNull(updatedStudent.getScheduledAppointments());
     }
 
+    @Test
+    public void shouldSearchStudent(){
+        PageableFilter filter = new PageableFilter();
 
+        String name = "Julian";
+        String lastName = "Bordet";
 
+        Student student = new Student();
+        student.setFirstName(name);
+        student.setLastName(lastName);
 
+        Page<Student> studentPage = new PageImpl<>(Arrays.asList(student), PageRequest.of(0, 10), Arrays.asList(student).size());
+
+        doReturn(studentPage).when(studentRepository).findAll(any(Pageable.class));
+
+        StudentSearchResponseDto searchResponseDto = studentService.search(filter);
+
+        assertNotNull(searchResponseDto);
+        assertEquals(1, searchResponseDto.getSearchResults().size());
+        assertEquals(name, searchResponseDto.getSearchResults().get(0).getFirstName());
+        assertEquals(lastName, searchResponseDto.getSearchResults().get(0).getLastName());
+        verify(studentRepository, times(1)).findAll(any(Pageable.class));
+    }
+
+    @Test
+    public void shouldPatchStudentToAddNewLikedTeacher(){
+        Long studentId = 20L;
+        Long teacherId = 30L;
+        Student student = new Student();
+        ReflectionTestUtils.setField(student, "id", studentId);
+        List<Long> likedTeacherIds = new ArrayList<>();
+        likedTeacherIds.add(1L);
+
+        student.setLikedProviderIds(likedTeacherIds);
+
+        doReturn(Optional.of(student)).when(studentRepository).findById(studentId);
+
+        Teacher teacher = new Teacher();
+        ReflectionTestUtils.setField(teacher, "id", teacherId);
+        teacher.setTotalLikes(5L);
+
+        doReturn(Optional.of(teacher)).when(teacherRepository).findById(teacherId);
+
+        StudentPatchRequestDto patchRequestDto = new StudentPatchRequestDto();
+        patchRequestDto.setLikedTeacherId(teacherId);
+
+        doReturn(student).when(studentRepository).save(any(Student.class));
+        doReturn(teacher).when(teacherRepository).save(any(Teacher.class));
+
+        StudentResponseDto responseDto = studentService.patch(studentId, patchRequestDto);
+
+        assertNotNull(responseDto);
+        assertEquals(2, responseDto.getLikedProviderIds().size());
+        assertEquals(1L, responseDto.getLikedProviderIds().get(0));
+        assertEquals(teacherId, responseDto.getLikedProviderIds().get(1));
+        assertEquals(teacher.getTotalLikes(), 6L);
+    }
+
+    @Test
+    public void shouldPatchStudentToRemoveLikedTeacher(){
+        Long studentId = 20L;
+        Long teacherId = 30L;
+        Student student = new Student();
+        ReflectionTestUtils.setField(student, "id", studentId);
+        List<Long> likedTeacherIds = new ArrayList<>();
+        likedTeacherIds.add(teacherId);
+
+        student.setLikedProviderIds(likedTeacherIds);
+
+        doReturn(Optional.of(student)).when(studentRepository).findById(studentId);
+
+        Teacher teacher = new Teacher();
+        ReflectionTestUtils.setField(teacher, "id", teacherId);
+        teacher.setTotalLikes(5L);
+
+        doReturn(Optional.of(teacher)).when(teacherRepository).findById(teacherId);
+
+        StudentPatchRequestDto patchRequestDto = new StudentPatchRequestDto();
+        patchRequestDto.setLikedTeacherId(teacherId);
+
+        doReturn(student).when(studentRepository).save(any(Student.class));
+        doReturn(teacher).when(teacherRepository).save(any(Teacher.class));
+
+        StudentResponseDto responseDto = studentService.patch(studentId, patchRequestDto);
+
+        assertNotNull(responseDto);
+        assertEquals(0, responseDto.getLikedProviderIds().size());
+        assertEquals(teacher.getTotalLikes(), 4L);
+    }
 
 }

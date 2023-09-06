@@ -16,10 +16,8 @@ import com.equipo2.Appkademy.rest.dto.request.StudentPatchRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.StudentUpdateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentResponseDto;
 import com.equipo2.Appkademy.rest.dto.response.StudentSearchResponseDto;
-import com.equipo2.Appkademy.rest.error.BadRequestException;
 import com.equipo2.Appkademy.rest.error.ErrorCodes;
 import com.equipo2.Appkademy.rest.error.NotFoundException;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -69,10 +67,7 @@ public class StudentServiceImpl implements StudentService {
     public StudentSearchResponseDto search(PageableFilter filter) {
         if(Objects.isNull(filter.getPageNumber())){
             filter.setPageNumber(1);
-        } else {
-            filter.setPageNumber(filter.getPageNumber());
         }
-
         if(Objects.isNull(filter.getPageSize())){
             filter.setPageSize(10);
         }
@@ -147,13 +142,5 @@ public class StudentServiceImpl implements StudentService {
 
         return mapper.studentToStudentResponseDto(entity);
     }
-
-    private void assertEmailIsValid(String email) {
-        if(!EmailValidator.getInstance().isValid(email)){
-            throw new BadRequestException("email", email);
-        };
-    }
-
-
 
 }
