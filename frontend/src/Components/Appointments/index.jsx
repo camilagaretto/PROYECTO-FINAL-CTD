@@ -1,78 +1,91 @@
-import React, { useMemo, useState, useCallback, useEffect} from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import events from '../../constants/events';
-import { Calendar, Views, DateLocalizer, momentLocalizer} from 'react-big-calendar';
+import { Calendar, Views, DateLocalizer, momentLocalizer } from 'react-big-calendar';
 import './styles.scss';
 
-const mLocalizer = momentLocalizer(moment);
+const mLocalizer = momentLocalizer(moment)
 
 function Appointments({
-  localizer = mLocalizer, 
-  // events,
-  weeklyWorkingSchedule
+  localizer = mLocalizer,
+  events = [],
+  weeklyWorkingSchedule = [],
+  teacherId
 }) {
-  const [myEvents, setEvents] = useState(events);
+  console.log(weeklyWorkingSchedule)
+  const [teacherEvents, setTeacherEvents] = useState(events);
+
   useEffect(() => {
     const formattedEvents = events.map(event => ({
       start: moment(event.startsOn).toDate(),
       end: moment(event.endsOn).toDate(),
-      title: 'No disponible',
+      title: 'Reservado',
     }));
-
-    setEvents(formattedEvents);
+    setTeacherEvents(formattedEvents)
   }, [events]);
+
+  const user = localStorage.getItem("user");
+  const userObj = JSON.parse(user);
+  const studentId = userObj.userTypeId;
+  const token = userObj.token;
 
   const minTime = new Date();
   minTime.setHours(8, 0, 0);
   const maxTime = new Date();
   maxTime.setHours(23, 0, 0);
 
-  const {defaultDate, views } = useMemo(
+  const { views } = useMemo(
     () => ({
-      defaultDate: new Date(),
       views: {
         week: true,
       },
-    }),
-    []
+    }),[]
   );
 
-  const handleSelectEvent = useCallback(
-    (event) => window.alert(event.title), []
-  );
+  const handleSelectEvent = (event) => {
+    window.alert(event.title);
+  };
 
-  const handleSelectSlot = useCallback(
-    ({ start, end }) => {
-      const dayOfWeek = start.getDay();
-      const startHour = start.getHours();
-      const endHour = end.getHours();
-  
-      // Obtener el nombre del día actual en inglés (lowercase)
-      const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-      const currentDay = dayNames[dayOfWeek].toLowerCase();
-  
-      // Verificar si el día actual está habilitado en el weeklyWorkingSchedule
-      if (weeklyWorkingSchedule && weeklyWorkingSchedule[currentDay]) {
-        // Obtener las horas de checkIn y checkOut para el día actual
-        const checkInHours = parseInt(weeklyWorkingSchedule.checkIn.split(":")[0]);
-        const checkOutHours = parseInt(weeklyWorkingSchedule.checkOut.split(":")[0]);
-        
-        // Verificar si el rango de tiempo seleccionado está dentro del horario válido
-        if (startHour >= checkInHours && endHour <= checkOutHours) {
-          const title = window.prompt('Reservar');
-          if (title) {
-            setEvents((prev) => [...prev, { start, end, title }]);
+  const handleSelectSlot = ({ start, end }) => {
+    const dayOfWeek = start.getDay();
+    const startHour = start.getHours();
+    const endHour = end.getHours();
+    console.log( startHour, endHour)
+
+    const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    const currentDay = dayNames[dayOfWeek].toLowerCase();
+
+    if (weeklyWorkingSchedule[currentDay]) {
+      const checkInHours = parseInt(weeklyWorkingSchedule.checkIn.split(":")[0]);
+      const checkOutHours = parseInt(weeklyWorkingSchedule.checkOut.split(":")[0]);
+
+      if (startHour >= checkInHours && endHour <= checkOutHours) {
+        const isConfirmed = window.confirm('¿Seguro que quieres reservar en este horario?');
+        if (isConfirmed) {
+          const startString = start.toString();
+          const endString = end.toString();
+          const originalStartDate = new Date(startString);
+          const originalEndDate = new Date(endString);
+          const formattedStartDate = new Date(originalStartDate.getTime() - (originalStartDate.getTimezoneOffset() * 60000)).toISOString();
+          const formattedEndDate = new Date(originalEndDate.getTime() - (originalEndDate.getTimezoneOffset() * 60000)).toISOString();
+          console.log(formattedStartDate);
+          console.log(formattedEndDate);
+          const data = {
+              startsOn: formattedStartDate,
+              endsOn: formattedEndDate,
+              teacherId: teacherId,
+              studentId: studentId
           }
-        } else {
-          console.log('Seleccionaste un rango de tiempo no válido:', start, end);
+          console.log(data)
+          handleSubmit(data)
         }
       } else {
-        console.log('Seleccionaste un día no válido:', start, end);
+        console.log('Seleccionaste un rango de tiempo no válido:', start, end);
       }
-    },
-    [setEvents, weeklyWorkingSchedule]
-  );
+    } else {
+      console.log('Seleccionaste un día no válido:', start, end);
+    }
+  };
 
   const slotPropGetter = (date) => {
     const hours = date.getHours();
@@ -81,7 +94,7 @@ function Appointments({
     const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     const currentDay = dayNames[dayOfWeek].toLowerCase();
 
-    if (weeklyWorkingSchedule && weeklyWorkingSchedule[currentDay]) {
+    if (weeklyWorkingSchedule[currentDay]) {
       const checkInHours = parseInt(weeklyWorkingSchedule.checkIn.split(":")[0]);
       const checkOutHours = parseInt(weeklyWorkingSchedule.checkOut.split(":")[0]);
       if (hours >= checkInHours && hours < checkOutHours) {
@@ -92,15 +105,36 @@ function Appointments({
         };
       }
     }
-    return {};
   };
+
+  const handleSubmit = async (data) => {
+    try {
+      const response = await fetch('http://localhost:8080/v1/categories/1/appointments/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+      });
+      console.log(response)
+      if (response.ok) {
+        alert('Turno guardado exitosamente');
+      } else {
+        console.log(response)
+        alert('Error al crear turno');
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+    }
+  };
+
 
   return (
     <div className="calendarAppointment">
       <Calendar
-        defaultDate={defaultDate}
         defaultView={Views.WEEK}
-        events={myEvents}
+        events={teacherEvents}
         localizer={localizer}
         step={60}
         timeslots={1}
