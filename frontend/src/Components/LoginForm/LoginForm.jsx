@@ -14,7 +14,7 @@ const LoginForm = () => {
 
   const handleSubmitForm = async (values) => {
     try {
-      const response = await fetch('http://localhost:8080/v1/auth/authenticate', {
+      const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/auth/authenticate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const LoginForm = () => {
         // Realizar la segunda solicitud después del inicio de sesión
         const {userTypeId, token} = userData
         const getStudent = await fetch(
-          `http://localhost:8080/v1/categories/1/customers/${userTypeId}`, {
+          `http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/customers/${userTypeId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

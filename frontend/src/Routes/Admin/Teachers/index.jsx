@@ -23,7 +23,7 @@ function Teachers() {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/v1/categories/1/providers/search', {
+            const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/search', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ function Teachers() {
 
         if (window.confirm('¿Estás seguro que deseas eliminar?')) {
             try {
-                const response =  await fetch(`http://localhost:8080/v1/categories/1/providers/${id}`, {
+                const response =  await fetch(`http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`

@@ -28,7 +28,7 @@ function CharasteristicsForm() {
         
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:8080/v1/categories/1/providers/characteristics', {
+            const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/characteristics', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

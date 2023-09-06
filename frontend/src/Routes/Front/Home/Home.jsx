@@ -45,7 +45,7 @@ const Home = () => {
       };
     }
     try {
-      const response = await fetch('http://localhost:8080/v1/categories/1/providers/search', {
+      const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/search', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,19 +72,19 @@ const Home = () => {
       pageSize: 10,
     }
     try {
-      const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(postData),
-      });
-      if (response.ok) {
-        const subjects = await response.json();
-        setSubjects(subjects.searchResults);
-      } else {
-        console.log(response)
-      }
+        const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/teaching_subject/search', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(postData),
+        });
+        if (response.ok) {
+          const subjects = await response.json();
+          setSubjects(subjects.searchResults);
+        } else {
+          console.log(response)
+        }
     } catch (error) {
       console.error('Error de red:', error);
     }
