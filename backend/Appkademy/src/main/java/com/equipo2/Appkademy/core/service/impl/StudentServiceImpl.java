@@ -65,8 +65,6 @@ public class StudentServiceImpl implements StudentService {
         return mapper.studentToStudentResponseDto(studentRepository.save(entity));
     }
 
-
-
     @Override
     public StudentSearchResponseDto search(PageableFilter filter) {
         if(Objects.isNull(filter.getPageNumber())){
