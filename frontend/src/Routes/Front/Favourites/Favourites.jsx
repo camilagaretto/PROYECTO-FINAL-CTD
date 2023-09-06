@@ -33,7 +33,7 @@ const Favourites = () => {
         setLikedTeachers(updatedLikedTeachers);
     };
     const getStudent = async (token) => {
-        const response = await fetch(`http://localhost:8080/v1/categories/1/customers/${id}`, {
+        const response = await fetch(`http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/customers/${id}`, {
             method: 'GET',
             mode: 'cors',
             headers: {
@@ -51,7 +51,7 @@ const Favourites = () => {
                     pageSize: 100,
                     teacherIds: likedTeachers
                 }
-                const teacherResponse = await fetch('http://localhost:8080/v1/categories/1/providers/search', {
+                const teacherResponse = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/search', {
                     method: 'POST',
                     mode: 'cors',
                     headers: {
