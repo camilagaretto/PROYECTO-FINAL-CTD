@@ -18,11 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.equipo2.Appkademy.core.security.model.PermissionConstants.*;
 
 @RestController
-@CrossOrigin(
-        origins = "http://ec2-107-21-139-55.compute-1.amazonaws.com",
-        allowedHeaders = "*",
-        exposedHeaders = "*",
-        methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@CrossOrigin("*")
 @RequestMapping(path = "/v1/categories/1/customers/")
 public class StudentController implements IStudentController {
 
