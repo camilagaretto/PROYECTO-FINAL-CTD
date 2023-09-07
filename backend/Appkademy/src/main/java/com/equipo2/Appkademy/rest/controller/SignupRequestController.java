@@ -1,6 +1,7 @@
 package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.core.service.RequestService;
+import com.equipo2.Appkademy.rest.controller.documentation.ISignupRequestController;
 import com.equipo2.Appkademy.rest.dto.request.TeacherSignupRequestCreateDto;
 import com.equipo2.Appkademy.rest.dto.response.TeacherSignupRequestResponseDto;
 import jakarta.validation.Valid;

@@ -2,6 +2,7 @@ package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.core.security.model.PermissionConstants;
 import com.equipo2.Appkademy.core.security.service.AuthenticationService;
+import com.equipo2.Appkademy.rest.controller.documentation.IAuthenticationContoller;
 import com.equipo2.Appkademy.rest.dto.request.AuthenticationRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.RegisterRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.RoleRequestDto;

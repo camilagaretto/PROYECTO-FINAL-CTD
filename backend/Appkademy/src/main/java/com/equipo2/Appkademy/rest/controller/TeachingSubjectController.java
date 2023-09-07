@@ -1,6 +1,7 @@
 package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.core.service.TeachingProficiencyService;
+import com.equipo2.Appkademy.rest.controller.documentation.ITeachingSubjectController;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.TeachingSubjectDto;
 import com.equipo2.Appkademy.rest.dto.response.TeachingSubjectResponseDto;

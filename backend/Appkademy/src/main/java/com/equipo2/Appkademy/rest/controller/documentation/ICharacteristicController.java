@@ -1,4 +1,4 @@
-package com.equipo2.Appkademy.rest.controller;
+package com.equipo2.Appkademy.rest.controller.documentation;
 
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.CharacteristicRequestDto;

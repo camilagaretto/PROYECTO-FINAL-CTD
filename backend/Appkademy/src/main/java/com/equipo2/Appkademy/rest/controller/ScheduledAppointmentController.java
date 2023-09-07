@@ -1,6 +1,7 @@
 package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.core.service.ScheduledAppointmentService;
+import com.equipo2.Appkademy.rest.controller.documentation.IScheduledAppointmentController;
 import com.equipo2.Appkademy.rest.dto.request.ScheduledAppointmentCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.ScheduledAppointmentResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;

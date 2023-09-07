@@ -2,6 +2,7 @@ package com.equipo2.Appkademy.rest.controller;
 
 import com.equipo2.Appkademy.core.mapper.AppkademyMapper;
 import com.equipo2.Appkademy.core.service.StudentService;
+import com.equipo2.Appkademy.rest.controller.documentation.IStudentController;
 import com.equipo2.Appkademy.rest.dto.filter.PageableFilter;
 import com.equipo2.Appkademy.rest.dto.request.StudentCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.request.StudentPatchRequestDto;
