@@ -3,18 +3,21 @@ import { useParams } from 'react-router-dom'
 import CardDetail from '../../../Components/CardDetail/CardDetail'
 import './TeacherDetail.scss'
 import { Container } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Reserva from '../../../assets/Reserva.png'
 import Galery from '../../../assets/Detail-photos.svg'
 import Certificado from '../../../assets/certificado.svg'
 import Appointments from '../../../Components/Appointments';
 import { terms } from '../../../terms'
 import TermCard from '../../../Components/Terms/TermCard'
+import { WhatsappShareButton, WhatsappIcon } from 'react-share'
 
 const TeacherDetail = () => {
     const params = useParams()
     const [teacherData, setTeacherData] = useState([]);
     const [hourlyRatesArray, setHourlyRatesArray] = useState([])
+    const location = useLocation()
+    const [url, setUrl] = useState("")
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,9 +28,9 @@ const TeacherDetail = () => {
                     currency,
                     value,
                 }));
-                console.log(data)
                 setHourlyRatesArray(hourlyRatesArray)
                 setTeacherData(data);
+                setUrl(location.pathname)
             } catch (error) {
                 console.error('Error al obtener los datos:', error);
             }
@@ -50,6 +53,9 @@ const TeacherDetail = () => {
                         <div className='descripcion'>
                             <h2>Descripción</h2>
                             <p>{teacherData.fullDescription}</p>
+                            <WhatsappShareButton url={url} title={`Aprende con ${teacherData.firstName}!`}>
+                                <WhatsappIcon size={40} round={true} />
+                            </WhatsappShareButton>
                         </div>
                     </div>
                 </section>
