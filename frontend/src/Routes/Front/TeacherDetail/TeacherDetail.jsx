@@ -53,7 +53,7 @@ const TeacherDetail = () => {
                         <div className='descripcion'>
                             <h2>Descripción</h2>
                             <p>{teacherData.fullDescription}</p>
-                            <WhatsappShareButton url={url} title={`Aprende con ${teacherData.firstName}!`}>
+                            <WhatsappShareButton url={`http://appkademy.s3-website-us-east-1.amazonaws.com${url}`} title={`Aprende con ${teacherData.firstName}!`}>
                                 <WhatsappIcon size={40} round={true} />
                             </WhatsappShareButton>
                         </div>
