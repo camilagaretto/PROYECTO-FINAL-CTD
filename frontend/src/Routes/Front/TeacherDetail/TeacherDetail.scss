@@ -29,6 +29,11 @@
         }
     }
 
+    .share-btns{
+        display: flex;
+        gap: 10px;
+    }
+
     @include media-breakpoint-down(lg){
         flex-direction: column !important;
     }

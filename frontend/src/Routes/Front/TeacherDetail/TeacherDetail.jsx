@@ -10,7 +10,7 @@ import Certificado from '../../../assets/certificado.svg'
 import Appointments from '../../../Components/Appointments';
 import { terms } from '../../../terms'
 import TermCard from '../../../Components/Terms/TermCard'
-import { WhatsappShareButton, WhatsappIcon } from 'react-share'
+import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon } from 'react-share'
 
 const TeacherDetail = () => {
     const params = useParams()
@@ -53,9 +53,17 @@ const TeacherDetail = () => {
                         <div className='descripcion'>
                             <h2>Descripción</h2>
                             <p>{teacherData.fullDescription}</p>
-                            <WhatsappShareButton url={`http://appkademy.s3-website-us-east-1.amazonaws.com${url}`} title={`Aprende con ${teacherData.firstName}!`}>
-                                <WhatsappIcon size={40} round={true} />
-                            </WhatsappShareButton>
+                            <div className='share-btns'>
+                                <TwitterShareButton url={`http://appkademy.s3-website-us-east-1.amazonaws.com`} title={`Aprende con ${teacherData.firstName}!`}>
+                                    <TwitterIcon size={40} round={true} />
+                                </TwitterShareButton>
+                                <WhatsappShareButton url={`http://appkademy.s3-website-us-east-1.amazonaws.com`} title={`Aprende con ${teacherData.firstName}!`}>
+                                    <WhatsappIcon size={40} round={true} />
+                                </WhatsappShareButton>
+                                <FacebookShareButton url={`http://appkademy.s3-website-us-east-1.amazonaws.com`} quote={`Aprende con ${teacherData.firstName}!`} hashtag='appkademy'>
+                                    <FacebookIcon size={40} round={true} />
+                                </FacebookShareButton>
+                            </div>
                         </div>
                     </div>
                 </section>
