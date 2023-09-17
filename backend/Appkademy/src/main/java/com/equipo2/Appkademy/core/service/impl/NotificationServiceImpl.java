@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
@@ -22,7 +24,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private StudentRepository studentRepository;
 
-    private String htmlTemplate = "<html>\n" +
+    private String htmlTemplateWelcome = "<html>\n" +
             "  <head>\n" +
             "    <link rel=\"stylesheet\" href=\"styles.css\">\n" +
             "  </head>\n" +
@@ -33,6 +35,7 @@ public class NotificationServiceImpl implements NotificationService {
             "    <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos.</p>\n" +
             "  </body>\n" +
             "  </html>";
+
 
     @Override
     public void sendEmailNotification(String fullName, String email) {
@@ -45,7 +48,30 @@ public class NotificationServiceImpl implements NotificationService {
                 MimeMessageHelper helper= new MimeMessageHelper(message, true);
                 helper.setTo(email);
                 helper.setFrom(sender_user); // "appkademy38@gmail.com");
-                helper.setText("Hola " + fullName + "!", htmlTemplate);
+                helper.setText("Hola " + fullName + "!", htmlTemplateWelcome);
+                javaMailSender.send(message);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e); // TODO: manejar este error.. loguearlo, etc
+            } catch (Exception ex) {
+                // throw new RuntimeException(ex); // TODO: manejar este error.. loguearlo, etc
+            }
+            System.out.println("Send email async task completed");
+        });
+        thread.start();
+    }
+
+    @Override
+    public void sendEmailNotificationSuccessfullAppointment(LocalDateTime startsOn, LocalDateTime endsOn, String studentFullName, String email) {
+        Thread thread = new Thread(() -> {
+            // Asynchronous task
+            System.out.println("Async send email task started");
+            try {
+                MimeMessage message = javaMailSender.createMimeMessage();
+                message.setSubject("Nueva reserva realizada");
+                MimeMessageHelper helper= new MimeMessageHelper(message, true);
+                helper.setTo(email);
+                helper.setFrom(sender_user); // "appkademy38@gmail.com");
+                helper.setText("Hola " + studentFullName + "!." + "Te enviamos la información sobre tu reserva: Comienza: " + startsOn + ". Finaliza: " + endsOn + ".");
                 javaMailSender.send(message);
             } catch (MessagingException e) {
                 throw new RuntimeException(e); // TODO: manejar este error.. loguearlo, etc

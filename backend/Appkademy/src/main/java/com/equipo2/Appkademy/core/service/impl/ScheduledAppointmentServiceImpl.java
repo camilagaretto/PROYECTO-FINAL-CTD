@@ -8,6 +8,9 @@ import com.equipo2.Appkademy.core.model.entity.WeeklyWorkingSchedule;
 import com.equipo2.Appkademy.core.model.repository.ScheduledAppointmentRepository;
 import com.equipo2.Appkademy.core.model.repository.StudentRepository;
 import com.equipo2.Appkademy.core.model.repository.TeacherRepository;
+import com.equipo2.Appkademy.core.security.model.User;
+import com.equipo2.Appkademy.core.security.model.repository.UserRepository;
+import com.equipo2.Appkademy.core.service.NotificationService;
 import com.equipo2.Appkademy.core.service.ScheduledAppointmentService;
 import com.equipo2.Appkademy.rest.dto.request.ScheduledAppointmentCreateRequestDto;
 import com.equipo2.Appkademy.rest.dto.response.ScheduledAppointmentResponseDto;
@@ -38,14 +41,22 @@ public class ScheduledAppointmentServiceImpl implements ScheduledAppointmentServ
     @Autowired
     private TeacherRepository teacherRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public ScheduledAppointmentResponseDto save(ScheduledAppointmentCreateRequestDto createRequestDto) {
             Teacher teacher = assertTeacherExists(createRequestDto.getTeacherId());
-            assertStudentExists(createRequestDto.getStudentId());
+            Student student = assertStudentExists(createRequestDto.getStudentId());
             assertStartAndEndDateAreInTheFuture(createRequestDto);
             assertStartDateIsBeforeEndDate(createRequestDto);
             assertAppointmentFallsWithinTeacherWorkingSchedule(teacher, createRequestDto);
             assertTeacherTimeSlotIsAvailable(teacher, createRequestDto);
+
+            User user = userRepository.findById(student.getUserId()).orElseThrow(() -> new NotFoundException("User not found"));
 
             ScheduledAppointment newAppointment = new ScheduledAppointment();
             newAppointment.setStartsOn(createRequestDto.getStartsOn());
@@ -53,8 +64,13 @@ public class ScheduledAppointmentServiceImpl implements ScheduledAppointmentServ
             newAppointment.setStudentId(createRequestDto.getStudentId());
             newAppointment.setTeacherId(createRequestDto.getTeacherId());
 
-            return mapper.scheduledAppointmenttoToScheduledAppointmentResponseDto(
+            ScheduledAppointmentResponseDto responseDto = mapper.scheduledAppointmenttoToScheduledAppointmentResponseDto(
                     scheduledAppointmentRepository.save(newAppointment));
+
+            String studentFullName = student.getFirstName() + " " + student.getLastName();
+            notificationService.sendEmailNotificationSuccessfullAppointment(newAppointment.getStartsOn(), newAppointment.getEndsOn(), studentFullName, user.getEmail());
+
+            return responseDto;
     }
 
     @Override
@@ -123,8 +139,8 @@ public class ScheduledAppointmentServiceImpl implements ScheduledAppointmentServ
         return teacherWorkingDays;
     }
 
-    private void assertStudentExists(Long studentId) {
-        studentRepository.findById(studentId).orElseThrow(() -> new NotFoundException("No Student found for id: " + studentId));
+    private Student assertStudentExists(Long studentId) {
+        return studentRepository.findById(studentId).orElseThrow(() -> new NotFoundException("No Student found for id: " + studentId));
     }
 
     private Teacher assertTeacherExists(Long teacherId) {
