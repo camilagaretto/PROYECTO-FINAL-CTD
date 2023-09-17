@@ -57,6 +57,7 @@ public class ScheduledAppointmentServiceImpl implements ScheduledAppointmentServ
             assertTeacherTimeSlotIsAvailable(teacher, createRequestDto);
 
             User user = userRepository.findById(student.getUserId()).orElseThrow(() -> new NotFoundException("User not found"));
+            User teacherUser = userRepository.findById(teacher.getUserId()).orElseThrow(() -> new NotFoundException("User not found"));
 
             ScheduledAppointment newAppointment = new ScheduledAppointment();
             newAppointment.setStartsOn(createRequestDto.getStartsOn());
@@ -68,7 +69,8 @@ public class ScheduledAppointmentServiceImpl implements ScheduledAppointmentServ
                     scheduledAppointmentRepository.save(newAppointment));
 
             String studentFullName = student.getFirstName() + " " + student.getLastName();
-            notificationService.sendEmailNotificationSuccessfullAppointment(newAppointment.getStartsOn(), newAppointment.getEndsOn(), studentFullName, user.getEmail());
+            String teacherFullName = teacher.getFirstName() + " " + teacher.getLastName();
+            notificationService.sendEmailNotificationSuccessfullAppointment(newAppointment.getStartsOn(), newAppointment.getEndsOn(), studentFullName, user.getEmail(), teacherFullName, teacherUser.getEmail());
 
             return responseDto;
     }
