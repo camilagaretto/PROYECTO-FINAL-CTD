@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Calendar, Views, DateLocalizer, momentLocalizer } from 'react-big-calendar';
@@ -10,9 +10,9 @@ function Appointments({
   localizer = mLocalizer,
   events = [],
   weeklyWorkingSchedule = [],
-  teacherId
+  teacherId,
+  updateIsUpdated,
 }) {
-  console.log(weeklyWorkingSchedule)
   const [teacherEvents, setTeacherEvents] = useState(events);
 
   useEffect(() => {
@@ -23,11 +23,6 @@ function Appointments({
     }));
     setTeacherEvents(formattedEvents)
   }, [events]);
-
-  const user = localStorage.getItem("user");
-  const userObj = JSON.parse(user);
-  const studentId = userObj.userTypeId;
-  const token = userObj.token;
 
   const minTime = new Date();
   minTime.setHours(8, 0, 0);
@@ -47,20 +42,41 @@ function Appointments({
   };
 
   const handleSelectSlot = ({ start, end }) => {
+    const user = localStorage.getItem("user");
+  
+    if (!user) {
+      const isConfirmed = window.confirm('Debes iniciar sesión para reservar. ¿Deseas ir a la página de inicio de sesión?');
+      
+      if (isConfirmed) {
+        window.location.href = '/login';
+      }
+      
+      return;
+    }
+  
+    const userObj = JSON.parse(user);
+    const userType = userObj.userType;
+  
+    if (userType !== 'STUDENT') {
+      alert('No tienes permisos de estudiante');
+      return;
+    }
+
+    const studentId = userObj.userTypeId;
+    const currentDate = new Date();
     const dayOfWeek = start.getDay();
     const startHour = start.getHours();
     const endHour = end.getHours();
-    console.log( startHour, endHour)
-
     const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     const currentDay = dayNames[dayOfWeek].toLowerCase();
 
-    if (weeklyWorkingSchedule[currentDay]) {
+    if (start > currentDate && weeklyWorkingSchedule[currentDay]) {
       const checkInHours = parseInt(weeklyWorkingSchedule.checkIn.split(":")[0]);
       const checkOutHours = parseInt(weeklyWorkingSchedule.checkOut.split(":")[0]);
-
+  
       if (startHour >= checkInHours && endHour <= checkOutHours) {
         const isConfirmed = window.confirm('¿Seguro que quieres reservar en este horario?');
+  
         if (isConfirmed) {
           const startString = start.toString();
           const endString = end.toString();
@@ -68,19 +84,16 @@ function Appointments({
           const originalEndDate = new Date(endString);
           const formattedStartDate = new Date(originalStartDate.getTime() - (originalStartDate.getTimezoneOffset() * 60000)).toISOString();
           const formattedEndDate = new Date(originalEndDate.getTime() - (originalEndDate.getTimezoneOffset() * 60000)).toISOString();
-          console.log(formattedStartDate);
-          console.log(formattedEndDate);
+          
           const data = {
-              startsOn: formattedStartDate,
-              endsOn: formattedEndDate,
-              teacherId: teacherId,
-              studentId: studentId
-          }
-          console.log(data)
-          handleSubmit(data)
+            startsOn: formattedStartDate,
+            endsOn: formattedEndDate,
+            teacherId: teacherId,
+            studentId: studentId
+          };
+  
+          handleSubmit(data);
         }
-      } else {
-        console.log('Seleccionaste un rango de tiempo no válido:', start, end);
       }
     } else {
       console.log('Seleccionaste un día no válido:', start, end);
@@ -88,26 +101,37 @@ function Appointments({
   };
 
   const slotPropGetter = (date) => {
+    const currentDate = new Date();
+    
+    if (date < currentDate) {
+      return {};
+    }
+    
     const hours = date.getHours();
     const dayOfWeek = date.getDay();
-
+  
     const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     const currentDay = dayNames[dayOfWeek].toLowerCase();
-
+  
     if (weeklyWorkingSchedule[currentDay]) {
       const checkInHours = parseInt(weeklyWorkingSchedule.checkIn.split(":")[0]);
       const checkOutHours = parseInt(weeklyWorkingSchedule.checkOut.split(":")[0]);
       if (hours >= checkInHours && hours < checkOutHours) {
         return {
           style: {
-            backgroundColor: 'lightblue',
+            backgroundColor: 'green',
           },
         };
       }
     }
+    return {};
   };
 
   const handleSubmit = async (data) => {
+    const user = localStorage.getItem("user");
+    const userObj = JSON.parse(user);
+    const token = userObj.token;
+
     try {
       const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/appointments/', {
         method: 'POST',
@@ -117,18 +141,16 @@ function Appointments({
         },
         body: JSON.stringify(data),
       });
-      console.log(response)
       if (response.ok) {
         alert('Turno guardado exitosamente');
+        updateIsUpdated()
       } else {
-        console.log(response)
         alert('Error al crear turno');
       }
     } catch (error) {
       console.error('Error de red:', error);
     }
   };
-
 
   return (
     <div className="calendarAppointment">

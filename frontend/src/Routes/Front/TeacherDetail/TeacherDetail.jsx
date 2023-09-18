@@ -10,11 +10,13 @@ import Certificado from '../../../assets/certificado.svg'
 import Appointments from '../../../Components/Appointments';
 import { terms } from '../../../terms'
 import TermCard from '../../../Components/Terms/TermCard'
-import { WhatsappShareButton, WhatsappIcon } from 'react-share'
+import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon } from 'react-share'
 
 const TeacherDetail = () => {
     const params = useParams()
     const [teacherData, setTeacherData] = useState([]);
+    const [events, setEvents] = useState([]);
+    const [isUpdated, setIsUpdated] = useState(false);
     const [hourlyRatesArray, setHourlyRatesArray] = useState([])
     const location = useLocation()
     const [url, setUrl] = useState("")
@@ -44,6 +46,7 @@ const TeacherDetail = () => {
                 }));
                 setHourlyRatesArray(hourlyRatesArray)
                 setTeacherData(data);
+                setEvents(data.scheduledAppointments);
                 setUrl(location.pathname)
             } catch (error) {
                 console.error('Error al obtener los datos:', error);
@@ -52,8 +55,11 @@ const TeacherDetail = () => {
         };
 
         fetchData();
-    }, []);
+    }, [isUpdated]);
 
+    const updateIsUpdated = () => {
+        setIsUpdated(!isUpdated); // Cambiar el valor de isUpdated
+    };
     return (
         <main>
             <Container className='detail-container'>
@@ -68,9 +74,17 @@ const TeacherDetail = () => {
                         <div className='descripcion'>
                             <h2>Descripción</h2>
                             <p>{teacherData.fullDescription}</p>
-                            <WhatsappShareButton url={`http://appkademy.s3-website-us-east-1.amazonaws.com${url}`} title={`Aprende con ${teacherData.firstName}!`}>
-                                <WhatsappIcon size={40} round={true} />
-                            </WhatsappShareButton>
+                            <div className='share-btns'>
+                                <TwitterShareButton url={`http://appkademy.s3-website-us-east-1.amazonaws.com`} title={`Aprende con ${teacherData.firstName}!`}>
+                                    <TwitterIcon size={40} round={true} />
+                                </TwitterShareButton>
+                                <WhatsappShareButton url={`http://appkademy.s3-website-us-east-1.amazonaws.com`} title={`Aprende con ${teacherData.firstName}!`}>
+                                    <WhatsappIcon size={40} round={true} />
+                                </WhatsappShareButton>
+                                <FacebookShareButton url={`http://appkademy.s3-website-us-east-1.amazonaws.com`} quote={`Aprende con ${teacherData.firstName}!`} hashtag='appkademy'>
+                                    <FacebookIcon size={40} round={true} />
+                                </FacebookShareButton>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -90,7 +104,7 @@ const TeacherDetail = () => {
                         <div>
                             <img src={Galery} alt="Appkademy teacher gallery" />
                         </div>
-                        <Appointments teacherId={teacherData.id} events={teacherData.scheduledAppointments} weeklyWorkingSchedule={teacherData.weeklyWorkingSchedule} />
+                        <Appointments teacherId={teacherData.id} events={events} updateIsUpdated={updateIsUpdated}  weeklyWorkingSchedule={teacherData.weeklyWorkingSchedule} />
                         <div className='more-information'>
                             <h1>Mas sobre {teacherData.firstName} {teacherData.lastName}</h1>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius faucibus massa sollicitudin amet augue. Nibh metus a semper purus mauris duis. Lorem eu neque, tristique quis duis. Nibh scelerisque ac adipiscing velit non nulla in amet pellentesque.Sit turpis pretium eget maecenas. Vestibulum dolor mattis consectetur eget commodo vitae. Amet pellentesque sit pulvinar lorem mi a, euismod risus r.</p>
