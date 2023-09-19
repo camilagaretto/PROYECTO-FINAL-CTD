@@ -23,7 +23,6 @@ const TeacherDetail = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-<<<<<<< HEAD
           try {
             const response = await fetch(`http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/${params.id}`);
             const data = await response.json();
@@ -36,6 +35,7 @@ const TeacherDetail = () => {
           } catch (error) {
             console.error('Error al obtener los datos:', error);
           }
+<<<<<<< HEAD
 =======
             try {
                 const response = await fetch(`http://localhost:8080/v1/categories/1/providers/${params.id}`);
@@ -52,6 +52,8 @@ const TeacherDetail = () => {
                 console.error('Error al obtener los datos:', error);
             }
 >>>>>>> f56fa65e7aebe3f0b33d80498ef766bcf2db9abe
+=======
+>>>>>>> 3a3a6a63addd0d59cbaa336ca2d912b23c6e5a1a
         };
 
         fetchData();
