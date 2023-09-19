@@ -69,7 +69,9 @@ function TeacherForm() {
               floorApt: teacher.address.floorApt,
             },
             hourlyRates: {
-              ARS: teacher.hourlyRates.ARS,
+              ...prevUserData.hourlyRates,
+              ARS: teacher.hourlyRates.ARS ? teacher.hourlyRates.ARS : prevUserData.hourlyRates.ARS,
+              USD: teacher.hourlyRates.USD ? teacher.hourlyRates.USD : prevUserData.hourlyRates.USD,
             },
             modalities: {
               ...prevUserData.modalities,
@@ -93,7 +95,8 @@ function TeacherForm() {
             profilePictureUrl: teacher.profilePictureUrl,
             enabled: teacher.enabled,
             characteristicIds: teacher.characteristics.map(characteristic => characteristic.id),
-          }));
+          }
+          ));
         } catch (error) {
           console.error('Error al obtener los datos:', error);
         }
@@ -130,7 +133,7 @@ function TeacherForm() {
             ...prevData,
             hourlyRates: {
                 ...prevData.hourlyRates,
-                [name]: toString(value),
+                [name]: value,
             },
         }));
     };
@@ -180,46 +183,6 @@ function TeacherForm() {
           }));
         }
     };
-    
-    const handleSuccessfulSubmit = () => {
-        setUserData({
-            firstName: '',
-            lastName: '',
-            email: '',
-            shortDescription: '',
-            fullDescription: '',
-            address: {
-                country: '',
-                province: '',
-                city: '',
-                streetName: '',
-                streetNumber: '',
-                floorApt: '',
-            },
-            hourlyRates: {
-                ARS: '',
-                USD: '',
-            },
-            modalities: {
-                FACE_TO_FACE: false,
-                REMOTE: false,
-            },
-            proficiencyIds: [],
-            weeklyWorkingSchedule: {
-                checkIn: '',
-                checkOut: '',
-                sunday: false,
-                monday: false,
-                tuesday: false,
-                wednesday: false,
-                thursday: false,
-                friday: false,
-                saturday: false,
-            },
-            scheduledAppointments: [],
-            profilePictureUrl: '',
-        });
-    };
     const handleSubmit = async (event) => {
         const userToken = localStorage.getItem("user");
         const tokenObj = JSON.parse(userToken);
@@ -245,7 +208,6 @@ function TeacherForm() {
                 console.log(response)
                 alert('Error al crear usuario');
             }
-            // handleSuccessfulSubmit()
         } catch (error) {
             console.error('Error de red:', error);
         }
