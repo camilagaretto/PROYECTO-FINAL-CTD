@@ -139,7 +139,6 @@ const Home = () => {
               <h2>¿Qué te gustaría aprender hoy?</h2>
               <p>Te dejamos los tags para que encuentres los profesores recomendados!</p>
             </div>
-            <Link to="/" className='container-aprender-ver'>Ver Listado Completo</Link>
           </div>
 
           <Filter
@@ -168,13 +167,6 @@ const Home = () => {
               )}
             </AnimatePresence>
           </motion.div>
-          <div className='mostrar-container'>
-            <p>No encontraste a tu profe?</p>
-            <Link className='btn btn-primary' to={`/search/${activeFilter}/null`} >
-              <img className='paper-plane' src={PaperPlane} alt="Avion de papel" />
-              Mostrar Todos
-            </Link>
-          </div>
         </section>
 
         <section className='container-profes'>
