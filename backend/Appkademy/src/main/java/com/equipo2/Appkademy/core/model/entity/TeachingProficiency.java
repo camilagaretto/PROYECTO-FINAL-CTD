@@ -22,4 +22,8 @@ public class TeachingProficiency extends BaseSqlEntity<Long>{
     @ManyToOne(cascade = CascadeType.ALL)
     private TeachingSubject subject;
 
+    @Override
+    public boolean equals(Object obj) {
+        return this.getId().equals(((TeachingProficiency) obj).getId());
+    }
 }
