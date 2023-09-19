@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import com.equipo2.Appkademy.rest.error.NotFoundException;
 
 import java.util.List;
 import java.util.Objects;
@@ -74,5 +75,16 @@ public class TeachingSubjectServiceImpl implements TeachingProficiencyService {
 
         return searchResponseDto;
     }
+
+    @Override
+    public void delete(Long id) {
+        TeachingSubject subjectToDelete = subjectRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("TeachingSubject not found with ID: " + id));
+
+        teachingProficiencyRepository.deleteByTeachingSubject(subjectToDelete);
+
+        subjectRepository.delete(subjectToDelete);
+    }
+
 
 }
