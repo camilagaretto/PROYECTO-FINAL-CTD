@@ -87,6 +87,10 @@ public class Teacher extends NaturalPersonProvider {
         scheduledAppointments.add(scheduledAppointment);
     }
 
+    public void removeProficiency(TeachingProficiency proficiency){
+        proficiencies.remove(proficiency);
+    }
+
 
 
     public static Builder builder(){
