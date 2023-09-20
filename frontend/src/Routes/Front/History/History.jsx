@@ -41,6 +41,14 @@ const History = () => {
         return null;
     }
 
+    const newDate = (dateTimeString) => {
+        let newDateTime = dateTimeString.replace("T", " ");
+        let hour = newDateTime.split(" ")[1].slice(0,5)
+        newDateTime = newDateTime.split(' ')[0].split('-').reverse().join('-')
+        newDateTime = newDateTime + " " + hour
+        return newDateTime
+      };
+
     useEffect(() => {
         const userDataJSON = localStorage.getItem('user');
         if (userDataJSON) {
@@ -63,11 +71,11 @@ const History = () => {
                         </div>
                         <div>
                             <strong>Inicio</strong>
-                            <p>{appointment.startsOn}</p>
+                            <p>{newDate(appointment.startsOn)}</p>
                         </div>
                         <div>
                             <strong>Fin</strong>
-                            <p>{appointment.endsOn}</p>
+                            <p>{newDate(appointment.endsOn)}</p>
                         </div>
                     </div>
                 ))
