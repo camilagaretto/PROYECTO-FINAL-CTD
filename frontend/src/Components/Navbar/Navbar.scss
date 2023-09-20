@@ -1,25 +1,25 @@
-.navbar-white{
+.navbar-white {
     background-color: var(--bs-white);
     transition: 0.8s;
 }
 
 
-.navbar__links__flex{
+.navbar__links__flex {
     display: flex;
     flex-direction: row !important;
     justify-content: center;
     gap: 20px;
 }
 
-.navbar__link-secondary{
+.navbar__link-secondary {
     text-align: center;
     padding: 10px 15px;
     color: var(--azul-oscuro);
     text-decoration: none;
-    font-weight: 700;  
+    font-weight: 700;
 }
 
-.navbar__link-primary{
+.navbar__link-primary {
     text-align: center;
     padding: 10px 15px;
     border-radius: 10px;
@@ -29,11 +29,11 @@
     font-weight: 700;
 }
 
-.navbar__logo{
+.navbar__logo {
     width: 190px;
 }
 
-.user-logo{
+.user-logo {
     background-color: var(--bs-secondary);
     width: 40px;
     height: 40px;
@@ -43,12 +43,12 @@
     border-radius: 100%;
     text-decoration: none;
 
-    p{
+    p {
         margin: 0;
     }
 }
 
-.user-name{
+.user-name {
     text-decoration: none;
     color: var(--bs-black);
     display: flex;
@@ -59,7 +59,32 @@
     border-radius: 2rem;
     background-color: #DCE0E8;
 
-    p{
+    p {
         margin: 0;
+    }
+}
+
+.dropdown-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px;
+
+    p {
+        margin: 0;
+    }
+}
+
+.signout {
+    height: 52px;
+}
+
+.dropdown-links{
+    color: var(--azul-oscuro);
+    text-decoration: none;
+    font-weight: 700;
+    p {
+        margin: 10px 0 0 5px;
     }
 }
