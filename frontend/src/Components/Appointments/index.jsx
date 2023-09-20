@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, Views, DateLocalizer, momentLocalizer } from 'react-big-calendar';
 import './styles.scss';
 
@@ -10,10 +11,10 @@ function Appointments({
   localizer = mLocalizer,
   events = [],
   weeklyWorkingSchedule = [],
-  teacherId,
-  updateIsUpdated,
+  teacherId = '',
 }) {
   const [teacherEvents, setTeacherEvents] = useState(events);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const formattedEvents = events.map(event => ({
@@ -48,12 +49,11 @@ function Appointments({
       const isConfirmed = window.confirm('Debes iniciar sesión para reservar. ¿Deseas ir a la página de inicio de sesión?');
       
       if (isConfirmed) {
-        window.location.href = '/login';
+        navigate('/');
       }
       
       return;
     }
-  
     const userObj = JSON.parse(user);
     const userType = userObj.userType;
   
@@ -62,7 +62,6 @@ function Appointments({
       return;
     }
 
-    const studentId = userObj.userTypeId;
     const currentDate = new Date();
     const dayOfWeek = start.getDay();
     const startHour = start.getHours();
@@ -77,22 +76,8 @@ function Appointments({
       if (startHour >= checkInHours && endHour <= checkOutHours) {
         const isConfirmed = window.confirm('¿Seguro que quieres reservar en este horario?');
   
-        if (isConfirmed) {
-          const startString = start.toString();
-          const endString = end.toString();
-          const originalStartDate = new Date(startString);
-          const originalEndDate = new Date(endString);
-          const formattedStartDate = new Date(originalStartDate.getTime() - (originalStartDate.getTimezoneOffset() * 60000)).toISOString();
-          const formattedEndDate = new Date(originalEndDate.getTime() - (originalEndDate.getTimezoneOffset() * 60000)).toISOString();
-          
-          const data = {
-            startsOn: formattedStartDate,
-            endsOn: formattedEndDate,
-            teacherId: teacherId,
-            studentId: studentId
-          };
-  
-          handleSubmit(data);
+        if (isConfirmed) {          
+          navigate(`/summary/${teacherId}/${start}/${end}`);
         }
       }
     } else {
@@ -125,31 +110,6 @@ function Appointments({
       }
     }
     return {};
-  };
-
-  const handleSubmit = async (data) => {
-    const user = localStorage.getItem("user");
-    const userObj = JSON.parse(user);
-    const token = userObj.token;
-
-    try {
-      const response = await fetch('http://localhost:8080/v1/categories/1/appointments/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(data),
-      });
-      if (response.ok) {
-        alert('Turno guardado exitosamente');
-        updateIsUpdated()
-      } else {
-        alert('Error al crear turno');
-      }
-    } catch (error) {
-      console.error('Error de red:', error);
-    }
   };
 
   return (
