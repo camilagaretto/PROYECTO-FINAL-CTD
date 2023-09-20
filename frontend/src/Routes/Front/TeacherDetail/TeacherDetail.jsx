@@ -16,7 +16,6 @@ const TeacherDetail = () => {
     const params = useParams()
     const [teacherData, setTeacherData] = useState([]);
     const [events, setEvents] = useState([]);
-    const [isUpdated, setIsUpdated] = useState(false);
     const [hourlyRatesArray, setHourlyRatesArray] = useState([])
     const location = useLocation()
     const [url, setUrl] = useState("")
@@ -38,11 +37,8 @@ const TeacherDetail = () => {
         };
 
         fetchData();
-    }, [isUpdated]);
+    }, []);
 
-    const updateIsUpdated = () => {
-        setIsUpdated(!isUpdated); // Cambiar el valor de isUpdated
-    };
     return (
         <main>
             <Container className='detail-container'>
@@ -87,7 +83,7 @@ const TeacherDetail = () => {
                         <div>
                             <img src={Galery} alt="Appkademy teacher gallery" />
                         </div>
-                        <Appointments teacherId={teacherData.id} events={events} updateIsUpdated={updateIsUpdated}  weeklyWorkingSchedule={teacherData.weeklyWorkingSchedule} />
+                        <Appointments teacherId={teacherData.id} events={events}  weeklyWorkingSchedule={teacherData.weeklyWorkingSchedule} />
                         <div className='more-information'>
                             <h1>Mas sobre {teacherData.firstName} {teacherData.lastName}</h1>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius faucibus massa sollicitudin amet augue. Nibh metus a semper purus mauris duis. Lorem eu neque, tristique quis duis. Nibh scelerisque ac adipiscing velit non nulla in amet pellentesque.Sit turpis pretium eget maecenas. Vestibulum dolor mattis consectetur eget commodo vitae. Amet pellentesque sit pulvinar lorem mi a, euismod risus r.</p>

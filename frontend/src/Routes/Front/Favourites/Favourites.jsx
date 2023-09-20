@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion';
 import CardProduct from '../../../Components/Card/Card'
+import './Favourites.scss'
 
 const Favourites = () => {
 
@@ -83,7 +84,7 @@ const Favourites = () => {
     }, [id])
 
     return (
-        <main>
+        <main id='favourites'>
             <Container>
                 <h1>Hola, estos son tus Favoritos!</h1>
                 <motion.div

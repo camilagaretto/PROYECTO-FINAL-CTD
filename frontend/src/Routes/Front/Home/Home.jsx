@@ -5,12 +5,8 @@ import { useEffect, useState } from 'react';
 import Filter from '../../../Components/Filter/Filter';
 import CardProduct from '../../../Components/Card/Card';
 import Search from '../../../Components/Search/Search';
-import PaperPlane from '../../../assets/Paper-Plane.png'
 import BannerProfes from '../../../assets/banner-profes.svg'
 import './Home.css'
-import { Link } from 'react-router-dom';
-import { terms } from '../../../terms';
-import TermCard from '../../../Components/Terms/TermCard';
 import { useAuth } from '../../../Context/AuthContext';
 
 const Home = () => {
@@ -173,7 +169,7 @@ const Home = () => {
           <img src={BannerProfes} alt="Appkademy banner profesores" />
           <div>
             <h3>Quieres unirte al equipo de profes?</h3>
-            <Link to='/' className='btn btn-profesores'>Llenar Formulario</Link>
+            <p>Envianos un mail a profesores@appkademy.com</p>
           </div>
         </section>
       </Container>
