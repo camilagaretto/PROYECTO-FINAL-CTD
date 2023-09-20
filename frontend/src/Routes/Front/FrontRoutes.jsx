@@ -11,6 +11,7 @@ import Category from './Category';
 import Favourites from './Favourites/Favourites';
 import Summary from './Summary';
 import Confirm from './Confirm';
+import History from './History/History';
 
 function FrontRoutes() {
   return (
@@ -25,7 +26,8 @@ function FrontRoutes() {
         <Route path="/search/:subject/:dateTime" element={<Category />} />
         <Route path="/summary/:teacherId/:startDate/:endDate" element={<Summary />} />
         <Route path="/confirmation" element={<Confirm />} />
-        <Route path="/user/:id/favourites" element={<Favourites/>} />
+        <Route path="/user/:id/favourites" element={<Favourites />} />
+        <Route path="/user/:id/appointments" element={<History />} />
       </Routes>
       <Footer />
     </>

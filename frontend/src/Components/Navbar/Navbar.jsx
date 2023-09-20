@@ -6,6 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import AppkademyLogo from "../../assets/Logo.svg";
 import './Navbar.scss'
 import { useAuth } from '../../Context/AuthContext';
+import Dropdown from 'react-bootstrap/Dropdown';
+
 
 function NavScrollExample() {
 
@@ -60,15 +62,47 @@ function NavScrollExample() {
                         <Nav className="d-flex navbar__links__flex">
                             {isLoggedIn ? (
                                 <>
-                                    <Link className='navbar__link-secondary' to={`user/${id}/favourites`}>Favoritos</Link>
+                                    {/* <Link className='navbar__link-secondary' to={`user/${id}/favourites`}>Favoritos</Link> */}
                                     {!isAdmin &&
-                                     <Link className='user-name' to={`/user/${id}`}>
-                                        <div className='user-logo'><p>{initials}</p></div>
-                                        <p>{fullName}</p>
-                                     </Link>
-                                     }
-                                    {isAdmin && <Link className='navbar__link-secondary' to="/admin">Admin</Link>}
-                                    <button onClick={handleLogOut} className='btn btn-dark'>Cerrar Sesión</button>
+                                        //  <Link className='user-name' to={`/user/${id}`}>
+                                        //     <div className='user-logo'><p>{initials}</p></div>
+                                        //     <p>{fullName}</p>
+                                        //  </Link>
+                                        <Dropdown>
+                                            <Dropdown.Toggle className='dropdown-flex btn-dark' variant="success" id="dropdown-basic">
+                                                <div className='user-logo'><p>{initials}</p></div>
+                                                <p>{fullName}</p>
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu>
+                                                <Link to={`/user/${id}`} className='dropdown-links'>
+                                                    <p>Perfil</p>
+                                                </Link>
+                                                <Link to={`user/${id}/favourites`} className='dropdown-links'>
+                                                    <p>Favoritos</p>
+                                                </Link>
+                                                <Link to={`/user/${id}/appointments`} className='dropdown-links'>
+                                                    <p>Historial</p>
+                                                </Link>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    }
+                                    {isAdmin && <>
+                                        <Dropdown>
+                                            <Dropdown.Toggle className='dropdown-flex btn-dark' variant="success" id="dropdown-basic">
+                                                <div className='user-logo'><p>A</p></div>
+                                                <p>Admin</p>
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu>
+                                                <Link to={`user/${id}/favourites`} className='dropdown-links'>
+                                                    <p>Favoritos</p>
+                                                </Link>
+                                                <Link to="/admin" className='dropdown-links'>
+                                                    <p>Dashboard</p>
+                                                </Link>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </>}
+                                    <button onClick={handleLogOut} className='btn btn-dark signout'>Cerrar Sesión</button>
                                 </>
                             ) : (
                                 <>
