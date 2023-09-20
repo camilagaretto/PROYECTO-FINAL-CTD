@@ -112,34 +112,6 @@ function Appointments({
     return {};
   };
 
-<<<<<<< HEAD
-  const handleSubmit = async (data) => {
-    const user = localStorage.getItem("user");
-    const userObj = JSON.parse(user);
-    const token = userObj.token;
-
-    try {
-      const response = await fetch('http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/appointments/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(data),
-      });
-      if (response.ok) {
-        alert('Turno guardado exitosamente');
-        updateIsUpdated()
-      } else {
-        alert('Error al crear turno');
-      }
-    } catch (error) {
-      console.error('Error de red:', error);
-    }
-  };
-
-=======
->>>>>>> 1c7beb6cd5e214e8b99027620fb6c766990f5fe7
   return (
     <div className="calendarAppointment">
       <Calendar
