@@ -14,4 +14,7 @@ public interface TeachingSubjectRepository extends JpaRepository<TeachingSubject
 
     @Query("SELECT DISTINCT name FROM TeachingSubject")
     List<String> findDistinctByName();
+
+    void deleteById(Long id);
+
 }

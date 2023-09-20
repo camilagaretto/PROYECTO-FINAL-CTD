@@ -3,6 +3,8 @@ import DashboardHeader from '../../../Components/Admin/DashboardHeader';
 import { calculateRange, sliceData } from '../../../utils/table-pagination';
 import { Link } from 'react-router-dom';
 import { BiMessageSquareAdd } from 'react-icons/bi';
+import { FaTrash } from 'react-icons/fa'
+
 
 function Categories() {
     const [search, setSearch] = useState('');
@@ -59,6 +61,35 @@ function Categories() {
         setCategories(sliceData(categories, new_page, 5));
     }
 
+    //se agrega codigo para eliminar categoría
+
+    const __handleDelete = async (id) => {
+        const userToken = localStorage.getItem("user");
+        const tokenObj = JSON.parse(userToken);
+        const token = tokenObj.token;
+
+        if (window.confirm('¿Estás seguro que deseas eliminar la categoría?')) {
+            try {
+                const response =  await fetch(`http://localhost:8080/v1/categories/1/providers/teaching_subject/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                })
+                if (response.ok) {
+                    alert('Categoría eliminada exitosamente');
+                    fetchData();
+                } else {
+                    alert('Error al eliminar categoría');
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+            }
+        }
+    };
+
+    // termina codigo agregado para elminar categoria
+
     return (
         <div className='dashboard-content'>
             <DashboardHeader />
@@ -83,6 +114,7 @@ function Categories() {
                         <tr>
                             <th>Id</th>
                             <th>Nombre</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
 
@@ -92,6 +124,9 @@ function Categories() {
                                 <tr key={index}>
                                     <td><span>{category.id}</span></td>
                                     <td><span>{category.name}</span></td>
+                                    <td className='action-buttons'>
+                                        <button onClick={() => __handleDelete(category.id)}><FaTrash/></button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

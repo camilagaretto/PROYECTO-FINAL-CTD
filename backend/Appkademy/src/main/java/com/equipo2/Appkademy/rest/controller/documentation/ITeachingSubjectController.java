@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "Category: Teaching Subject")
@@ -32,5 +33,14 @@ public interface ITeachingSubjectController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = TeacherSearchResponseDto.class)) })})
     ResponseEntity<TeachingSubjectSearchResponseDto> search(@RequestBody PageableFilter filter);
+
+
+    @Operation(summary = "Delete a Teaching Subject by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "Successfully deleted",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Subject not found",
+                    content = @Content) })
+    ResponseEntity<Void> delete(@PathVariable Long id);
 
 }
