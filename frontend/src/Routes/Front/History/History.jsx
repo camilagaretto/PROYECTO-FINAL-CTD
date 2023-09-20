@@ -8,7 +8,7 @@ const History = () => {
     const [appointmentsData, setAppointmentsData] = useState([])
 
     const getStudentData = async (token) => {
-        const response = await fetch(`http://localhost:8080/v1/categories/1/customers/${id}`, {
+        const response = await fetch(`http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/customers/${id}`, {
             method: 'GET',
             mode: 'cors',
             headers: {
@@ -27,7 +27,7 @@ const History = () => {
     }
 
     const getTeacherData = async (teacherId) => {
-        const response  = await fetch(`http://localhost:8080/v1/categories/1/providers/${teacherId}`, {
+        const response  = await fetch(`http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/providers/${teacherId}`, {
             method: 'GET',
             mode: 'cors',
             headers: {

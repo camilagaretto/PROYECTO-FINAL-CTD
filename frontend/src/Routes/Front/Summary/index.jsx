@@ -33,7 +33,7 @@ const Summary = () => {
     const fetchTeacherData = async () => {
         try {
         const response = await fetch(
-            `http://localhost:8080/v1/categories/1/providers/${params.teacherId}`
+            `http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/providers/${params.teacherId}`
         );
         const data = await response.json();
         console.log(data)
@@ -56,7 +56,7 @@ const Summary = () => {
         };
     
         try {
-          const response = await fetch('http://localhost:8080/v1/categories/1/appointments/', {
+          const response = await fetch('http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/appointments/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
