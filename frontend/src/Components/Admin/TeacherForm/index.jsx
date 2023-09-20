@@ -4,9 +4,13 @@ import './styles.scss'
 
 function TeacherForm() {
     const params = useParams()
-    
+    const user = localStorage.getItem("user");
+    const userObj = JSON.parse(user);
+    const token = userObj.token;
+
     const [userData, setUserData] = useState({
         id: '',
+        userId: userObj.userId || '',
         firstName: '',
         lastName: '',
         shortDescription: '',
@@ -47,6 +51,7 @@ function TeacherForm() {
     });
     const [subjects, setSubjects] = useState([]);
     const [characteristics, setCharacteristics] = useState([]);
+
     
     const fetchData = async () => {
         try {
@@ -183,11 +188,7 @@ function TeacherForm() {
           }));
         }
     };
-    const handleSubmit = async (event) => {
-        const userToken = localStorage.getItem("user");
-        const tokenObj = JSON.parse(userToken);
-        const token = tokenObj.token; 
-        
+    const handleSubmit = async (event) => {        
         event.preventDefault();
         const apiUrl = params.id
         ? `http://localhost:8080/v1/categories/1/providers/${params.id}`
@@ -217,9 +218,6 @@ function TeacherForm() {
         pageSize: 10,
     }
     const getCategories = async () => {
-        const userToken = localStorage.getItem("user");
-        const tokenObj = JSON.parse(userToken);
-        const token = tokenObj.token;            
 
         try {
             const response = await fetch('http://localhost:8080/v1/categories/1/providers/teaching_subject/search', {
@@ -240,10 +238,7 @@ function TeacherForm() {
             console.error('Error de red:', error);
         }
     };
-    const getCharacteristics = async () => {
-        const userToken = localStorage.getItem("user");
-        const tokenObj = JSON.parse(userToken);
-        const token = tokenObj.token;            
+    const getCharacteristics = async () => {    
 
         try {
             const response = await fetch('http://localhost:8080/v1/categories/1/providers/characteristics/search', {
