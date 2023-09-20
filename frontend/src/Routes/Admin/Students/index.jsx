@@ -19,7 +19,7 @@ function Students () {
         }
 
         try {
-          const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/customers/search', {
+          const response = await fetch('http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/customers/search', {
             method:'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ function Students () {
         }
 
         try {
-            const response = await fetch(`http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/auth/${student.userId}`, {
+            const response = await fetch(`http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/auth/${student.userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

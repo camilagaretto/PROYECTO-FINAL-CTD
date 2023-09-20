@@ -28,7 +28,7 @@ const index = () => {
       randomOrder: true
     }
 
-    Axios.post('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/search', newObject)
+    Axios.post('http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/providers/search', newObject)
       .then(res => setTeachers(res.data.searchResults))
 
   }, [subject, dateTime])
@@ -37,7 +37,7 @@ const index = () => {
       const userDataJSON = localStorage.getItem('user');
       const userData = JSON.parse(userDataJSON);
       const { token, userTypeId } = userData;
-      const response = await fetch(`http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/customers/${userTypeId}`, {
+      const response = await fetch(`http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/customers/${userTypeId}`, {
         method: 'GET',
         mode: 'cors',
         headers: {

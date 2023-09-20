@@ -133,7 +133,7 @@ function Appointments({
     const token = userObj.token;
 
     try {
-      const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/appointments/', {
+      const response = await fetch('http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/appointments/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

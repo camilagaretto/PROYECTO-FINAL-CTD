@@ -45,7 +45,7 @@ const Home = () => {
       };
     }
     try {
-      const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/search', {
+      const response = await fetch('http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/providers/search', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ const Home = () => {
       pageSize: 10,
     }
     try {
-        const response = await fetch('http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/providers/teaching_subject/search', {
+        const response = await fetch('http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/providers/teaching_subject/search', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const Home = () => {
       const userDataJSON = localStorage.getItem('user');
       const userData = JSON.parse(userDataJSON);
       const { token, userTypeId } = userData;
-      const response = await fetch(`http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/customers/${userTypeId}`, {
+      const response = await fetch(`http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/customers/${userTypeId}`, {
         method: 'GET',
         mode: 'cors',
         headers: {

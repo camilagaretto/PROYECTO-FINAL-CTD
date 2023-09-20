@@ -21,7 +21,7 @@ const Card = ({ teacher, onToggleFavourite, ids }) => {
             };
 
             try {
-                const response = await fetch(`http://ec2-107-21-139-55.compute-1.amazonaws.com/v1/categories/1/customers/${userTypeId}`, {
+                const response = await fetch(`http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/customers/${userTypeId}`, {
                     method: 'PATCH',
                     mode: 'cors',
                     headers: {
