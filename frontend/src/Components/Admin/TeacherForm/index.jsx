@@ -131,7 +131,7 @@ function TeacherForm() {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/v1/auth/register', {
+            const response = await fetch('http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
