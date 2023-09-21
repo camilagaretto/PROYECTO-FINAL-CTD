@@ -7,10 +7,9 @@ function TeacherForm() {
     const user = localStorage.getItem("user");
     const userObj = JSON.parse(user);
     const token = userObj.token;
-
     const [userData, setUserData] = useState({
         id: '',
-        userId: userObj.userId || '',
+        userId: '',
         firstName: '',
         lastName: '',
         shortDescription: '',
@@ -51,7 +50,23 @@ function TeacherForm() {
     });
     const [subjects, setSubjects] = useState([]);
     const [characteristics, setCharacteristics] = useState([]);
-
+    function generateRandomPassword(length) {
+        const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let password = "";
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * charset.length);
+          password += charset.charAt(randomIndex);
+        }
+        return password;
+    }
+      
+    function generateRandomEmail() {
+        const emailLength = Math.floor(Math.random() * 10) + 5; // Genera un correo electrónico de longitud aleatoria entre 5 y 14 caracteres
+        const emailDomain = ["gmail.com", "yahoo.com", "hotmail.com", "example.com"]; // Puedes agregar más dominios de correo si es necesario
+        const randomDomainIndex = Math.floor(Math.random() * emailDomain.length);
+        const randomEmail = generateRandomPassword(emailLength) + "@" + emailDomain[randomDomainIndex];
+        return randomEmail;
+    }
     
     const fetchData = async () => {
         try {
@@ -106,7 +121,34 @@ function TeacherForm() {
           console.error('Error al obtener los datos:', error);
         }
     };
+    const getUserId = async () => {    
+        const randomPassword = generateRandomPassword(8);
+        const randomEmail = generateRandomEmail();   
 
+        const data = {
+            email: randomEmail,
+            password: randomPassword
+        }
+
+        try {
+            const response = await fetch('http://localhost:8080/v1/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            if (response.ok) {
+                const data = await response.json();
+                const userId = data.userId
+                return userId
+            } else {
+                console.log(response)
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
+    };
     useEffect(() => {
         getCategories();
         getCharacteristics();
@@ -190,6 +232,11 @@ function TeacherForm() {
     };
     const handleSubmit = async (event) => {        
         event.preventDefault();
+        if (!params.id) {
+            const userId = await getUserId()
+            userData.userId = userId
+        }
+
         const apiUrl = params.id
         ? `http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/providers/${params.id}`
         : 'http://ec2-174-129-118-14.compute-1.amazonaws.com/v1/categories/1/providers/';
@@ -206,7 +253,8 @@ function TeacherForm() {
             if (response.ok) {
                 alert('Usuario guardado exitosamente');
             } else {
-                console.log(response)
+                const data = await response.json()
+                console.log(data)
                 alert('Error al crear usuario');
             }
         } catch (error) {
